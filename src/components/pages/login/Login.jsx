@@ -12,13 +12,17 @@ import {
   Typography,
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import { db } from "../../../firebaseConfig";
+import { collection, doc, getDoc } from "firebase/firestore";
 
 import { Link, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { onSingIn } from "../../../firebaseConfig";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
+  const { handleLogin } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -33,14 +37,21 @@ const Login = () => {
     setUserCredentials({ ...userCredentials, [e.target.name]: e.target.value });
   };
 
-  console.log(userCredentials);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const res = await onSingIn(userCredentials);
       if (res.user) {
+        const userCollection = collection(db, "users");
+        const userRef = doc(userCollection, res.user.uid);
+        const userDoc = await getDoc(userRef);
+        let finalyUser = {
+          email: res.user.email,
+          rol: userDoc.data().roll,
+        };
+        console.log(finalyUser);
+        handleLogin(finalyUser);
         navigate("/");
       }
     } catch (error) {

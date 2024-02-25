@@ -12,13 +12,18 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import { useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { menuItems } from "../../../router/navigation";
 import { logOut } from "../../../firebaseConfig";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+
 const drawerWidth = 200;
 
 function Navbar(props) {
+  const { user } = useContext(AuthContext);
+  const rolAdmin = import.meta.env.VITE_ADMIN;
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
@@ -57,6 +62,21 @@ function Navbar(props) {
             </Link>
           );
         })}
+        {user.rol === rolAdmin && (
+          <Link to={"/dashboard"}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <DashboardIcon sx={{ color: "#c4072c" }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Administracion"}
+                  sx={{ color: "#c4072c" }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        )}
 
         <ListItem disablePadding>
           <ListItemButton onClick={cerrarSesion}>
