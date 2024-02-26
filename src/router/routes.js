@@ -19,4 +19,9 @@ export const routes = [
     path: "/userOrders",
     Element: UserOrders,
   },
+  {
+    id: "dashboard",
+    path: "/dashboard",
+    Element: Dashboard,
+  },
 ];
