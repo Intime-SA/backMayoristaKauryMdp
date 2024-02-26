@@ -37,6 +37,19 @@ function Navbar(props) {
     navigate("/login");
   };
 
+  const welcomeUser = () => {
+    const userData = JSON.parse(localStorage.getItem("userInfo"));
+    if (userData.rol === "falopa") {
+      let admin = "Administrador";
+      return `Usuario: ${userData.email} - Rol: ${admin}`;
+    } else if (userData.rol === "user") {
+      let usuario = "Usuario restringido";
+      return `Usuario: ${userData.email} - Rol: ${usuario}`;
+    } else {
+      return ""; // Si no hay datos de usuario en el localStorage, devuelve una cadena vacía
+    }
+  };
+
   const drawer = (
     <div
       style={{
@@ -128,8 +141,9 @@ function Navbar(props) {
               <h1 style={{ color: "#c4072c", marginLeft: "8.3%" }}>
                 Mayorista Mar del Plata
               </h1>
+              <h6 style={{ color: "#c4072c", marginLeft: "8.3%" }}>Back-End</h6>
               <h6 style={{ color: "#c4072c", marginLeft: "8.3%" }}>
-                Panel Administracion - back-oficce
+                {welcomeUser()}
               </h6>
             </div>
           </Link>
