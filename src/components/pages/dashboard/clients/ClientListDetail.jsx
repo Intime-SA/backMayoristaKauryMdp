@@ -13,10 +13,20 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = useState(false);
+  console.log(row.fechaInicio.fecha);
+
+  const client = () => {
+    if (row.roll === "customer") {
+      let client = "Cliente";
+      return client;
+    }
+  };
 
   return (
     <React.Fragment>
@@ -33,35 +43,82 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.nombre + " " + row.apellido}
         </TableCell>
-        <TableCell></TableCell>
-        <TableCell></TableCell>
-        <TableCell align="right">{row.roll}</TableCell>
+        <TableCell>$</TableCell>
+        <TableCell>$</TableCell>
+        <TableCell align="right">{client()}</TableCell>
+        <TableCell align="rigth">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-end",
+            }}
+          >
+            <Link to="/edit">
+              <span class="material-symbols-outlined">edit_note</span>
+            </Link>
+            <Link to="/envio">
+              <span
+                style={{ marginLeft: "1rem" }}
+                class="material-symbols-outlined"
+              >
+                local_shipping
+              </span>
+            </Link>
+          </div>
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell
+          style={{
+            backgroundColor: "#C7C7C7",
+            paddingBottom: 0,
+            paddingTop: 0,
+          }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                History
-              </Typography>
+            <Box sx={{ margin: 1, backgroundColor: "#C7C7C7" }}>
+              <Typography
+                variant="h6"
+                gutterBottom
+                component="div"
+              ></Typography>
               <Table size="small" aria-label="purchases">
-                <TableHead>
+                <TableHead style={{ backgroundColor: "#C7C7C7" }}>
                   <TableRow>
                     <TableCell>Email</TableCell>
-                    <TableCell>Observacion</TableCell>
-                    <TableCell align="right">Telefono</TableCell>
+                    <TableCell>Fecha Adhesion</TableCell>
+                    <TableCell align="right">Contacto</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody style={{ backgroundColor: "#C7C7C7", border: 0 }}>
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
                       {row.email}
                     </TableCell>
-                    <TableCell>{row.description}</TableCell>
+                    <TableCell>{row.fechaInicio}</TableCell>
                     <TableCell align="right">
-                      {(row.unit_price - (row.unit_price * 15) / 100).toFixed(
-                        2
-                      )}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                        }}
+                      >
+                        <a style={{ margin: "1rem" }} href="/dashboard">
+                          <span class="material-symbols-outlined">mail</span>
+                        </a>
+                        <a style={{ marginBottom: "0.5rem" }} href="/dashboard">
+                          <img
+                            width="20rem"
+                            src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/whatsapp.svg?alt=media&token=83bb48a7-7405-4a69-867c-44568a7e108f"
+                            alt="logowsp"
+                          />
+                        </a>
+                      </div>
+
+                      {row.telefono}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -103,7 +160,8 @@ function ClientListDetail({ customers }) {
             <TableCell align="left">Nombre Completo</TableCell>
             <TableCell align="left">Total Consumido</TableCell>
             <TableCell align="left">Cantidad Compras</TableCell>
-            <TableCell align="right">Utima Compra</TableCell>
+            <TableCell align="right">Canal</TableCell>
+            <TableCell align="center">Datos Envio</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

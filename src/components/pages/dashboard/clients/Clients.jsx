@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import ClientListDetail from "./ClientListDetail";
+import { Box, Button } from "@mui/material";
 
 const Clients = () => {
   const [customers, setCustomers] = useState([]);
@@ -29,7 +30,7 @@ const Clients = () => {
       style={{
         display: "flex",
         justifyContent: "space-around",
-        alignItems: "center",
+        alignItems: "flex-end",
         flexDirection: "column",
         fontSize: "2rem",
         top: "15rem",
@@ -37,6 +38,36 @@ const Clients = () => {
         width: "70vw",
       }}
     >
+      <Box>
+        <div style={{ marginBottom: "1rem" }}>
+          <Button
+            style={{ marginLeft: "1rem" }}
+            variant="outlined"
+            color="error"
+          >
+            <span
+              style={{ marginRight: "0.5rem" }}
+              class="material-symbols-outlined"
+            >
+              download
+            </span>
+            Exportar Lista
+          </Button>
+          <Button
+            style={{ marginLeft: "1rem" }}
+            variant="contained"
+            color="error"
+          >
+            <span
+              style={{ marginRight: "0.5rem" }}
+              class="material-symbols-outlined"
+            >
+              person_add
+            </span>
+            Agregar nuevo Cliente
+          </Button>
+        </div>
+      </Box>
       <ClientListDetail customers={customers} />
       {/* <div>
         <h1 style={{ color: "#c4072c" }}>Productos</h1>

@@ -45,9 +45,11 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                History
-              </Typography>
+              <Typography
+                variant="h6"
+                gutterBottom
+                component="div"
+              ></Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -62,7 +64,11 @@ function Row(props) {
                       <img
                         src={row.image}
                         alt={row.name}
-                        style={{ width: "100px", height: "100px" }}
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          borderRadius: "50PX",
+                        }}
                       />
                     </TableCell>
                     <TableCell>{row.description}</TableCell>
