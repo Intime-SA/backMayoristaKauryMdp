@@ -131,16 +131,18 @@ function Navbar(props) {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
+                alignItems: "flex-start",
+                height: "20%",
               }}
             >
               <img
-                style={{ height: "50%" }}
+                style={{ height: "50px", marginLeft: "1.8rem" }}
                 src="https://www.kaury.com/img/kaury_logo_19.svg"
                 alt="logo"
               />
-              <h1 style={{ color: "#c4072c", marginLeft: "8.3%" }}>
+              <h3 style={{ color: "#c4072c", marginLeft: "8.3%" }}>
                 Mayorista Mar del Plata
-              </h1>
+              </h3>
               <h6 style={{ color: "#c4072c", marginLeft: "8.3%" }}>Back-End</h6>
               <h6 style={{ color: "#c4072c", marginLeft: "8.3%" }}>
                 {welcomeUser()}

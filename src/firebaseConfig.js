@@ -9,7 +9,8 @@ import {
 
 import { getFirestore } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,6 +28,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+export const storage = getStorage(app);
 export const db = getFirestore(app);
 
 export const onSingIn = async ({ email, password }) => {
@@ -45,4 +47,11 @@ export const logOut = () => {
 
 export const forgotPassword = async (email) => {
   await sendPasswordResetEmail(auth, email);
+};
+
+export const uploadFile = async (file) => {
+  const storageRef = ref(storage, v4());
+  await uploadBytes(storageRef, file);
+  let url = await getDownloadURL(storageRef);
+  return url;
 };

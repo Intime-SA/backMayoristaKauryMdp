@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -13,10 +13,37 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
+import { Button } from "@mui/material";
 
 function Row(props) {
-  const { row } = props;
+  const { row, setIsChange } = props;
   const [open, setOpen] = useState(false);
+  const [category, setCategory] = useState(null);
+
+  useEffect(() => {
+    const traerCategorias = async (param) => {
+      const docSnap = await getDoc(param);
+      if (docSnap.exists()) {
+        setCategory(docSnap.data().name);
+      }
+    };
+
+    traerCategorias(row.category);
+  }, [row.category]); // Se ejecuta cuando cambia la referencia de la categoría
+
+  const deleteProduct = (id) => {
+    deleteDoc(doc(db, "products", id));
+    console.log(id);
+    setIsChange(true);
+  };
 
   return (
     <React.Fragment>
@@ -40,6 +67,15 @@ function Row(props) {
         <TableCell align="right">{row.stock}</TableCell>
         <TableCell align="right">{row.talle}</TableCell>
         <TableCell align="right">{row.color}</TableCell>
+        <TableCell align="right">{category}</TableCell>
+        <TableCell align="right">
+          <Button>
+            <span class="material-symbols-outlined">edit</span>
+          </Button>
+          <Button onClick={() => deleteProduct(row.id)}>
+            <span class="material-symbols-outlined">delete</span>
+          </Button>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -106,7 +142,7 @@ function Row(props) {
   }).isRequired,
 }; */
 
-function ItemListDetail({ products }) {
+function ItemListDetail({ products, setIsChange }) {
   // Aquí se espera la prop products
   return (
     <TableContainer component={Paper}>
@@ -120,11 +156,13 @@ function ItemListDetail({ products }) {
             <TableCell align="right">Stock</TableCell>
             <TableCell align="right">Talle</TableCell>
             <TableCell align="right">Color</TableCell>
+            <TableCell align="right">Categoria</TableCell>
+            <TableCell align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {products.map((product) => (
-            <Row key={product.id} row={product} />
+            <Row key={product.id} row={product} setIsChange={setIsChange} />
           ))}
         </TableBody>
       </Table>
