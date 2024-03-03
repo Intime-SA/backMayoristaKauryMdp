@@ -22,27 +22,41 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import { Button } from "@mui/material";
+import EditProduct from "./EditProduct";
+import "./ItemListDetail.css";
 
 function Row(props) {
   const { row, setIsChange } = props;
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState(null);
+  const [isEditing, setIsEditing] = useState(false); // Estado para indicar si se está editando el producto
+  const [editingProductId, setEditingProductId] = useState(null); // Estado para almacenar el ID del producto que se está editando
 
   useEffect(() => {
     const traerCategorias = async (param) => {
       const docSnap = await getDoc(param);
       if (docSnap.exists()) {
         setCategory(docSnap.data().name);
+        setIsChange(false);
       }
     };
 
     traerCategorias(row.category);
-  }, [row.category]); // Se ejecuta cuando cambia la referencia de la categoría
+  }, [row.category]);
 
-  const deleteProduct = (id) => {
-    deleteDoc(doc(db, "products", id));
-    console.log(id);
-    setIsChange(true);
+  const editProducts = (productId) => {
+    setEditingProductId(productId);
+    setIsEditing(true);
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      await deleteDoc(doc(db, "products", id));
+      setIsChange(true);
+      console.log(`Producto ${id} eliminado correctamente.`);
+    } catch (error) {
+      console.error("Error deleting product: ", error);
+    }
   };
 
   return (
@@ -58,18 +72,21 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.id}
+          {row.idc}
         </TableCell>
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell align="right">{row.unit_price.toFixed(2)}</TableCell>
+        <TableCell align="right" style={{ fontWeight: "bold" }}>
+          $ {row.unit_price.toFixed(2)}
+        </TableCell>
+
         <TableCell align="right">{row.stock}</TableCell>
         <TableCell align="right">{row.talle}</TableCell>
         <TableCell align="right">{row.color}</TableCell>
         <TableCell align="right">{category}</TableCell>
         <TableCell align="right">
-          <Button>
+          <Button onClick={() => editProducts(row.id)}>
             <span class="material-symbols-outlined">edit</span>
           </Button>
           <Button onClick={() => deleteProduct(row.id)}>
@@ -89,9 +106,24 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Imagen</TableCell>
-                    <TableCell>Descripción</TableCell>
-                    <TableCell align="right">Precio Promocional</TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                    >
+                      Imagen
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                    >
+                      Descripción
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                    >
+                      Precio Promocional
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -120,48 +152,60 @@ function Row(props) {
           </Collapse>
         </TableCell>
       </TableRow>
+
+      <TableCell colSpan={12}>
+        <div style={{ width: "100%" }}>
+          {isEditing && ( // Renderizar el componente EditProducts si se está editando un producto
+            <EditProduct
+              editingProductId={editingProductId}
+              setIsEditing={setIsEditing}
+              setIsChange={setIsChange}
+            />
+          )}
+        </div>
+      </TableCell>
     </React.Fragment>
   );
 }
 
-/* Row.propTypes = {
-  row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
-  }).isRequired,
-}; */
-
 function ItemListDetail({ products, setIsChange }) {
-  // Aquí se espera la prop products
+  const sortedProducts = [...products].sort((a, b) =>
+    a.idc.localeCompare(b.idc)
+  );
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      className="tableContainer" // Aplicando clase de estilo CSS
+    >
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>ID</TableCell>
-            <TableCell>Producto</TableCell>
-            <TableCell align="right">Precio</TableCell>
-            <TableCell align="right">Stock</TableCell>
-            <TableCell align="right">Talle</TableCell>
-            <TableCell align="right">Color</TableCell>
-            <TableCell align="right">Categoria</TableCell>
-            <TableCell align="right">Acciones</TableCell>
+            <TableCell className="tableHeaderCell">ID</TableCell>
+            <TableCell className="tableHeaderCell">Producto</TableCell>
+            <TableCell align="right" className="tableHeaderCell">
+              Precio
+            </TableCell>
+            <TableCell align="right" className="tableHeaderCell">
+              Stock
+            </TableCell>
+            <TableCell align="right" className="tableHeaderCell">
+              Talle
+            </TableCell>
+            <TableCell align="right" className="tableHeaderCell">
+              Color
+            </TableCell>
+            <TableCell align="right" className="tableHeaderCell">
+              Categoria
+            </TableCell>
+            <TableCell align="right" className="tableHeaderCell">
+              Acciones
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {products.map((product) => (
+          {sortedProducts.map((product) => (
             <Row key={product.id} row={product} setIsChange={setIsChange} />
           ))}
         </TableBody>
@@ -171,7 +215,7 @@ function ItemListDetail({ products, setIsChange }) {
 }
 
 ItemListDetail.propTypes = {
-  products: PropTypes.array.isRequired, // Definiendo las propTypes
+  sortedProducts: PropTypes.array.isRequired,
 };
 
 export default ItemListDetail;

@@ -1,3 +1,4 @@
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -107,7 +108,14 @@ function Navbar(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/Dise%C3%B1o%20sin%20t%C3%ADtulo.png?alt=media&token=52024248-6654-417c-8baa-603623f74076")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -133,18 +141,21 @@ function Navbar(props) {
                 justifyContent: "center",
                 alignItems: "flex-start",
                 height: "20%",
+                width: "50vw",
               }}
             >
               <img
-                style={{ height: "50px", marginLeft: "1.8rem" }}
+                style={{ height: "50px", marginLeft: "9.3%" }}
                 src="https://www.kaury.com/img/kaury_logo_19.svg"
                 alt="logo"
               />
-              <h3 style={{ color: "#c4072c", marginLeft: "8.3%" }}>
+              <h3 style={{ color: "#c4072c", marginLeft: "10.5%" }}>
                 Mayorista Mar del Plata
               </h3>
-              <h6 style={{ color: "#c4072c", marginLeft: "8.3%" }}>Back-End</h6>
-              <h6 style={{ color: "#c4072c", marginLeft: "8.3%" }}>
+              <h6 style={{ color: "#c4072c", marginLeft: "10.5%" }}>
+                Back-End
+              </h6>
+              <h6 style={{ color: "#c4072c", marginLeft: "10.5%" }}>
                 {welcomeUser()}
               </h6>
             </div>
@@ -159,7 +170,15 @@ function Navbar(props) {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box component="nav" aria-label="mailbox folders">
+      <Box
+        component="nav"
+        aria-label="mailbox folders"
+        sx={{
+          [container]: {
+            display: { xs: "block" },
+          },
+        }}
+      >
         <Drawer
           container={container}
           variant="temporary"

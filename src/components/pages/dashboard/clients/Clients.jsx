@@ -33,7 +33,7 @@ const Clients = () => {
         alignItems: "flex-end",
         flexDirection: "column",
         fontSize: "2rem",
-        top: "15rem",
+        top: "5rem",
         position: "relative",
         width: "70vw",
       }}

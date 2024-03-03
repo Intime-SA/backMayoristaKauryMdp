@@ -8,7 +8,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { uploadFile, db } from "../../../firebaseConfig";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 const ProductForm = ({
   handleClose,
@@ -22,7 +22,11 @@ const ProductForm = ({
     stock: "",
     unit_price: "",
     promotional_price: "",
-    img: "",
+    image: "",
+    color: "",
+    talle: "",
+    idc: "",
+    visible: "",
   });
 
   const [file, setFile] = useState(null);
@@ -44,55 +48,76 @@ const ProductForm = ({
   }, []);
 
   const handleChange = (e) => {
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    if (e.target.name === "category") {
+      // Si el nombre del campo es "category", actualiza el estado de la categoría
+      setSelectedCategory(e.target.value);
+      setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    } else {
+      // De lo contrario, actualiza el estado normalmente
+      setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    }
   };
 
   const handleImage = async () => {
     setIsLoading(true);
     const url = await uploadFile(file);
-    setNewProduct({ ...newProduct, img: url });
+    setNewProduct({ ...newProduct, image: url });
     setIsLoading(false);
     setIsImageUploaded(true);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const obj = {
-      ...newProduct,
-      stock: parseInt(newProduct.stock),
-      unit_price: parseFloat(newProduct.unit_price),
-      promotional_price: parseFloat(newProduct.promotional_price),
-    };
 
-    try {
-      const productsCollection = collection(db, "productos");
-      await addDoc(productsCollection, obj);
-      setIsChange(true);
-      handleClose();
-    } catch (error) {
-      console.error("Error adding product: ", error);
+    // Obtener la categoría seleccionada
+    const selectedCategory = categories.find(
+      (category) => category.id === newProduct.category
+    );
+
+    // Verificar si se encontró la categoría
+    if (selectedCategory) {
+      try {
+        // Obtener la referencia al documento de la categoría
+        const categoryRef = doc(db, "categorys", selectedCategory.id);
+        const categoryDoc = await getDoc(categoryRef);
+
+        // Verificar si se encontró el documento de la categoría
+        if (categoryDoc.exists()) {
+          // Construir el objeto con los datos del producto y la referencia a la categoría
+          const obj = {
+            ...newProduct,
+            stock: parseInt(newProduct.stock),
+            unit_price: parseFloat(newProduct.unit_price),
+            promotional_price: parseFloat(newProduct.promotional_price),
+            talle: newProduct.stock,
+            color: newProduct.color,
+            description: newProduct.description,
+            visible: true,
+            idc: newProduct.idc,
+            category: categoryRef, // Utilizar la referencia al documento de la categoría
+          };
+
+          // Agregar el objeto a la colección de productos
+          const productsCollection = collection(db, "products");
+          await addDoc(productsCollection, obj);
+
+          // Actualizar el estado y cerrar el formulario
+          setIsChange(true);
+          handleClose();
+        } else {
+          console.error("Error: No se encontró el documento de la categoría.");
+        }
+      } catch (error) {
+        console.error("Error adding product: ", error);
+      }
+    } else {
+      console.error("Error: No se encontró la categoría seleccionada.");
     }
   };
 
   const handleReturn = () => {
     setOpen(false);
   };
-
-  const formatCurrency = (value) => {
-    return parseFloat(value).toLocaleString("es-AR", {
-      style: "currency",
-      currency: "ARS",
-      minimumFractionDigits: 2,
-    });
-  };
-
-  const opciones = {
-    opcion1: "Opción 1",
-    opcion2: "Opción 2",
-    opcion3: "Opción 3",
-  };
-
-  console.log(categories);
 
   return (
     <div>
@@ -110,6 +135,7 @@ const ProductForm = ({
           borderRadius: "10px",
           padding: "1rem",
           marginBottom: "1rem",
+          backgroundColor: "rgba(255, 255, 255, 0.4)", // Ajusta el último valor (0.9) para cambiar la opacidad
         }}
       >
         <form
@@ -128,10 +154,10 @@ const ProductForm = ({
               InputLabelProps={{ shrink: true }}
             />
             <TextField
-              name="name"
+              name="idc"
               variant="outlined"
               label="ID en Sistema Contable"
-              value={newProduct.name}
+              value={newProduct.idc}
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 40%", marginBottom: "1rem" }}
