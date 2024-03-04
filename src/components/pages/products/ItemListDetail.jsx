@@ -26,7 +26,7 @@ import EditProduct from "./EditProduct";
 import "./ItemListDetail.css";
 
 function Row(props) {
-  const { row, setIsChange } = props;
+  const { row, setIsChange, isChange } = props;
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState(null);
   const [isEditing, setIsEditing] = useState(false); // Estado para indicar si se está editando el producto
@@ -45,14 +45,15 @@ function Row(props) {
   }, [row.category]);
 
   const editProducts = (productId) => {
-    setEditingProductId(productId);
+    const idString = productId.toString();
+    setEditingProductId(idString);
     setIsEditing(true);
   };
 
   const deleteProduct = async (id) => {
     try {
       await deleteDoc(doc(db, "products", id));
-      setIsChange(true);
+      setIsChange(!isChange);
       console.log(`Producto ${id} eliminado correctamente.`);
     } catch (error) {
       console.error("Error deleting product: ", error);
@@ -86,7 +87,7 @@ function Row(props) {
         <TableCell align="right">{row.color}</TableCell>
         <TableCell align="right">{category}</TableCell>
         <TableCell align="right">
-          <Button onClick={() => editProducts(row.id)}>
+          <Button onClick={() => editProducts(row.idc)}>
             <span class="material-symbols-outlined">edit</span>
           </Button>
           <Button onClick={() => deleteProduct(row.id)}>
@@ -168,7 +169,7 @@ function Row(props) {
   );
 }
 
-function ItemListDetail({ products, setIsChange }) {
+function ItemListDetail({ products, setIsChange, isChange }) {
   return (
     <TableContainer
       component={Paper}
@@ -225,7 +226,12 @@ function ItemListDetail({ products, setIsChange }) {
         </TableHead>
         <TableBody>
           {products.map((product) => (
-            <Row key={product.id} row={product} setIsChange={setIsChange} />
+            <Row
+              key={product.id}
+              row={product}
+              setIsChange={setIsChange}
+              isChange={isChange}
+            />
           ))}
         </TableBody>
       </Table>

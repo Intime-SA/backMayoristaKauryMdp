@@ -74,7 +74,6 @@ const ItemListContainer = () => {
       for (const elemento of dataProductos) {
         // Obtener el valor de idc y luego eliminarlo del objeto
         const idc = elemento.idc.toString();
-        delete elemento.idc;
 
         // Crear una referencia de documento utilizando el valor de idc como ID del documento
         const productDocRef = doc(productsCollection, idc);
@@ -204,7 +203,8 @@ const ItemListContainer = () => {
 
     for (const rowData of excelData.slice(1)) {
       // Ignora la primera fila (encabezados)
-      const productId = rowData[1].toString(); // Supongamos que la primera columna es el ID del producto
+      const productId = rowData[1] !== undefined ? rowData[1].toString() : ""; // Supongamos que la primera columna es el ID del producto
+      // Supongamos que la primera columna es el ID del producto
       const unitPrice = rowData[5];
       const stock = rowData[6]; // Obtén el valor de unit_price desde el archivo Excel
 
@@ -381,7 +381,11 @@ const ItemListContainer = () => {
 
       {open === false ? (
         <div>
-          <ItemListDetail products={products} setIsChange={setIsChange} />
+          <ItemListDetail
+            products={products}
+            setIsChange={setIsChange}
+            isChange={isChange}
+          />
         </div>
       ) : null}
     </div>

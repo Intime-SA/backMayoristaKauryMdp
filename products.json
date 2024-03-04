@@ -7,7 +7,8 @@
     "color": "X3 VEDETINA BASICA ALGODON ",
     "unit_price": 6902.7,
     "stock": 2,
-    "description": "PACKX3 VEDETINA BASICA ALGODON "
+    "description": "PACKX3 VEDETINA BASICA ALGODON ",
+    "category": "kaury"
   },
   {
     "codigoBarras": "100003400012",
@@ -17,7 +18,8 @@
     "color": "X3 COLA LESS BASICA ALGODON",
     "unit_price": 5758.21,
     "stock": 1,
-    "description": "PACKX3 COLA LESS BASICA ALGODON"
+    "description": "PACKX3 COLA LESS BASICA ALGODON",
+    "category": "kaury"
   },
   {
     "codigoBarras": "100006600003",
@@ -27,7 +29,8 @@
     "color": "X3 COLA LESS PUNTILLA ",
     "unit_price": 6153.01,
     "stock": 22,
-    "description": "PACKX3 COLA LESS PUNTILLA "
+    "description": "PACKX3 COLA LESS PUNTILLA ",
+    "category": "kaury"
   },
   {
     "codigoBarras": "020811309002",
@@ -36,7 +39,8 @@
     "talle": 90,
     "color": "NEGRO    ",
     "unit_price": 11073.3,
-    "stock": 0
+    "stock": 0,
+    "category": "kaury"
   },
   {
     "codigoBarras": "020811309002",
@@ -45,7 +49,8 @@
     "talle": 90,
     "color": "NEGRO    ",
     "unit_price": 11073.3,
-    "stock": 0
+    "stock": 0,
+    "category": "kaury"
   },
   {
     "codigoBarras": "020811309002",
@@ -54,7 +59,8 @@
     "talle": 90,
     "color": "NEGRO    ",
     "unit_price": 11073.3,
-    "stock": 0
+    "stock": 0,
+    "category": "kaury"
   },
   {
     "codigoBarras": "020811309002",
@@ -63,7 +69,8 @@
     "talle": 90,
     "color": "NEGRO    ",
     "unit_price": 11073.3,
-    "stock": 0
+    "stock": 0,
+    "category": "kaury"
   },
   {
     "codigoBarras": "020811309002",
@@ -72,6 +79,7 @@
     "talle": 90,
     "color": "NEGRO    ",
     "unit_price": 11073.3,
-    "stock": 0
+    "stock": 0,
+    "category": "kaury"
   }
 ]
