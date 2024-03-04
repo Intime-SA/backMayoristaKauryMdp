@@ -22,7 +22,10 @@ const EditProduct = ({ editingProductId, setIsEditing, setIsChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState({
+    id: "",
+    name: "",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,12 +72,16 @@ const EditProduct = ({ editingProductId, setIsEditing, setIsChange }) => {
       name === "promotional_price"
         ? parseFloat(value)
         : value;
+
     if (name === "category") {
+      // Obtener la categoría seleccionada a partir de su ID
       const selectedCategoryData = categories.find(
         (category) => category.id === value
       );
-      setSelectedCategory(selectedCategoryData);
+      setSelectedCategory(selectedCategoryData); // Establecer la categoría seleccionada
     }
+
+    // Actualizar el estado del producto editado
     setEditedProduct({ ...editedProduct, [name]: newValue });
   };
 
@@ -88,13 +95,33 @@ const EditProduct = ({ editingProductId, setIsEditing, setIsChange }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const productRef = doc(db, "products", editingProductId);
-      await updateDoc(productRef, editedProduct);
-      setIsEditing(false);
-      setIsChange(true);
-    } catch (error) {
-      console.error("Error updating product: ", error);
+
+    // Verificar si se encontró la categoría seleccionada
+    if (selectedCategory) {
+      try {
+        // Obtener el DocumentReference de la categoría seleccionada
+        const categoryRef = doc(db, "categorys", selectedCategory.id);
+        const categoryDoc = await getDoc(categoryRef);
+        // Actualizar el campo 'category' del producto con el DocumentReference de la categoría seleccionada
+        const updatedProduct = {
+          ...editedProduct,
+          category: categoryRef, // Aquí asignamos directamente el DocumentReference
+        };
+
+        // Obtener la referencia del documento del producto
+        const productRef = doc(db, "products", editingProductId);
+
+        // Actualizar el documento del producto en la base de datos
+        await updateDoc(productRef, updatedProduct);
+
+        // Cambiar los estados para indicar que la edición ha finalizado y que se debe actualizar la lista de productos
+        setIsEditing(false);
+        setIsChange(true);
+      } catch (error) {
+        console.error("Error updating product: ", error);
+      }
+    } else {
+      console.error("La categoría seleccionada no existe.");
     }
   };
 

@@ -1,0 +1,77 @@
+[
+  {
+    "codigoBarras": "100003500012",
+    "idc": 1,
+    "name": "P35",
+    "talle": "PACK",
+    "color": "X3 VEDETINA BASICA ALGODON ",
+    "unit_price": 6902.7,
+    "stock": 2,
+    "description": "PACKX3 VEDETINA BASICA ALGODON "
+  },
+  {
+    "codigoBarras": "100003400012",
+    "idc": 2,
+    "name": "P34",
+    "talle": "PACK",
+    "color": "X3 COLA LESS BASICA ALGODON",
+    "unit_price": 5758.21,
+    "stock": 1,
+    "description": "PACKX3 COLA LESS BASICA ALGODON"
+  },
+  {
+    "codigoBarras": "100006600003",
+    "idc": 4,
+    "name": "P66",
+    "talle": "PACK",
+    "color": "X3 COLA LESS PUNTILLA ",
+    "unit_price": 6153.01,
+    "stock": 22,
+    "description": "PACKX3 COLA LESS PUNTILLA "
+  },
+  {
+    "codigoBarras": "020811309002",
+    "idc": 5,
+    "name": 8113,
+    "talle": 90,
+    "color": "NEGRO    ",
+    "unit_price": 11073.3,
+    "stock": 0
+  },
+  {
+    "codigoBarras": "020811309002",
+    "idc": 6,
+    "name": 8113,
+    "talle": 90,
+    "color": "NEGRO    ",
+    "unit_price": 11073.3,
+    "stock": 0
+  },
+  {
+    "codigoBarras": "020811309002",
+    "idc": 7,
+    "name": 8113,
+    "talle": 90,
+    "color": "NEGRO    ",
+    "unit_price": 11073.3,
+    "stock": 0
+  },
+  {
+    "codigoBarras": "020811309002",
+    "idc": 8,
+    "name": 8113,
+    "talle": 90,
+    "color": "NEGRO    ",
+    "unit_price": 11073.3,
+    "stock": 0
+  },
+  {
+    "codigoBarras": "020811309002",
+    "idc": 9,
+    "name": 8113,
+    "talle": 90,
+    "color": "NEGRO    ",
+    "unit_price": 11073.3,
+    "stock": 0
+  }
+]

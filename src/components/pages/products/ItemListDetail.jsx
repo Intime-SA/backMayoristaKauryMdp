@@ -169,43 +169,62 @@ function Row(props) {
 }
 
 function ItemListDetail({ products, setIsChange }) {
-  const sortedProducts = [...products].sort((a, b) =>
-    a.idc.localeCompare(b.idc)
-  );
-
   return (
     <TableContainer
       component={Paper}
       className="tableContainer" // Aplicando clase de estilo CSS
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
     >
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell className="tableHeaderCell">ID</TableCell>
-            <TableCell className="tableHeaderCell">Producto</TableCell>
-            <TableCell align="right" className="tableHeaderCell">
+            <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+              ID
+            </TableCell>
+            <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+              Producto
+            </TableCell>
+            <TableCell
+              align="right"
+              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+            >
               Precio
             </TableCell>
-            <TableCell align="right" className="tableHeaderCell">
+            <TableCell
+              align="right"
+              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+            >
               Stock
             </TableCell>
-            <TableCell align="right" className="tableHeaderCell">
+            <TableCell
+              align="right"
+              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+            >
               Talle
             </TableCell>
-            <TableCell align="right" className="tableHeaderCell">
+            <TableCell
+              align="right"
+              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+            >
               Color
             </TableCell>
-            <TableCell align="right" className="tableHeaderCell">
+            <TableCell
+              align="right"
+              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+            >
               Categoria
             </TableCell>
-            <TableCell align="right" className="tableHeaderCell">
+            <TableCell
+              align="right"
+              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+            >
               Acciones
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedProducts.map((product) => (
+          {products.map((product) => (
             <Row key={product.id} row={product} setIsChange={setIsChange} />
           ))}
         </TableBody>
@@ -215,7 +234,7 @@ function ItemListDetail({ products, setIsChange }) {
 }
 
 ItemListDetail.propTypes = {
-  sortedProducts: PropTypes.array.isRequired,
+  products: PropTypes.array.isRequired,
 };
 
 export default ItemListDetail;

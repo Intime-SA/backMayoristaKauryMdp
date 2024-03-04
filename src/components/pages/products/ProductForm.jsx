@@ -8,7 +8,15 @@ import {
   FormControl,
 } from "@mui/material";
 import { uploadFile, db } from "../../../firebaseConfig";
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const ProductForm = ({
   handleClose,
@@ -27,6 +35,7 @@ const ProductForm = ({
     talle: "",
     idc: "",
     visible: "",
+    timestamp: "",
   });
 
   const [file, setFile] = useState(null);
@@ -89,17 +98,21 @@ const ProductForm = ({
             stock: parseInt(newProduct.stock),
             unit_price: parseFloat(newProduct.unit_price),
             promotional_price: parseFloat(newProduct.promotional_price),
-            talle: newProduct.stock,
+            talle: newProduct.talle,
             color: newProduct.color,
             description: newProduct.description,
             visible: true,
             idc: newProduct.idc,
             category: categoryRef, // Utilizar la referencia al documento de la categoría
+            timestamp: serverTimestamp(),
           };
-
+          console.log(obj);
           // Agregar el objeto a la colección de productos
           const productsCollection = collection(db, "products");
-          await addDoc(productsCollection, obj);
+          const productDocRef = doc(productsCollection, newProduct.idc);
+
+          // Agregar el objeto a la colección de productos utilizando la referencia al documento
+          await setDoc(productDocRef, obj);
 
           // Actualizar el estado y cerrar el formulario
           setIsChange(true);
