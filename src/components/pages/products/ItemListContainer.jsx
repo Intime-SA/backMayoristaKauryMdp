@@ -31,6 +31,8 @@ const ItemListContainer = () => {
   const [open, setOpen] = useState(false);
   const [estado, setEstado] = useState(false);
   const [showContagramBtn, setShowContagramBtn] = useState(false); // Nuevo estado para controlar la visibilidad del botón "Actualizar desde Contagram"
+  const [nonEmptyRecordsLength, setNonEmptyRecordsLength] = useState(0);
+  const [updatedRecordsCount, setUpdatedRecordsCount] = useState(0);
 
   useEffect(() => {
     let refCollection = collection(db, "products");
@@ -200,6 +202,8 @@ const ItemListContainer = () => {
 
   const updateFirebaseProducts = async (excelData) => {
     const productsRef = collection(db, "products");
+    const nonEmptyRecords = excelData.filter((row) => row.length > 0);
+    setNonEmptyRecordsLength(nonEmptyRecords.length - 1);
 
     for (const rowData of excelData.slice(1)) {
       // Ignora la primera fila (encabezados)
@@ -221,6 +225,7 @@ const ItemListContainer = () => {
 
         try {
           await updateDoc(productDocRef, updatedData);
+          setUpdatedRecordsCount((prevCount) => prevCount + 1);
         } catch (error) {
           console.error("Error al actualizar el producto", error);
         }
@@ -243,10 +248,11 @@ const ItemListContainer = () => {
 
   const style2 = {
     position: "absolute",
-    top: "15rem",
+    top: "20rem",
     left: "50vw",
     transform: "translate(-50%, -50%)",
     width: "60vw",
+    height: "40vh",
     bgcolor: "background.paper",
     border: "2px solid rgba(0, 0, 0, 0.2)", // Ajusta el grosor y color del borde
     borderRadius: "10px", // Ajusta el radio de borde
@@ -324,11 +330,27 @@ const ItemListContainer = () => {
                   sx={{
                     color: "#fff",
                     zIndex: (theme) => theme.zIndex.drawer + 1,
+                    fontFamily: "Arial, sans-serif", // Cambiar la fuente del texto
                   }}
                   open={estado}
                   onClose={handleClose2}
                 >
-                  <CircularProgress color="inherit" />
+                  <div style={{ textAlign: "center", marginTop: "10rem" }}>
+                    <p style={{ marginBottom: "1rem", fontSize: "1.2rem" }}>
+                      Se están cargando los archivos
+                    </p>
+                    <p style={{ fontSize: "1rem" }}>
+                      Actualizando registro {updatedRecordsCount} /{" "}
+                      {nonEmptyRecordsLength}
+                    </p>
+                    <p>
+                      No cierre esta pestaña hasta que termine la
+                      sincronizacion.
+                    </p>
+                  </div>
+                  <div style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <CircularProgress size={50} color="info" />
+                  </div>
                 </Backdrop>
                 <input
                   type="file"
