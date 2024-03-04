@@ -225,17 +225,11 @@ const ItemListContainer = () => {
           console.error("Error al actualizar el producto", error);
         }
       }
-      setEstado(false);
-      setShowContagramBtn(false);
     }
+    setEstado(false);
+    setShowContagramBtn(false);
     window.location.reload();
   };
-
-  useEffect(() => {
-    if (estado === false) {
-      reloadUpdatedProducts();
-    }
-  }, [estado]);
 
   const reloadUpdatedProducts = async () => {
     const productsRef = collection(db, "products");
@@ -259,6 +253,7 @@ const ItemListContainer = () => {
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Ajusta la sombra
     p: 4,
     backgroundColor: "rgba(255, 255, 255)",
+    zIndex: "9999", // Ajusta el valor de zIndex para asegurar que esté por encima de otros elementos
   };
 
   const fileInputRef = useRef(null);
