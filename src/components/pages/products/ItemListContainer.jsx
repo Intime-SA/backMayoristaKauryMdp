@@ -208,20 +208,27 @@ const ItemListContainer = () => {
     for (const rowData of excelData.slice(1)) {
       // Ignora la primera fila (encabezados)
       const productId = rowData[1] !== undefined ? rowData[1].toString() : ""; // Supongamos que la primera columna es el ID del producto
-      // Supongamos que la primera columna es el ID del producto
       const unitPrice = rowData[5];
       const stock = rowData[6]; // Obtén el valor de unit_price desde el archivo Excel
 
-      // Verifica que unitPrice tenga un valor definido
-      if (typeof unitPrice !== "undefined") {
+      // Busca el producto en el objeto products
+      const productToUpdate = products.find(
+        (product) => product.id === productId
+      );
+      console.log(productToUpdate);
+      // Verifica si el producto existe en el objeto products y si los datos son diferentes
+      if (
+        productToUpdate &&
+        (productToUpdate.unit_price !== unitPrice ||
+          productToUpdate.stock !== stock)
+      ) {
         const updatedData = {
           unit_price: unitPrice,
-          stock: stock, // Asegúrate de que el campo tenga el nombre correcto
+          stock: stock,
           // Otros campos...
         };
-
+        console.log(updatedData);
         const productDocRef = doc(productsRef, productId);
-        console.log(productDocRef);
 
         try {
           await updateDoc(productDocRef, updatedData);
@@ -233,7 +240,6 @@ const ItemListContainer = () => {
     }
     setEstado(false);
     setShowContagramBtn(false);
-    window.location.reload();
   };
 
   const reloadUpdatedProducts = async () => {
@@ -314,7 +320,13 @@ const ItemListContainer = () => {
               <h3 style={{ margin: "1rem" }}>
                 Seleccione el archivo exportado desde sistema contable
               </h3>
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  flexDirection: "column",
+                }}
+              >
                 <Button
                   style={{
                     margin: "1rem",
@@ -340,8 +352,9 @@ const ItemListContainer = () => {
                       Se están cargando los archivos
                     </p>
                     <p style={{ fontSize: "1rem" }}>
-                      Actualizando registro {updatedRecordsCount} /{" "}
-                      {nonEmptyRecordsLength}
+                      Registros Actualizados : {updatedRecordsCount}
+                      <br />
+                      Total Registros a recorrer : {nonEmptyRecordsLength}
                     </p>
                     <p>
                       No cierre esta pestaña hasta que termine la
