@@ -130,15 +130,27 @@ function Row(props) {
                 <TableBody>
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
-                      <img
-                        src={row.image}
-                        alt={row.name}
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          borderRadius: "50PX",
-                        }}
-                      />
+                      {row.image ? (
+                        <img
+                          src={row.image}
+                          alt={row.name}
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            borderRadius: "50px",
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/Mayorista%20Mar%20del%20Plata%20(2).png?alt=media&token=87bdf689-8eb7-49b1-9317-f6a52a9a0781"
+                          alt="Imagen por defecto"
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            borderRadius: "50px",
+                          }}
+                        />
+                      )}
                     </TableCell>
                     <TableCell>{row.description}</TableCell>
                     <TableCell align="right">

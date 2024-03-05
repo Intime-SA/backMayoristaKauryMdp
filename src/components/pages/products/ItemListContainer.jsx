@@ -37,6 +37,7 @@ const ItemListContainer = () => {
   const [showContagramBtn, setShowContagramBtn] = useState(false); // Nuevo estado para controlar la visibilidad del botón "Actualizar desde Contagram"
   const [nonEmptyRecordsLength, setNonEmptyRecordsLength] = useState(0);
   const [updatedRecordsCount, setUpdatedRecordsCount] = useState(0);
+  const [productsTotal, setProductsTotal] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -53,6 +54,12 @@ const ItemListContainer = () => {
 
     fetchProducts();
   }, [isChange]);
+
+  useEffect(() => {
+    if (products) {
+      setProductsTotal(products.length);
+    }
+  }, [products]);
 
   // Calcular índices del primer y último producto en la página actual
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -418,6 +425,7 @@ const ItemListContainer = () => {
         </Tooltip>
       </div>
       <br />
+      <h6>Cantidad total de productos: {productsTotal}</h6>
       {!open && (
         <div>
           <ItemListDetail
@@ -435,14 +443,16 @@ const ItemListContainer = () => {
               color="inherit"
               disabled={currentPage === 1}
               onClick={() => paginate(currentPage - 1)}
+              style={{ margin: "1rem" }}
             >
-              Anterior
+              <span class="material-symbols-outlined">navigate_before</span>
             </Button>
             <Button
               variant="contained"
               onClick={() => paginate(currentPage + 1)}
+              style={{ margin: "1rem" }}
             >
-              Siguiente
+              <span class="material-symbols-outlined">navigate_next</span>
             </Button>
           </Box>
         </div>
