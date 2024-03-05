@@ -16,7 +16,12 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-const EditProduct = ({ editingProductId, setIsEditing, setIsChange }) => {
+const EditProduct = ({
+  editingProductId,
+  setIsEditing,
+  setIsChange,
+  isChange,
+}) => {
   const [editedProduct, setEditedProduct] = useState(null);
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -116,7 +121,7 @@ const EditProduct = ({ editingProductId, setIsEditing, setIsChange }) => {
 
         // Cambiar los estados para indicar que la edición ha finalizado y que se debe actualizar la lista de productos
         setIsEditing(false);
-        setIsChange(true);
+        setIsChange(!isChange);
       } catch (error) {
         console.error("Error updating product: ", error);
       }

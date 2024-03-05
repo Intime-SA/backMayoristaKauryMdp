@@ -43,6 +43,7 @@ const ProductForm = ({
   const [isImageUploaded, setIsImageUploaded] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // Estado para almacenar el mensaje de error
 
   useEffect(() => {
     let refCollection = collection(db, "categorys");
@@ -77,6 +78,16 @@ const ProductForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const productRef = doc(db, "products", newProduct.idc);
+    const productDoc = await getDoc(productRef);
+
+    if (productDoc.exists()) {
+      setErrorMessage(
+        `Error: El producto con el ID ${newProduct.idc} ya existe en la base de datos.`
+      );
+      return; // Salir de la función si el producto ya existe
+    }
 
     // Obtener la categoría seleccionada
     const selectedCategory = categories.find(
@@ -313,6 +324,10 @@ const ProductForm = ({
         <Button variant="contained" onClick={handleReturn}>
           Volver
         </Button>
+      </div>
+      <div>
+        {errorMessage && <p>{errorMessage}</p>}
+        {/* Resto del código del componente */}
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import {
   CircularProgress,
   Modal,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import ProductForm from "./ProductForm";
 import * as XLSX from "xlsx";
@@ -26,6 +27,9 @@ import { useNavigate } from "react-router-dom";
 
 const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(5); // Número de productos por página
   const [isChange, setIsChange] = useState(false);
   const [productSelected, setProductSelected] = useState({});
   const [open, setOpen] = useState(false);
@@ -35,17 +39,31 @@ const ItemListContainer = () => {
   const [updatedRecordsCount, setUpdatedRecordsCount] = useState(0);
 
   useEffect(() => {
-    let refCollection = collection(db, "products");
-    getDocs(refCollection)
-      .then((res) => {
-        let newArray = res.docs.map((product) => {
-          return { ...product.data(), id: product.id };
-        });
-        setProducts(newArray);
-      })
-      .catch((err) => console.log(err));
-  }, [isChange, open]);
+    const fetchProducts = async () => {
+      setLoading(true);
+      const productsRef = collection(db, "products");
+      const querySnapshot = await getDocs(productsRef);
+      const data = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setProducts(data);
+      setLoading(false);
+    };
 
+    fetchProducts();
+  }, [isChange]);
+
+  // Calcular índices del primer y último producto en la página actual
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  // Cambiar de página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleClose = () => {
     setOpen(false);
   };
@@ -94,7 +112,6 @@ const ItemListContainer = () => {
   const exportToExcel = () => {
     const data = products.map((producto) => {
       const unitPrice = parseFloat(producto.unit_price.toFixed(2));
-      const timestamp = producto.timestamp.toDate(); // Convertir el timestamp a un objeto de fecha
 
       console.log(producto.category);
 
@@ -108,7 +125,7 @@ const ItemListContainer = () => {
       }
 
       const filaPedido = [
-        timestamp,
+        producto.category.id,
         producto.idc,
         producto.image,
         producto.talle,
@@ -119,13 +136,12 @@ const ItemListContainer = () => {
         producto.description,
         unitPrice,
         producto.promotional_price,
-        producto.category.id,
       ];
       return filaPedido;
     });
 
     const header = [
-      "Ultima Actualizacion",
+      "Categoria",
       "ID",
       "URL Imagen",
       "Talle",
@@ -136,7 +152,6 @@ const ItemListContainer = () => {
       "Description",
       "Precio",
       "Precio Promocional",
-      "Categoria",
     ];
     // const productHeaders = pedidoLista.reduce((headers, pedido) => {
     //   const numProductos = pedido.productos.length;
@@ -240,6 +255,7 @@ const ItemListContainer = () => {
     }
     setEstado(false);
     setShowContagramBtn(false);
+    window.location.reload();
   };
 
   const reloadUpdatedProducts = async () => {
@@ -401,7 +417,36 @@ const ItemListContainer = () => {
           </Button>
         </Tooltip>
       </div>
-
+      <br />
+      {!open && (
+        <div>
+          <ItemListDetail
+            products={currentProducts}
+            setIsChange={setIsChange}
+            isChange={isChange}
+          />
+          <Box
+            mt={2}
+            style={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            {/* Botones de paginación */}
+            <Button
+              variant="contained"
+              color="inherit"
+              disabled={currentPage === 1}
+              onClick={() => paginate(currentPage - 1)}
+            >
+              Anterior
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => paginate(currentPage + 1)}
+            >
+              Siguiente
+            </Button>
+          </Box>
+        </div>
+      )}
       {open ? (
         <Box>
           <ProductForm
@@ -413,16 +458,37 @@ const ItemListContainer = () => {
           />
         </Box>
       ) : null}
-
-      {open === false ? (
-        <div>
-          <ItemListDetail
-            products={products}
-            setIsChange={setIsChange}
-            isChange={isChange}
-          />
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          fontFamily: "Arial, sans-serif",
+        }}
+        open={estado}
+        onClose={handleClose2}
+      >
+        <div style={{ textAlign: "center", marginTop: "10rem" }}>
+          <p style={{ marginBottom: "1rem", fontSize: "1.2rem" }}>
+            Se están cargando los archivos
+          </p>
+          <p style={{ fontSize: "1rem" }}>
+            Registros Actualizados : {updatedRecordsCount}
+            <br />
+            Total Registros a recorrer : {nonEmptyRecordsLength}
+          </p>
+          <p>No cierre esta pestaña hasta que termine la sincronizacion.</p>
         </div>
-      ) : null}
+        <div style={{ marginTop: "1rem", textAlign: "center" }}>
+          <CircularProgress size={50} color="info" />
+        </div>
+      </Backdrop>
+      <input
+        type="file"
+        accept=".xlsx"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={handleFileUpload}
+      />
     </div>
   );
 };

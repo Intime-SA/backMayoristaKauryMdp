@@ -161,6 +161,7 @@ function Row(props) {
               editingProductId={editingProductId}
               setIsEditing={setIsEditing}
               setIsChange={setIsChange}
+              isChange={isChange}
             />
           )}
         </div>
