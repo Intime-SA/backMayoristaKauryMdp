@@ -6,6 +6,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  FormHelperText,
 } from "@mui/material";
 import { uploadFile, db } from "../../../firebaseConfig";
 import {
@@ -31,6 +32,10 @@ const EditProduct = ({
     id: "",
     name: "",
   });
+  const [nameError, setNameError] = useState("");
+  const [categoryError, setCategoryError] = useState("");
+  const [unitPriceError, setUnitPriceError] = useState("");
+  const [stockError, setStockError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,13 +75,17 @@ const EditProduct = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newValue =
-      name === "stock" ||
-      name === "unit_price" ||
-      name === "talle" ||
-      name === "promotional_price"
-        ? parseFloat(value)
-        : value;
+    let newValue = value;
+
+    // Verificar si el campo es numérico y no está vacío
+    if (["unit_price", "promotional_price"].includes(name)) {
+      if (value.trim() !== "") {
+        newValue = parseFloat(value);
+      } else {
+        // Si el valor está vacío y el campo es 'stock', establecer el valor como 0
+        newValue = name === "stock" ? 0 : "";
+      }
+    }
 
     if (name === "category") {
       // Obtener la categoría seleccionada a partir de su ID
@@ -100,6 +109,25 @@ const EditProduct = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validar campos
+    if (!editedProduct.name) {
+      setNameError("El nombre es requerido.");
+      return;
+    }
+    if (!selectedCategory.id) {
+      setCategoryError("La categoría es requerido.");
+      return;
+    }
+    if (!editedProduct.unit_price) {
+      setUnitPriceError("El precio unitario es requerido.");
+      return;
+    }
+
+    if (!editedProduct.stock && editedProduct.stock !== 0) {
+      setStockError("El stock es requerido.");
+      return;
+    }
 
     // Verificar si se encontró la categoría seleccionada
     if (selectedCategory) {
@@ -160,9 +188,20 @@ const EditProduct = ({
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            {editedProduct.image && (
+            {editedProduct.image ? (
               <img
                 src={editedProduct.image}
+                alt="Producto"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "50px",
+                  margin: "1rem",
+                }}
+              />
+            ) : (
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/Mayorista%20Mar%20del%20Plata%20(2).png?alt=media&token=87bdf689-8eb7-49b1-9317-f6a52a9a0781"
                 alt="Producto"
                 style={{
                   width: "100px",
@@ -181,6 +220,8 @@ const EditProduct = ({
               fullWidth
               style={{ flex: "1 1 50%", marginTop: "3.5%" }}
               InputLabelProps={{ shrink: true }}
+              error={!!nameError}
+              helperText={nameError}
             />
             <TextField
               name="idc"
@@ -191,6 +232,13 @@ const EditProduct = ({
               fullWidth
               style={{ flex: "1 1 40%", marginBottom: "1rem" }}
               InputLabelProps={{ shrink: true }}
+              InputProps={{
+                readOnly: true,
+                style: {
+                  backgroundColor: "#dddddd", // Cambia el color de fondo del campo
+                  cursor: "not-allowed", // Cambia el cursor para indicar que el campo no es editable
+                },
+              }} // Hace que el campo sea de solo lectura
             />
             <TextField
               name="description"
@@ -212,9 +260,12 @@ const EditProduct = ({
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
               InputLabelProps={{ shrink: true }}
+              error={!!stockError}
+              helperText={stockError}
             />
             <TextField
               name="unit_price"
+              type="number"
               variant="outlined"
               label="Precio Unitario"
               value={editedProduct.unit_price}
@@ -222,9 +273,12 @@ const EditProduct = ({
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
               InputLabelProps={{ shrink: true }}
+              error={!!unitPriceError}
+              helperText={unitPriceError}
             />
             <TextField
               name="promotional_price"
+              type="number"
               variant="outlined"
               label="Precio Promocional"
               value={editedProduct.promotional_price}
@@ -257,14 +311,9 @@ const EditProduct = ({
           <FormControl
             variant="outlined"
             fullWidth
-            InputLabelProps={{ shrink: true }}
             style={{ marginBottom: "1rem" }}
           >
-            <InputLabel
-              InputLabelProps={{ shrink: true }}
-              id="category-label"
-              shrink
-            >
+            <InputLabel id="category-label" shrink>
               Categoria
             </InputLabel>
             <Select
@@ -274,7 +323,7 @@ const EditProduct = ({
               onChange={handleChange}
               fullWidth
               label="Categoria"
-              InputLabelProps={{ shrink: true }}
+              error={!!categoryError}
             >
               {categories.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
@@ -282,6 +331,9 @@ const EditProduct = ({
                 </MenuItem>
               ))}
             </Select>
+            {!!categoryError && (
+              <FormHelperText error>{categoryError}</FormHelperText>
+            )}
           </FormControl>
           <div
             style={{

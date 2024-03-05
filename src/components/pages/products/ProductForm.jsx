@@ -6,6 +6,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  FormHelperText,
 } from "@mui/material";
 import { uploadFile, db } from "../../../firebaseConfig";
 import {
@@ -44,6 +45,11 @@ const ProductForm = ({
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // Estado para almacenar el mensaje de error
+  const [nameError, setNameError] = useState("");
+  const [categoryError, setCategoryError] = useState("");
+  const [unitPriceError, setUnitPriceError] = useState("");
+  const [stockError, setStockError] = useState("");
+  const [idcError, setIdcError] = useState("");
 
   useEffect(() => {
     let refCollection = collection(db, "categorys");
@@ -78,6 +84,24 @@ const ProductForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!newProduct.idc) {
+      setIdcError("El ID es requerido.");
+      return;
+    }
+
+    if (!newProduct.name) {
+      setNameError("El nombre es requerido.");
+      return;
+    }
+    if (!newProduct.unit_price) {
+      setUnitPriceError("El precio unitario es requerido.");
+      return;
+    }
+    if (!newProduct.stock) {
+      setStockError("El stock es requerido.");
+      return;
+    }
 
     const productRef = doc(db, "products", newProduct.idc);
     const productDoc = await getDoc(productRef);
@@ -135,6 +159,7 @@ const ProductForm = ({
         console.error("Error adding product: ", error);
       }
     } else {
+      setCategoryError("La categoria es requerido");
       console.error("Error: No se encontró la categoría seleccionada.");
     }
   };
@@ -167,6 +192,29 @@ const ProductForm = ({
           style={{ display: "flex", flexDirection: "column" }}
         >
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            {isImageUploaded ? (
+              <img
+                src={newProduct.image}
+                alt="Producto"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "50px",
+                  margin: "1rem",
+                }}
+              />
+            ) : (
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/Mayorista%20Mar%20del%20Plata%20(2).png?alt=media&token=87bdf689-8eb7-49b1-9317-f6a52a9a0781"
+                alt="Producto"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "50px",
+                  margin: "1rem",
+                }}
+              />
+            )}
             <TextField
               name="name"
               variant="outlined"
@@ -176,6 +224,8 @@ const ProductForm = ({
               fullWidth
               style={{ flex: "1 1 40%", marginBottom: "1rem" }}
               InputLabelProps={{ shrink: true }}
+              error={!!nameError}
+              helperText={nameError}
             />
             <TextField
               name="idc"
@@ -186,6 +236,8 @@ const ProductForm = ({
               fullWidth
               style={{ flex: "1 1 40%", marginBottom: "1rem" }}
               InputLabelProps={{ shrink: true }}
+              error={!!idcError}
+              helperText={idcError}
             />
             <TextField
               name="description"
@@ -207,9 +259,12 @@ const ProductForm = ({
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
               InputLabelProps={{ shrink: true }}
+              error={!!stockError}
+              helperText={stockError}
             />
             <TextField
               name="unit_price"
+              type="number"
               variant="outlined"
               label="Precio Unitario"
               value={newProduct.unit_price}
@@ -217,9 +272,12 @@ const ProductForm = ({
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
               InputLabelProps={{ shrink: true }}
+              error={!!unitPriceError}
+              helperText={unitPriceError}
             />
             <TextField
               name="promotional_price"
+              type="number"
               variant="outlined"
               label="Precio Promocional"
               value={newProduct.promotional_price}
@@ -269,6 +327,7 @@ const ProductForm = ({
                 fullWidth
                 label="Categoria"
                 InputLabelProps={{ shrink: true }}
+                error={categoryError}
               >
                 {categories.map((category) => (
                   <MenuItem key={category.id} value={category.id}>
@@ -276,6 +335,9 @@ const ProductForm = ({
                   </MenuItem>
                 ))}
               </Select>
+              {!!categoryError && (
+                <FormHelperText error>{categoryError}</FormHelperText>
+              )}
             </FormControl>
           </div>
           <div
