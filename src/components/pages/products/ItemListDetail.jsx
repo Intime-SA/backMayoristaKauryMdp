@@ -153,11 +153,7 @@ function Row(props) {
                       )}
                     </TableCell>
                     <TableCell>{row.description}</TableCell>
-                    <TableCell align="right">
-                      {(row.unit_price - (row.unit_price * 15) / 100).toFixed(
-                        2
-                      )}
-                    </TableCell>
+                    <TableCell align="right">{row.promotional_price}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -187,7 +183,7 @@ function ItemListDetail({ products, setIsChange, isChange }) {
     <TableContainer
       component={Paper}
       className="tableContainer" // Aplicando clase de estilo CSS
-      style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
+      style={{ backgroundColor: "rgba(255, 255, 255, 0.6)" }}
     >
       <Table aria-label="collapsible table">
         <TableHead>

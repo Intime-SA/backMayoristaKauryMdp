@@ -210,7 +210,10 @@ const ItemListContainer = () => {
         const workbook = XLSX.read(data, { type: "array" });
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
-        const excelData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        const excelData = XLSX.utils.sheet_to_json(worksheet, {
+          header: 1,
+          range: 2,
+        }); // Ignora las dos primeras filas
         resolve(excelData);
       };
 
@@ -277,11 +280,11 @@ const ItemListContainer = () => {
 
   const style2 = {
     position: "absolute",
-    top: "20rem",
-    left: "50vw",
+    top: "23.5rem",
+    marginLeft: "6rem",
     transform: "translate(-50%, -50%)",
-    width: "60vw",
-    height: "40vh",
+    width: "40vw",
+    height: "28rem",
     bgcolor: "background.paper",
     border: "2px solid rgba(0, 0, 0, 0.2)", // Ajusta el grosor y color del borde
     borderRadius: "10px", // Ajusta el radio de borde
@@ -306,21 +309,18 @@ const ItemListContainer = () => {
     <div
       style={{
         display: "flex",
-        justifyContent: "space-around",
-        alignItems: "flex-start",
+        justifyContent: "center",
+        alignItems: "center",
         flexDirection: "column",
         fontSize: "2rem",
         top: "5rem",
         position: "relative",
         width: "70vw",
+        marginLeft: "13vw",
+        marginRight: "13vw",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          margin: "1rem",
-        }}
-      >
+      <div style={{}}>
         <Tooltip describeChild title="Agregar producto nuevo">
           <Button onClick={() => handleOpen(null)}>
             <span class="material-symbols-outlined">add_box</span>
@@ -337,8 +337,8 @@ const ItemListContainer = () => {
             >
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/descarga.png?alt=media&token=aafd9c75-a083-4202-8191-e49fff17da21"
-                alt="Contagram"
-                style={{ borderRadius: "50px", width: "5rem" }}
+                alt="sistemaContable"
+                style={{ borderRadius: "50px", width: "10rem" }}
               />
               <h3 style={{ margin: "1rem" }}>
                 Seleccione el archivo exportado desde sistema contable
@@ -413,21 +413,20 @@ const ItemListContainer = () => {
             <span class="material-symbols-outlined">upload_file</span>
           </Button>
         </Tooltip>
-        <Tooltip describeChild title="Importar Productos">
+        {/*         <Tooltip describeChild title="Importar Productos">
           <Button onClick={() => importarDatos()}>
             <span class="material-symbols-outlined">mp</span>
           </Button>
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip describeChild title="Descargar lista de productos">
           <Button onClick={() => exportToExcel()}>
             <span class="material-symbols-outlined">download</span>
           </Button>
         </Tooltip>
       </div>
-      <br />
       <h6>Cantidad total de productos: {productsTotal}</h6>
       {!open && (
-        <div>
+        <div style={{ width: "100%" }}>
           <ItemListDetail
             products={currentProducts}
             setIsChange={setIsChange}
@@ -477,7 +476,12 @@ const ItemListContainer = () => {
         open={estado}
         onClose={handleClose2}
       >
-        <div style={{ textAlign: "center", marginTop: "10rem" }}>
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "10rem",
+          }}
+        >
           <p style={{ marginBottom: "1rem", fontSize: "1.2rem" }}>
             Se están cargando los archivos
           </p>
