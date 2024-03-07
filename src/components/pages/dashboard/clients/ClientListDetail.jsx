@@ -14,17 +14,61 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
+import ClientShippingTooltip from "./ClientShippingTooltip";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../../../firebaseConfig";
 
 function Row(props) {
-  const { row } = props;
+  const { row, setStatusDelete, statusDelete } = props;
   const [open, setOpen] = useState(false);
-  console.log(row.fechaInicio.fecha);
+
+  const renderShippingData = () => {
+    if (row.datosEnvio && Object.keys(row.datosEnvio).length > 0) {
+      return (
+        <div>
+          <Typography variant="body1">Datos de Envío:</Typography>
+          <ul>
+            {Object.entries(row.datosEnvio).map(([key, value]) => (
+              <li key={key}>
+                <strong>{key}:</strong> {value}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    } else {
+      return (
+        <Typography variant="body1">
+          No existen datos de envío guardados para este cliente.
+        </Typography>
+      );
+    }
+  };
+
+  console.log(row.fechaInicio);
+
+  const fechaInicio = new Date(row.fechaInicio.seconds * 1000);
+
+  // Formatear la fecha como string en formato dd/mm/yyyy
+  const formattedFechaInicio = `${fechaInicio.getDate()}/${
+    fechaInicio.getMonth() + 1
+  }/${fechaInicio.getFullYear()}`;
 
   const client = () => {
     if (row.roll === "customer") {
       let client = "Cliente";
       return client;
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      await deleteDoc(doc(db, "users", id));
+      setStatusDelete(!statusDelete);
+      console.log(`Usuario ${id} eliminado correctamente.`);
+    } catch (error) {
+      console.error("Error deleting product: ", error);
     }
   };
 
@@ -41,7 +85,7 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.nombre + " " + row.apellido}
+          {row.name + " " + row.apellido}
         </TableCell>
         <TableCell>$</TableCell>
         <TableCell>$</TableCell>
@@ -51,20 +95,19 @@ function Row(props) {
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "flex-end",
             }}
           >
-            <Link to="/edit">
-              <span class="material-symbols-outlined">edit_note</span>
-            </Link>
-            <Link to="/envio">
-              <span
-                style={{ marginLeft: "1rem" }}
-                class="material-symbols-outlined"
-              >
-                local_shipping
-              </span>
-            </Link>
+            <Button>
+              <span class="material-symbols-outlined">edit</span>
+            </Button>
+            <Tooltip title={renderShippingData()} arrow>
+              <Button>
+                <span class="material-symbols-outlined">local_shipping</span>
+              </Button>
+              <Button onClick={() => deleteProduct(row.id)}>
+                <span class="material-symbols-outlined">delete</span>
+              </Button>
+            </Tooltip>
           </div>
         </TableCell>
       </TableRow>
@@ -93,11 +136,11 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody style={{ backgroundColor: "#C7C7C7", border: 0 }}>
-                  <TableRow key={row.id}>
+                  <TableRow /* key={row.fec} */>
                     <TableCell component="th" scope="row">
                       {row.email}
                     </TableCell>
-                    <TableCell>{row.fechaInicio}</TableCell>
+                    <TableCell>{formattedFechaInicio}</TableCell>
                     <TableCell align="right">
                       <div
                         style={{
@@ -117,8 +160,6 @@ function Row(props) {
                           />
                         </a>
                       </div>
-
-                      {row.telefono}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -149,7 +190,7 @@ function Row(props) {
   }).isRequired,
 }; */
 
-function ClientListDetail({ customers }) {
+function ClientListDetail({ customers, setStatusDelete, statusDelete }) {
   // Aquí se espera la prop products
   return (
     <TableContainer component={Paper}>
@@ -161,12 +202,18 @@ function ClientListDetail({ customers }) {
             <TableCell align="left">Total Consumido</TableCell>
             <TableCell align="left">Cantidad Compras</TableCell>
             <TableCell align="right">Canal</TableCell>
-            <TableCell align="center">Datos Envio</TableCell>
+            <TableCell align="center">Acciones</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {customers.map((user) => (
-            <Row key={user.id} row={user} />
+            <Row
+              key={user.id}
+              row={user}
+              setStatusDelete={setStatusDelete}
+              statusDelete={statusDelete}
+            />
           ))}
         </TableBody>
       </Table>
