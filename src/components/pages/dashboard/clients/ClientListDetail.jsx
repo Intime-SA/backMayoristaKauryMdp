@@ -18,9 +18,17 @@ import { Button, Tooltip } from "@mui/material";
 import ClientShippingTooltip from "./ClientShippingTooltip";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
+import EditClient from "./EditClient";
 
 function Row(props) {
-  const { row, setStatusDelete, statusDelete } = props;
+  const {
+    row,
+    setStatusDelete,
+    statusDelete,
+    setEditingClientId,
+    setIsEditing,
+    setOpenForm,
+  } = props;
   const [open, setOpen] = useState(false);
 
   const renderShippingData = () => {
@@ -72,6 +80,15 @@ function Row(props) {
     }
   };
 
+  const editClient = async (id) => {
+    try {
+      setEditingClientId(id);
+      setIsEditing(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -97,7 +114,7 @@ function Row(props) {
               justifyContent: "center",
             }}
           >
-            <Button>
+            <Button onClick={() => editClient(row.id)}>
               <span class="material-symbols-outlined">edit</span>
             </Button>
             <Tooltip title={renderShippingData()} arrow>
@@ -190,7 +207,17 @@ function Row(props) {
   }).isRequired,
 }; */
 
-function ClientListDetail({ customers, setStatusDelete, statusDelete }) {
+function ClientListDetail({
+  customers,
+  setStatusDelete,
+  statusDelete,
+  setOpenForm,
+  setStatusEdit,
+  statusEdit,
+}) {
+  const [isEditing, setIsEditing] = useState(false); // Estado para indicar si se está editando el producto
+  const [editingClientId, setEditingClientId] = useState(null); // Estado para almacenar el ID del producto que se está editando
+
   // Aquí se espera la prop products
   return (
     <TableContainer component={Paper}>
@@ -213,10 +240,29 @@ function ClientListDetail({ customers, setStatusDelete, statusDelete }) {
               row={user}
               setStatusDelete={setStatusDelete}
               statusDelete={statusDelete}
+              setEditingClientId={setEditingClientId}
+              setIsEditing={setIsEditing}
+              setOpenForm={setOpenForm}
             />
           ))}
         </TableBody>
       </Table>
+      <table>
+        <TableCell>
+          <div style={{ width: "100%" }}>
+            {isEditing && ( // Renderizar el componente EditProducts si se está editando un producto
+              <EditClient
+                setEditingClientId={setEditingClientId}
+                editingClientId={editingClientId}
+                setIsEditing={setIsEditing}
+                setOpenForm={setOpenForm}
+                setStatusEdit={setStatusEdit}
+                statusEdit={statusEdit}
+              />
+            )}
+          </div>
+        </TableCell>
+      </table>
     </TableContainer>
   );
 }

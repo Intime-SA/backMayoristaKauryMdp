@@ -9,6 +9,7 @@ const Clients = () => {
   const [customers, setCustomers] = useState([]);
   const [openForm, setOpenForm] = useState(false);
   const [statusDelete, setStatusDelete] = useState(false);
+  const [statusEdit, setStatusEdit] = useState(false);
 
   useEffect(() => {
     let refCollection = collection(db, "users");
@@ -24,7 +25,7 @@ const Clients = () => {
         setCustomers(newArray);
       })
       .catch((err) => console.log(err));
-  }, [statusDelete, openForm]);
+  }, [statusDelete, openForm, statusEdit]);
 
   console.log(customers);
 
@@ -77,6 +78,9 @@ const Clients = () => {
           customers={customers}
           setStatusDelete={setStatusDelete}
           statusDelete={statusDelete}
+          setOpenForm={setOpenForm}
+          setStatusEdit={setStatusEdit}
+          statusEdit={statusEdit}
         />
       ) : (
         <ClientForm
