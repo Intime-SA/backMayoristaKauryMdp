@@ -94,7 +94,7 @@ const EditClient = ({
   };
 
   return (
-    <div style={{ width: "100%" }}>
+    <div>
       <h5 style={{ marginTop: "1rem" }}>Editar Cliente</h5>
       <div
         style={{
@@ -102,7 +102,6 @@ const EditClient = ({
           borderRadius: "10px",
           padding: "1rem",
           marginBottom: "1rem",
-          backgroundColor: "rgba(255, 255, 255, 0.4)",
         }}
       >
         <form
@@ -116,8 +115,6 @@ const EditClient = ({
               borderRadius: "10px",
               padding: "1rem",
               marginBottom: "0.5rem",
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
-              width: "100%",
             }}
           >
             <h5 style={{ margin: "1rem", marginBottom: "2rem" }}>
@@ -201,7 +198,6 @@ const EditClient = ({
               borderRadius: "10px",
               padding: "1rem",
               marginBottom: "0.5rem",
-              backgroundColor: "rgba(255, 255, 255, 0.4)",
             }}
           >
             <h5

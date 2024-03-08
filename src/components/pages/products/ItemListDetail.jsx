@@ -187,7 +187,7 @@ function ItemListDetail({ products, setIsChange, isChange }) {
     >
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableRow>
+          <TableRow style={{ backgroundColor: "rgba(249, 214, 224, 0.6)" }}>
             <TableCell />
             <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
               ID

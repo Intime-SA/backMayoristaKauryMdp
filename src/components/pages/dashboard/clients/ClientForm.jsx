@@ -8,6 +8,8 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
     name: "",
     email: "",
     apellido: "",
+    telefono: "",
+    roll: "customerDirect",
     datosEnvio: {
       calle: "",
       numero: "",
@@ -68,7 +70,7 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
     const obj = {
       ...newClient,
       fechaInicio: serverTimestamp(),
-      roll: "customer",
+      roll: "customerDirect",
     };
     const usersCollection = collection(db, "users");
     await addDoc(usersCollection, obj);
@@ -80,6 +82,7 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
       email: "",
       apellido: "",
       telefono: "",
+      roll: "",
       datosEnvio: {
         calle: "",
         numero: "",

@@ -18,7 +18,10 @@ const Clients = () => {
         let newArray = [];
         querySnapshot.forEach((doc) => {
           const userData = doc.data();
-          if (userData.roll === "customer") {
+          if (
+            userData.roll === "customerDirect" ||
+            userData.roll === "customer"
+          ) {
             newArray.push({ ...userData, id: doc.id });
           }
         });
@@ -33,13 +36,15 @@ const Clients = () => {
     <div
       style={{
         display: "flex",
-        justifyContent: "space-around",
-        alignItems: "flex-end",
+        justifyContent: "center",
+        alignItems: "center",
         flexDirection: "column",
         fontSize: "2rem",
         top: "5rem",
         position: "relative",
         width: "70vw",
+        marginLeft: "13vw",
+        marginRight: "13vw",
       }}
     >
       <Box>
@@ -69,26 +74,28 @@ const Clients = () => {
             >
               person_add
             </span>
-            Agregar nuevo Cliente
+            Nuevo Cliente
           </Button>
         </div>
       </Box>
-      {!openForm ? (
-        <ClientListDetail
-          customers={customers}
-          setStatusDelete={setStatusDelete}
-          statusDelete={statusDelete}
-          setOpenForm={setOpenForm}
-          setStatusEdit={setStatusEdit}
-          statusEdit={statusEdit}
-        />
-      ) : (
-        <ClientForm
-          customers={customers}
-          setOpenForm={setOpenForm}
-          openForm={openForm}
-        />
-      )}
+      <div style={{ width: "100%" }}>
+        {!openForm ? (
+          <ClientListDetail
+            customers={customers}
+            setStatusDelete={setStatusDelete}
+            statusDelete={statusDelete}
+            setOpenForm={setOpenForm}
+            setStatusEdit={setStatusEdit}
+            statusEdit={statusEdit}
+          />
+        ) : (
+          <ClientForm
+            customers={customers}
+            setOpenForm={setOpenForm}
+            openForm={openForm}
+          />
+        )}
+      </div>
     </div>
   );
 };
