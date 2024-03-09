@@ -18,16 +18,38 @@ import Alert from "@mui/joy/Alert";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import {
+  Cloud,
+  ContentCopy,
+  ContentCut,
+  ContentPaste,
   OpenInNew,
   OpenInNewOff,
   OpenInNewOffOutlined,
 } from "@mui/icons-material";
+import {
+  Button,
+  Divider,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  MenuList,
+} from "@mui/material";
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = useState(false);
   const [nombreCliente, setNombreCliente] = useState(null);
   const [productosCompletos, setProductosCompletos] = useState([]);
+  const [status, setStatus] = useState("Estado no encontrado");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open2 = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     const obtenerNombre = async () => {
@@ -40,9 +62,29 @@ function Row(props) {
         console.error("Error al obtener el nombre del cliente:", error);
       }
     };
+    const calcularStatusCliente = async (estado) => {
+      try {
+        const refCollection = collection(db, "orderStatus");
+        const querySnapshot = await getDocs(refCollection);
 
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          console.log(data);
+          if (doc.id === estado) {
+            setStatus(data.name);
+          }
+        });
+        console.log(status);
+        return status;
+      } catch (error) {
+        console.error("Error al calcular el estado:", error);
+        throw error;
+      }
+    };
+
+    calcularStatusCliente(row.status);
     obtenerNombre();
-  }, [row.client.id]);
+  }, [row.client.id, row.status]);
 
   const obtenerNombreCliente = async (clienteId) => {
     try {
@@ -60,7 +102,7 @@ function Row(props) {
         if (doc.id === clienteId) {
           // Si coincide, obtener los datos del documento y el nombre del cliente
           const clienteData = doc.data();
-          nombreCliente = clienteData.nombre + " " + clienteData.apellido; // Suponiendo que el campo del nombre del cliente se llama "nombre"
+          nombreCliente = clienteData.name + " " + clienteData.apellido; // Suponiendo que el campo del nombre del cliente se llama "nombre"
         }
       });
 
@@ -86,6 +128,7 @@ function Row(props) {
       try {
         const productDoc = await getDoc(doc(db, "products", item.productId));
         const productData = productDoc.data();
+        console.log(productData);
         const subtotal = productData.unit_price * item.quantity;
         if (productDoc.exists()) {
           // Agregar el producto completo al arreglo con la cantidad
@@ -95,6 +138,7 @@ function Row(props) {
             cantidad: item.quantity,
             subtotal: subtotal,
           });
+          console.log(productos);
         } else {
           console.log("El producto con ID", item.productId, "no existe.");
         }
@@ -120,20 +164,20 @@ function Row(props) {
     return total;
   };
 
+  const date = new Date(row.date.seconds * 1000);
+
+  // Formatear la fecha como string en formato dd/mm/yyyy
+  const formattedFechaInicio = `${date.getDate()}/${
+    date.getMonth() + 1
+  }/${date.getFullYear()}`;
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell style={{ width: "5%" }} component="th" scope="row">
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
+        <TableCell align="center" style={{ width: "5%" }}>
+          <Button>#{row.numberOrder}</Button>
         </TableCell>
-        <TableCell style={{ width: "5%" }}>{row.numberOrder}</TableCell>
-        <TableCell style={{ width: "15%" }}>{row.date}</TableCell>
+        <TableCell style={{ width: "15%" }}>{formattedFechaInicio}</TableCell>
         <TableCell style={{ width: "15%" }} align="right">
           <p
             style={{
@@ -152,22 +196,105 @@ function Row(props) {
             })}
           </p>
         </TableCell>
+        <TableCell style={{ width: "5%" }} component="th" scope="row">
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
         <TableCell style={{ width: "25%" }} align="right">
           {nombreCliente === null ? "Cargando..." : nombreCliente}
         </TableCell>
         <TableCell style={{ width: "15%" }} align="right">
           <Alert variant="solid" color="success">
-            {row.status}
+            {status}
           </Alert>
         </TableCell>
         <TableCell style={{ width: "15%" }} align="right">
-          <IconButton
-            aria-label="Open in new tab"
-            component="a"
-            href="#as-link"
-          >
-            <OpenInNew />
-          </IconButton>
+          <div>
+            <Button
+              id="demo-positioned-button"
+              aria-controls={open ? "demo-positioned-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+            >
+              <span class="material-symbols-outlined">more_vert</span>
+            </Button>
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="demo-positioned-button"
+              anchorEl={anchorEl}
+              open={open2}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+            >
+              <MenuItem
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+                onClick={handleClose}
+              >
+                <span
+                  style={{ fontSize: "100%", margin: "1rem" }}
+                  class="material-symbols-outlined"
+                >
+                  deployed_code{" "}
+                </span>
+                <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                  Marcar como empaquetada
+                </h6>
+              </MenuItem>
+              <MenuItem
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+                onClick={handleClose}
+              >
+                <span
+                  style={{ fontSize: "100%", margin: "1rem" }}
+                  class="material-symbols-outlined"
+                >
+                  local_shipping
+                </span>
+                <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                  Notificar envio
+                </h6>
+              </MenuItem>
+              <MenuItem
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+                onClick={handleClose}
+              >
+                <span
+                  style={{ fontSize: "100%", margin: "1rem" }}
+                  class="material-symbols-outlined"
+                >
+                  inventory_2
+                </span>
+                <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                  Archivar
+                </h6>
+              </MenuItem>
+            </Menu>
+          </div>
         </TableCell>
       </TableRow>
       <TableRow>
@@ -248,15 +375,17 @@ function UserOrdersDetail({ orders }) {
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableCell />
-          <TableCell align="left" style={{ width: "5%", paddingLeft: "8px" }}>
+          <TableCell align="center" style={{ width: "5%", paddingLeft: "8px" }}>
             ID
           </TableCell>
           <TableCell align="left" style={{ width: "30%" }}>
             Fecha
           </TableCell>
-          <TableCell align="right" style={{ width: "15%" }}>
+          <TableCell align="center" style={{ width: "15%" }}>
             Total
+          </TableCell>
+          <TableCell align="right" style={{ width: "5%" }}>
+            Productos
           </TableCell>
           <TableCell align="right" style={{ width: "25%" }}>
             Comprador

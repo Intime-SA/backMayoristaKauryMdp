@@ -149,12 +149,12 @@ function Navbar(props) {
                 src="https://www.kaury.com/img/kaury_logo_19.svg"
                 alt="logo"
               />
-              <h3 style={{ color: "#c4072c", marginLeft: "10.5%" }}>
+              {/*               <h3 style={{ color: "#c4072c", marginLeft: "10.5%" }}>
                 Mayorista Mar del Plata
               </h3>
               <h6 style={{ color: "#c4072c", marginLeft: "10.5%" }}>
                 Back-End
-              </h6>
+              </h6> */}
               <h6 style={{ color: "#c4072c", marginLeft: "10.5%" }}>
                 {welcomeUser()}
               </h6>

@@ -1,5 +1,11 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  zoom: 1; /* Reducir la escala al 80% */
+}
+body {
+  font-family: "Roboto Condensed, sans-serif"; /* Ejemplo de fuente global */
 }

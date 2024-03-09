@@ -313,7 +313,6 @@ const ItemListContainer = () => {
         alignItems: "center",
         flexDirection: "column",
         fontSize: "2rem",
-        top: "5rem",
         position: "relative",
         width: "70vw",
         marginLeft: "13vw",

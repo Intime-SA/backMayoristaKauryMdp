@@ -180,14 +180,32 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          component="th"
+          scope="row"
+        >
           {row.name + " " + row.apellido}
         </TableCell>
-        <TableCell>$</TableCell>
-        <TableCell>$</TableCell>
-        <TableCell align="center">{client()}</TableCell>
-        <TableCell></TableCell>
-        <TableCell align="rigth">
+        <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+          $
+        </TableCell>
+        <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+          $
+        </TableCell>
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          align="center"
+        >
+          {client()}
+        </TableCell>
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+        ></TableCell>
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          align="rigth"
+        >
           <div
             style={{
               display: "flex",
@@ -234,19 +252,43 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Fecha Adhesion</TableCell>
-                    <TableCell align="right">Contacto</TableCell>
+                    <TableCell
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                    >
+                      Email
+                    </TableCell>
+                    <TableCell
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                    >
+                      Fecha Adhesion
+                    </TableCell>
+                    <TableCell
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      align="right"
+                    >
+                      Contacto
+                    </TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
                   <TableRow /* key={row.fec} */>
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      component="th"
+                      scope="row"
+                    >
                       {row.email}
                     </TableCell>
-                    <TableCell>{formattedFechaInicio}</TableCell>
-                    <TableCell align="right">
+                    <TableCell
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                    >
+                      {formattedFechaInicio}
+                    </TableCell>
+                    <TableCell
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      align="right"
+                    >
                       <div
                         style={{
                           display: "flex",

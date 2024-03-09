@@ -62,7 +62,12 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow
+        sx={{
+          "& > *": { borderBottom: "unset" },
+          fontFamily: "Roboto, sans-serif",
+        }}
+      >
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -72,21 +77,56 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif", fontWeight: 900 }}
+          component="th"
+          scope="row"
+        >
           {row.idc}
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          component="th"
+          scope="row"
+        >
           {row.name}
         </TableCell>
-        <TableCell align="right" style={{ fontWeight: "bold" }}>
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          align="right"
+          style={{ fontWeight: "900" }}
+        >
           $ {row.unit_price.toFixed(2)}
         </TableCell>
 
-        <TableCell align="right">{row.stock}</TableCell>
-        <TableCell align="right">{row.talle}</TableCell>
-        <TableCell align="right">{row.color}</TableCell>
-        <TableCell align="right">{category}</TableCell>
-        <TableCell align="right">
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          align="right"
+        >
+          {row.stock}
+        </TableCell>
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          align="right"
+        >
+          {row.talle}
+        </TableCell>
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          align="right"
+        >
+          {row.color}
+        </TableCell>
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif", fontWeight: 900 }}
+          align="right"
+        >
+          {category}
+        </TableCell>
+        <TableCell
+          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          align="right"
+        >
           <Button onClick={() => editProducts(row.idc)}>
             <span class="material-symbols-outlined">edit</span>
           </Button>
@@ -129,7 +169,11 @@ function Row(props) {
                 </TableHead>
                 <TableBody>
                   <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      sx={{ fontFamily: "Roboto, sans-serif" }}
+                      component="th"
+                      scope="row"
+                    >
                       {row.image ? (
                         <img
                           src={row.image}
@@ -152,8 +196,17 @@ function Row(props) {
                         />
                       )}
                     </TableCell>
-                    <TableCell>{row.description}</TableCell>
-                    <TableCell align="right">{row.promotional_price}</TableCell>
+                    <TableCell
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                    >
+                      {row.description}
+                    </TableCell>
+                    <TableCell
+                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      align="right"
+                    >
+                      $ {row.promotional_price}
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

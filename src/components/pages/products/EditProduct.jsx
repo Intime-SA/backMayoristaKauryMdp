@@ -172,6 +172,8 @@ const EditProduct = ({
         marginTop: "1rem",
         paddingTop: "1rem",
         width: "100%",
+        height: "30%",
+        zoom: "0.9",
       }}
     >
       <h5>Editar Producto</h5>

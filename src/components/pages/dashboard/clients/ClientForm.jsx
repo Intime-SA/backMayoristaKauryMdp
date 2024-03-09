@@ -100,7 +100,7 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
   };
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", zoom: "0.9" }}>
       <h5 style={{ marginTop: "1rem" }}>Agregar Cliente</h5>
       <div
         style={{

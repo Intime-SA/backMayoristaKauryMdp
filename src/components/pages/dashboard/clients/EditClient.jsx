@@ -82,6 +82,7 @@ const EditClient = ({
       name: editedClient.name,
       email: editedClient.email,
       apellido: editedClient.apellido,
+      telefono: editedClient.telefono,
       datosEnvio: editedClient.datosEnvio,
     });
     setIsEditing(false);
@@ -94,7 +95,7 @@ const EditClient = ({
   };
 
   return (
-    <div>
+    <div style={{ overflow: "auto", height: "50vh", zoom: "0.8" }}>
       <h5 style={{ marginTop: "1rem" }}>Editar Cliente</h5>
       <div
         style={{
