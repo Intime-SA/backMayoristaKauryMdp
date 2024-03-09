@@ -23,7 +23,7 @@ const UserOrders = () => {
         setOrders(newArray);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [openForm]);
 
   console.log(orders);
 
@@ -71,7 +71,11 @@ const UserOrders = () => {
         </div>
       </Box>
       <div style={{ width: "100%" }}>
-        {openForm ? <UserOrderForm /> : <UserOrdersDetail orders={orders} />}
+        {openForm ? (
+          <UserOrderForm setOpenForm={setOpenForm} />
+        ) : (
+          <UserOrdersDetail orders={orders} />
+        )}
       </div>
     </div>
   );

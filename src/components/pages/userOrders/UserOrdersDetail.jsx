@@ -14,7 +14,6 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Link } from "react-router-dom";
-import Alert from "@mui/joy/Alert";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import {
@@ -27,6 +26,8 @@ import {
   OpenInNewOffOutlined,
 } from "@mui/icons-material";
 import {
+  Alert,
+  AlertTitle,
   Button,
   Divider,
   ListItemIcon,
@@ -49,6 +50,57 @@ function Row(props) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const estadoRender = (estado) => {
+    console.log(estado);
+    if (estado === "Nueva") {
+      return (
+        <Alert severity="warning">
+          <AlertTitle style={{ marginTop: "10%", fontSize: "75%" }}>
+            Pendiente
+          </AlertTitle>
+          {/* <strong>El pedido ya fue preparado</strong> */}
+        </Alert>
+      );
+    } else if (estado === "Empaquetada") {
+      return (
+        <Alert
+          style={{ marginTop: "10%", fontSize: "75%" }}
+          size="small"
+          severity="info"
+        >
+          Empaquetada
+        </Alert>
+      );
+    } else if (estado === "Pago Recibido") {
+      return (
+        <Alert severity="success">
+          <AlertTitle
+            style={{ marginTop: "10%", fontSize: "75%" }}
+            variant="outlined"
+          >
+            Pago Recibido
+          </AlertTitle>
+          {/* <strong>El pedido fue entregado con exito</strong> */}
+        </Alert>
+      );
+    } else if (estado === "Enviada") {
+      return (
+        <Alert variant="outlined" severity="success">
+          <AlertTitle style={{ marginTop: "10%", fontSize: "75%" }}>
+            En Distribucion
+          </AlertTitle>
+          {/* <strong>El pedido fue entregado con exito</strong> */}
+        </Alert>
+      );
+    } else if (estado === "Cancelada") {
+      return (
+        <Alert variant="outlined" severity="error">
+          Cancelado
+        </Alert>
+      );
+    }
   };
 
   useEffect(() => {
@@ -120,6 +172,8 @@ function Row(props) {
     date.getMonth() + 1
   }/${date.getFullYear()}`;
 
+  console.log(status);
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -158,13 +212,12 @@ function Row(props) {
           {nombreCliente === null ? "Cargando..." : nombreCliente}
         </TableCell>
         <TableCell style={{ width: "15%" }} align="right">
-          <Alert variant="solid" color="success">
-            {status}
-          </Alert>
+          <div>{estadoRender(status)}</div>
         </TableCell>
         <TableCell style={{ width: "15%" }} align="right">
           <div>
             <Button
+              variant="outlined"
               id="demo-positioned-button"
               aria-controls={open ? "demo-positioned-menu" : undefined}
               aria-haspopup="true"

@@ -28,7 +28,7 @@ import {
 } from "@mui/material";
 import ScrollableContainer from "./ScrolleableContainer";
 
-function UserOrderForm() {
+function UserOrderForm({ setOpenForm }) {
   const [clientes, setClientes] = useState([]);
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const [datosEnvio, setDatosEnvio] = useState("");
@@ -183,11 +183,19 @@ function UserOrderForm() {
       const clienteRef = doc(db, obtenerRutaCliente(clienteSeleccionado.id));
       console.log(clienteRef);
 
+      const subtotalItem = (producto) => {
+        return (
+          producto.unit_price *
+          producto.cantidad *
+          (1 - producto.porcentajeDescuento / 100)
+        );
+      };
+
       const orderItems = productosSeleccionados.map((producto) => ({
         productId: producto.id, // O el campo adecuado que contenga el ID del producto
         quantity: producto.cantidad,
         unit_price: producto.unit_price,
-        subtotal: producto.unit_price * producto.cantidad,
+        subtotal: subtotalItem(producto),
         descuento: producto.porcentajeDescuento,
         image:
           producto.image !== undefined
@@ -224,6 +232,7 @@ function UserOrderForm() {
       console.error("Error al crear la orden:", error.message);
       // Manejar el error de acuerdo a tus necesidades, como mostrar un mensaje de error al usuario
     }
+    setOpenForm(false);
   };
 
   const styles = {
