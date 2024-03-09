@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  serverTimestamp,
+  addDoc,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -29,6 +40,8 @@ function UserOrderForm() {
   const [productSelect, setProductSelect] = useState([]);
   const [porcentajeDescuento, setPorcentajeDescuento] = useState(0);
   const [error1, setError1] = useState("");
+  const [userOrders, setUserOrders] = useState([]);
+  const [nuevoId, setNuevoId] = useState(0);
 
   useEffect(() => {
     const obtenerClientes = async () => {
@@ -56,6 +69,29 @@ function UserOrderForm() {
       setDatosEnvio("");
     }
   };
+
+  useEffect(() => {
+    const traerId = async () => {
+      try {
+        const refContador = doc(db, "contador", "contador");
+        const docContador = await getDoc(refContador);
+        console.log(refContador);
+
+        const nuevoValor = docContador.data().autoincremental + 1;
+        setNuevoId(nuevoValor);
+
+        const nuevoValorObj = { autoincremental: nuevoValor };
+
+        // Actualizar el valor del contador en la base de datos
+        await updateDoc(refContador, nuevoValorObj);
+
+        console.log(nuevoValorObj);
+      } catch (error) {
+        console.error("Error al obtener el nuevo ID:", error);
+      }
+    };
+    traerId();
+  }, []);
 
   const handleAddProduct = () => {
     // Validar si hay un producto seleccionado
@@ -109,6 +145,84 @@ function UserOrderForm() {
       setModalProductos(productosData);
     } catch (error) {
       console.error("Error al buscar productos:", error);
+    }
+  };
+
+  const calcularTotalOrden = () => {
+    let total = 0;
+    productosSeleccionados.forEach((producto) => {
+      total +=
+        producto.unit_price * producto.cantidad -
+        (producto.unit_price *
+          producto.cantidad *
+          producto.porcentajeDescuento) /
+          100;
+    });
+    return total.toLocaleString("es-AR", { minimumFractionDigits: 2 });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Validar que haya un cliente seleccionado
+      if (!clienteSeleccionado) {
+        throw new Error("Debe seleccionar un cliente para crear la orden.");
+      }
+
+      // Validar que haya productos seleccionados
+      if (productosSeleccionados.length === 0) {
+        throw new Error("Debe agregar al menos un producto a la orden.");
+      }
+
+      // Función para obtener la ruta del cliente seleccionado
+      const obtenerRutaCliente = (idCliente) => {
+        return `users/${idCliente}`;
+      };
+
+      const clienteRef = doc(db, obtenerRutaCliente(clienteSeleccionado.id));
+      console.log(clienteRef);
+
+      const orderItems = productosSeleccionados.map((producto) => ({
+        productId: producto.id, // O el campo adecuado que contenga el ID del producto
+        quantity: producto.cantidad,
+        unit_price: producto.unit_price,
+        subtotal: producto.unit_price * producto.cantidad,
+        descuento: producto.porcentajeDescuento,
+        image:
+          producto.image !== undefined
+            ? producto.image
+            : "https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/Mayorista%20Mar%20del%20Plata%20(2).png?alt=media&token=87bdf689-8eb7-49b1-9317-f6a52a9a0781",
+      }));
+
+      const obj = {
+        canalVenta: "Directo",
+        client: clienteRef, // Obtener la ruta del cliente
+        date: serverTimestamp(), // Asigna la fecha de la orden si es necesario
+        infoEntrega: {
+          calle: clienteSeleccionado.datosEnvio.calle,
+          ciudad: clienteSeleccionado.datosEnvio.barrio,
+          codigoPostal: clienteSeleccionado.datosEnvio.codigoPostal,
+          estado: clienteSeleccionado.datosEnvio.provincia,
+          numero: clienteSeleccionado.datosEnvio.numero,
+          pais: "Argentina",
+          pisoDpto: clienteSeleccionado.datosEnvio.pisoDpto,
+        },
+        note: "",
+        numberOrder: nuevoId, // Asigna el número de orden si es necesario
+        orderItems: orderItems, // Aquí se renderiza el arreglo de productos seleccionados
+        status: "nueva", // Asigna el estado de la orden si es necesario
+        total: calcularTotalOrden(), // Calcula el total de la orden
+      };
+
+      console.log(obj);
+      const refCollection = collection(db, "userOrders");
+      await addDoc(refCollection, obj);
+
+      // Luego aquí puedes hacer lo necesario con el objeto 'obj', como enviarlo a la base de datos, etc.
+    } catch (error) {
+      console.error("Error al crear la orden:", error.message);
+      // Manejar el error de acuerdo a tus necesidades, como mostrar un mensaje de error al usuario
     }
   };
 
@@ -371,12 +485,22 @@ function UserOrderForm() {
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell>Artículo</TableCell>
-              <TableCell>Precio</TableCell>
-              <TableCell>Cantidad</TableCell>
+              <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+                Artículo
+              </TableCell>
+              <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+                Precio
+              </TableCell>
+              <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+                Cantidad
+              </TableCell>
 
-              <TableCell>Descuento</TableCell>
-              <TableCell>Subtotal</TableCell>
+              <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+                Descuento
+              </TableCell>
+              <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+                Subtotal
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -406,24 +530,64 @@ function UserOrderForm() {
                   )}
                 </TableCell>
                 <TableCell>{producto.name}</TableCell>
-                <TableCell>$ {producto.unit_price}</TableCell>
+                <TableCell>
+                  {producto.unit_price.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                  })}
+                </TableCell>
                 <TableCell>{producto.cantidad}</TableCell>
-                <TableCell>{producto.porcentajeDescuento}%</TableCell>
+                <TableCell>
+                  {producto.porcentajeDescuento.toLocaleString("es-AR")} %
+                </TableCell>
                 <TableCell style={{ fontWeight: "900" }}>
-                  {/* Subtotal - Descuento */}${" "}
+                  {/* Subtotal - Descuento */}
                   {(
                     producto.unit_price * producto.cantidad -
                     (producto.unit_price *
                       producto.cantidad *
                       producto.porcentajeDescuento) /
                       100
-                  ).toFixed(2)}
+                  ).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumFractionDigits: 2,
+                  })}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+        }}
+      >
+        <h4
+          style={{
+            marginTop: "1rem",
+            fontFamily: "Roboto Condensed, sans-serif",
+          }}
+        >
+          Total de la orden:
+        </h4>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <strong style={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+            ${calcularTotalOrden()}
+          </strong>
+          <Button
+            onClick={handleSubmit}
+            style={{ margin: "1rem" }}
+            variant="contained"
+            color="success"
+          >
+            Crear Orden
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

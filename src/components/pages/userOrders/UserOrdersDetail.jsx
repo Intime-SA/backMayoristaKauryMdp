@@ -54,9 +54,7 @@ function Row(props) {
   useEffect(() => {
     const obtenerNombre = async () => {
       try {
-        obtenerOrderItems();
-        // Obtener el nombre del cliente
-        const nombre = await obtenerNombreCliente(row.client.id);
+        const nombre = await obtenerNombreCliente(row.client);
         setNombreCliente(nombre);
       } catch (error) {
         console.error("Error al obtener el nombre del cliente:", error);
@@ -69,12 +67,11 @@ function Row(props) {
 
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          console.log(data);
           if (doc.id === estado) {
             setStatus(data.name);
           }
         });
-        console.log(status);
+
         return status;
       } catch (error) {
         console.error("Error al calcular el estado:", error);
@@ -86,74 +83,26 @@ function Row(props) {
     obtenerNombre();
   }, [row.client.id, row.status]);
 
-  const obtenerNombreCliente = async (clienteId) => {
+  const obtenerNombreCliente = async (clientRef) => {
+    // Corregir el nombre del parámetro
     try {
-      // Obtener la referencia a la colección "users" en Firestore
-      const refCollection = collection(db, "users");
+      // Obtener el documento del cliente utilizando la referencia directa
+      const clienteDoc = await getDoc(clientRef);
 
-      // Obtener todos los documentos de la colección "users"
-      const querySnapshot = await getDocs(refCollection);
-
-      // Iterar sobre los documentos para encontrar el cliente específico
-      let nombreCliente = "Cliente no encontrado"; // Valor predeterminado si no se encuentra el cliente
-
-      querySnapshot.forEach((doc) => {
-        // Verificar si el ID del documento coincide con el clienteId
-        if (doc.id === clienteId) {
-          // Si coincide, obtener los datos del documento y el nombre del cliente
-          const clienteData = doc.data();
-          nombreCliente = clienteData.name + " " + clienteData.apellido; // Suponiendo que el campo del nombre del cliente se llama "nombre"
-        }
-      });
-
-      // Devolver el nombre del cliente encontrado
-      return nombreCliente;
+      // Verificar si el documento del cliente existe
+      if (clienteDoc.exists()) {
+        // Si existe, obtener los datos del cliente y construir el nombre
+        const clienteData = clienteDoc.data();
+        const nombreCliente = clienteData.name + " " + clienteData.apellido; // Suponiendo que el campo del nombre del cliente se llama "nombre"
+        return nombreCliente;
+      } else {
+        // Si el documento del cliente no existe, devolver un mensaje de cliente no encontrado
+        return "Cliente no encontrado";
+      }
     } catch (error) {
       console.error("Error al obtener el nombre del cliente:", error);
-      throw error;
+      throw error; // Lanzar el error para manejarlo fuera de la función
     }
-  };
-
-  const obtenerOrderItems = async () => {
-    const refCollection = collection(db, "userOrders");
-    const querySnapshot = await getDocs(refCollection);
-    let newArray = [];
-    querySnapshot.forEach((doc) => {
-      newArray.push(...doc.data().orderItems);
-    });
-
-    let productos = [];
-
-    for (const item of newArray) {
-      try {
-        const productDoc = await getDoc(doc(db, "products", item.productId));
-        const productData = productDoc.data();
-        console.log(productData);
-        const subtotal = productData.unit_price * item.quantity;
-        if (productDoc.exists()) {
-          // Agregar el producto completo al arreglo con la cantidad
-          productos.push({
-            id: productDoc.id,
-            ...productDoc.data(),
-            cantidad: item.quantity,
-            subtotal: subtotal,
-          });
-          console.log(productos);
-        } else {
-          console.log("El producto con ID", item.productId, "no existe.");
-        }
-      } catch (error) {
-        console.error(
-          "Error obteniendo el producto con ID",
-          item.productId,
-          ":",
-          error
-        );
-      }
-    }
-
-    setProductosCompletos(productos);
-    return productos;
   };
 
   const calcularTotalOrden = (productos) => {
@@ -190,7 +139,7 @@ function Row(props) {
             }}
           >
             ${" "}
-            {calcularTotalOrden(productosCompletos).toLocaleString("es-AR", {
+            {calcularTotalOrden(row.orderItems).toLocaleString("es-AR", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}
@@ -323,8 +272,8 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {productosCompletos.map((producto) => (
-                    <TableRow key={producto.id}>
+                  {row.orderItems.map((producto) => (
+                    <TableRow key={producto.productId}>
                       <TableCell>
                         <img
                           style={{
@@ -337,10 +286,10 @@ function Row(props) {
                         />
                       </TableCell>
                       <TableCell align="left" component="th" scope="row">
-                        {producto.name}{" "}
+                        {producto.productId}{" "}
                         {/* Reemplaza 'nombre' con la propiedad correcta que contiene el nombre del producto */}
                       </TableCell>
-                      <TableCell align="right">{producto.cantidad}</TableCell>{" "}
+                      <TableCell align="right">{producto.quantity}</TableCell>{" "}
                       {/* Reemplaza 'cantidad' con la propiedad correcta que contiene la cantidad del producto */}
                       <TableCell align="right">
                         ${" "}
@@ -362,6 +311,7 @@ function Row(props) {
                 </TableBody>
               </Table>
             </Box>
+            <h6>hola</h6>
           </Collapse>
         </TableCell>
       </TableRow>
