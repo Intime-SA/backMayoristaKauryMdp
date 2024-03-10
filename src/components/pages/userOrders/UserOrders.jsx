@@ -36,7 +36,7 @@ const UserOrders = () => {
         flexDirection: "column",
         fontSize: "2rem",
         position: "relative",
-        width: "70vw",
+        width: "95vw",
       }}
     >
       <Box>
@@ -70,7 +70,7 @@ const UserOrders = () => {
           </Button>
         </div>
       </Box>
-      <div style={{ width: "100%" }}>
+      <div style={{ width: "100%", height: "auto" }}>
         {openForm ? (
           <UserOrderForm setOpenForm={setOpenForm} />
         ) : (

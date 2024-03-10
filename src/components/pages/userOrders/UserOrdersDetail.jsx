@@ -29,6 +29,11 @@ import {
   Alert,
   AlertTitle,
   Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
   Divider,
   ListItemIcon,
   ListItemText,
@@ -36,14 +41,25 @@ import {
   MenuItem,
   MenuList,
 } from "@mui/material";
+import OrderCard from "./OrderCard";
 
 function Row(props) {
-  const { row } = props;
+  const { row, setOpenOrder, setDataOrder } = props;
   const [open, setOpen] = useState(false);
   const [nombreCliente, setNombreCliente] = useState(null);
-  const [productosCompletos, setProductosCompletos] = useState([]);
   const [status, setStatus] = useState("Estado no encontrado");
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const openDataOrderCard = async (id) => {
+    const refCollection = collection(db, "userOrders");
+    const snapShotCollection = await getDocs(refCollection);
+    setOpenOrder(true);
+    snapShotCollection.forEach((element) => {
+      if (element.data().numberOrder === id) setDataOrder(element.data());
+      console.log(element.data());
+    });
+  };
+
   const open2 = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -178,7 +194,9 @@ function Row(props) {
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell align="center" style={{ width: "5%" }}>
-          <Button>#{row.numberOrder}</Button>
+          <Button onClick={() => openDataOrderCard(row.numberOrder)}>
+            {row.numberOrder}
+          </Button>
         </TableCell>
         <TableCell style={{ width: "15%" }}>{formattedFechaInicio}</TableCell>
         <TableCell style={{ width: "15%" }} align="right">
@@ -364,7 +382,6 @@ function Row(props) {
                 </TableBody>
               </Table>
             </Box>
-            <h6>hola</h6>
           </Collapse>
         </TableCell>
       </TableRow>
@@ -373,40 +390,105 @@ function Row(props) {
 }
 
 function UserOrdersDetail({ orders }) {
+  const [openOrder, setOpenOrder] = useState(false);
+  const [dataOrder, setDataOrder] = useState([]);
   // Aquí se espera la prop products
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableCell align="center" style={{ width: "5%", paddingLeft: "8px" }}>
-            ID
-          </TableCell>
-          <TableCell align="left" style={{ width: "30%" }}>
-            Fecha
-          </TableCell>
-          <TableCell align="center" style={{ width: "15%" }}>
-            Total
-          </TableCell>
-          <TableCell align="right" style={{ width: "5%" }}>
-            Productos
-          </TableCell>
-          <TableCell align="right" style={{ width: "25%" }}>
-            Comprador
-          </TableCell>
-          <TableCell align="center" style={{ width: "10%" }}>
-            Estado
-          </TableCell>
-          <TableCell align="center" style={{ width: "20%" }}>
-            Acciones
-          </TableCell>
-        </TableHead>
-        <TableBody>
-          {orders.map((user) => (
-            <Row key={user.id} row={user} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div style={{ display: "flex", width: "100%" }}>
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableCell
+              align="center"
+              style={{
+                width: "5%",
+                paddingLeft: "8px",
+                fontFamily: "Roboto Condensed, sans-serif",
+              }}
+            >
+              ID
+            </TableCell>
+            <TableCell
+              align="left"
+              style={{
+                width: "30%",
+                fontFamily: "Roboto Condensed, sans-serif",
+              }}
+            >
+              Fecha
+            </TableCell>
+            <TableCell
+              align="center"
+              style={{
+                width: "15%",
+                fontFamily: "Roboto Condensed, sans-serif",
+              }}
+            >
+              Total
+            </TableCell>
+            <TableCell
+              align="right"
+              style={{
+                width: "5%",
+                fontFamily: "Roboto Condensed, sans-serif",
+              }}
+            >
+              Productos
+            </TableCell>
+            <TableCell
+              align="right"
+              style={{
+                width: "25%",
+                fontFamily: "Roboto Condensed, sans-serif",
+              }}
+            >
+              Comprador
+            </TableCell>
+            <TableCell
+              align="center"
+              style={{
+                width: "10%",
+                fontFamily: "Roboto Condensed, sans-serif",
+              }}
+            >
+              Estado
+            </TableCell>
+            <TableCell
+              align="center"
+              style={{
+                width: "20%",
+                fontFamily: "Roboto Condensed, sans-serif",
+              }}
+            >
+              Acciones
+            </TableCell>
+          </TableHead>
+          <TableBody>
+            {orders.map((user) => (
+              <Row
+                key={user.id}
+                row={user}
+                setOpenOrder={setOpenOrder}
+                setDataOrder={setDataOrder}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {openOrder ? (
+        <div
+          style={{
+            width: "30%",
+            marginLeft: "0.5rem",
+            marginRigth: "0.5rem",
+            borderRadius: "5px",
+          }}
+        >
+          <OrderCard dataOrder={dataOrder}></OrderCard>
+        </div>
+      ) : null}
+    </div>
   );
 }
 
