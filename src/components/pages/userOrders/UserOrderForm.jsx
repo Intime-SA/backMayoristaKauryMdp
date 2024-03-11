@@ -193,10 +193,13 @@ function UserOrderForm({ setOpenForm }) {
 
       const orderItems = productosSeleccionados.map((producto) => ({
         productId: producto.id, // O el campo adecuado que contenga el ID del producto
+        name: producto.name,
         quantity: producto.cantidad,
         unit_price: producto.unit_price,
         subtotal: subtotalItem(producto),
         descuento: producto.porcentajeDescuento,
+        talle: producto.talle,
+        color: producto.color,
         image:
           producto.image !== undefined
             ? producto.image
@@ -237,7 +240,6 @@ function UserOrderForm({ setOpenForm }) {
 
   const styles = {
     productList: {
-      display: "flex",
       flexWrap: "wrap",
       gap: "0.5rem",
       maxHeight: "50vh", // Establece una altura máxima para que los elementos sean desplazables si exceden el espacio
@@ -246,10 +248,10 @@ function UserOrderForm({ setOpenForm }) {
       width: "100%",
     },
     productContainer: {
-      width: "calc(50% - 0.5rem)",
       marginBottom: "0.5rem",
       width: "100%",
     },
+
     productButton: {
       width: "100%",
       height: "75px",
@@ -318,7 +320,7 @@ function UserOrderForm({ setOpenForm }) {
           )}
         />
         <br />
-        <div
+        {/*         <div
           style={{
             border: "1px solid #ccc",
             borderRadius: "10px",
@@ -336,7 +338,7 @@ function UserOrderForm({ setOpenForm }) {
             fullWidth
             style={{ marginTop: "1rem" }}
           />
-        </div>
+        </div> */}
       </div>
 
       <Button style={{ margin: "1rem" }} onClick={() => setOpenModal(true)}>
@@ -353,7 +355,6 @@ function UserOrderForm({ setOpenForm }) {
               flexDirection: "row",
               width: "100%",
               marginBottom: "1rem",
-              display: "flex",
               justifyContent: "flex-start",
               alignItems: "flex-start",
             }}

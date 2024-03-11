@@ -8,6 +8,7 @@ import UserOrderForm from "./UserOrderForm";
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
   const [openForm, setOpenForm] = useState(false);
+  const [changeStatus, setChangeStatus] = useState(false);
 
   useEffect(() => {
     let refCollection = collection(db, "userOrders");
@@ -23,7 +24,7 @@ const UserOrders = () => {
         setOrders(newArray);
       })
       .catch((err) => console.log(err));
-  }, [openForm]);
+  }, [openForm, changeStatus]);
 
   console.log(orders);
 
@@ -74,7 +75,12 @@ const UserOrders = () => {
         {openForm ? (
           <UserOrderForm setOpenForm={setOpenForm} />
         ) : (
-          <UserOrdersDetail orders={orders} />
+          <UserOrdersDetail
+            orders={orders}
+            setChangeStatus={setChangeStatus}
+            changeStatus={changeStatus}
+            openForm={openForm}
+          />
         )}
       </div>
     </div>

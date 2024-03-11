@@ -14,7 +14,15 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Link } from "react-router-dom";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import {
   Cloud,
@@ -44,7 +52,14 @@ import {
 import OrderCard from "./OrderCard";
 
 function Row(props) {
-  const { row, setOpenOrder, setDataOrder } = props;
+  const {
+    row,
+    setOpenOrder,
+    setDataOrder,
+    setChangeStatus,
+    changeStatus,
+    openOrder,
+  } = props;
   const [open, setOpen] = useState(false);
   const [nombreCliente, setNombreCliente] = useState(null);
   const [status, setStatus] = useState("Estado no encontrado");
@@ -81,11 +96,7 @@ function Row(props) {
       );
     } else if (estado === "Empaquetada") {
       return (
-        <Alert
-          style={{ marginTop: "10%", fontSize: "75%" }}
-          size="small"
-          severity="info"
-        >
+        <Alert style={{ fontSize: "75%" }} size="small" severity="info">
           Empaquetada
         </Alert>
       );
@@ -190,6 +201,36 @@ function Row(props) {
 
   console.log(status);
 
+  const handleChangeStatus = async (nuevoEstado, orderId) => {
+    try {
+      const refCollection = collection(db, "userOrders");
+      const snapShotCollection = await getDocs(refCollection);
+      let idOrder = "";
+      snapShotCollection.forEach(async (element) => {
+        if (element.data().numberOrder === orderId) {
+          idOrder = element.id;
+          const docSnapshot = await getDoc(doc(db, "userOrders", idOrder));
+          if (docSnapshot.exists()) {
+            // Update the status field of the document
+            await updateDoc(doc(db, "userOrders", idOrder), {
+              status: nuevoEstado,
+            });
+            setChangeStatus(!changeStatus);
+            openDataOrderCard(orderId);
+            if (openOrder) {
+              setOpenOrder(false);
+            }
+            console.log("Estado de la orden actualizado correctamente.");
+          } else {
+            console.log("No se encontró el documento.");
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Error al actualizar el estado de la orden:", error);
+    }
+  };
+
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -217,8 +258,14 @@ function Row(props) {
             })}
           </p>
         </TableCell>
-        <TableCell style={{ width: "5%" }} component="th" scope="row">
+        <TableCell
+          align="rigth"
+          style={{ width: "5%" }}
+          component="th"
+          scope="row"
+        >
           <IconButton
+            style={{ marginLeft: "1rem" }}
             aria-label="expand row"
             size="small"
             onClick={() => setOpen(!open)}
@@ -235,7 +282,6 @@ function Row(props) {
         <TableCell style={{ width: "15%" }} align="right">
           <div>
             <Button
-              variant="outlined"
               id="demo-positioned-button"
               aria-controls={open ? "demo-positioned-menu" : undefined}
               aria-haspopup="true"
@@ -259,49 +305,56 @@ function Row(props) {
                 horizontal: "left",
               }}
             >
-              <MenuItem
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-                onClick={handleClose}
-              >
-                <span
-                  style={{ fontSize: "100%", margin: "1rem" }}
-                  class="material-symbols-outlined"
+              {row.status === "pagoRecibido" && (
+                <MenuItem
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                  onClick={() =>
+                    handleChangeStatus("empaquetada", row.numberOrder)
+                  }
                 >
-                  deployed_code{" "}
-                </span>
-                <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
-                  Marcar como empaquetada
-                </h6>
-              </MenuItem>
-              <MenuItem
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-                onClick={handleClose}
-              >
-                <span
-                  style={{ fontSize: "100%", margin: "1rem" }}
-                  class="material-symbols-outlined"
+                  <span
+                    style={{ fontSize: "100%", margin: "1rem" }}
+                    class="material-symbols-outlined"
+                  >
+                    deployed_code{" "}
+                  </span>
+                  <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                    Marcar como empaquetada
+                  </h6>
+                </MenuItem>
+              )}
+
+              {row.status !== "nueva" && row.status === "empaquetada" && (
+                <MenuItem
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                  onClick={() => handleChangeStatus("enviada", row.numberOrder)}
                 >
-                  local_shipping
-                </span>
-                <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
-                  Notificar envio
-                </h6>
-              </MenuItem>
+                  <span
+                    style={{ fontSize: "100%", margin: "1rem" }}
+                    class="material-symbols-outlined"
+                  >
+                    local_shipping
+                  </span>
+                  <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                    Notificar envio
+                  </h6>
+                </MenuItem>
+              )}
               <MenuItem
                 style={{
                   display: "flex",
                   justifyContent: "flex-start",
                   alignItems: "center",
                 }}
-                onClick={handleClose}
+                onClick={() => handleChangeStatus("archivada", row.numberOrder)}
               >
                 <span
                   style={{ fontSize: "100%", margin: "1rem" }}
@@ -313,6 +366,51 @@ function Row(props) {
                   Archivar
                 </h6>
               </MenuItem>
+
+              {row.status === "nueva" && (
+                <MenuItem
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                  onClick={() =>
+                    handleChangeStatus("pagoRecibido", row.numberOrder)
+                  }
+                >
+                  <span
+                    style={{ fontSize: "100%", margin: "1rem" }}
+                    class="material-symbols-outlined"
+                  >
+                    account_balance
+                  </span>
+                  <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                    Recibi Pago
+                  </h6>
+                </MenuItem>
+              )}
+              {row.status === "nueva" && (
+                <MenuItem
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                  onClick={() =>
+                    handleChangeStatus("cancelada", row.numberOrder)
+                  }
+                >
+                  <span
+                    style={{ fontSize: "100%", margin: "1rem" }}
+                    class="material-symbols-outlined"
+                  >
+                    block
+                  </span>
+                  <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                    Cancelar
+                  </h6>
+                </MenuItem>
+              )}
             </Menu>
           </div>
         </TableCell>
@@ -389,14 +487,28 @@ function Row(props) {
   );
 }
 
-function UserOrdersDetail({ orders }) {
+function UserOrdersDetail({ orders, setChangeStatus, changeStatus, openForm }) {
   const [openOrder, setOpenOrder] = useState(false);
   const [dataOrder, setDataOrder] = useState([]);
   // Aquí se espera la prop products
   return (
-    <div style={{ display: "flex", width: "100%" }}>
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "nowrap",
+        width: "100%",
+        height: "auto",
+        backgroundColor: "transparent",
+      }}
+    >
+      <TableContainer
+        component={Paper}
+        style={{ backgroundColor: "transparent" }}
+      >
+        <Table
+          aria-label="collapsible table"
+          style={{ backgroundColor: "white" }}
+        >
           <TableHead>
             <TableCell
               align="center"
@@ -470,6 +582,9 @@ function UserOrdersDetail({ orders }) {
                 row={user}
                 setOpenOrder={setOpenOrder}
                 setDataOrder={setDataOrder}
+                setChangeStatus={setChangeStatus}
+                changeStatus={changeStatus}
+                openOrder={openOrder}
               />
             ))}
           </TableBody>
@@ -485,7 +600,12 @@ function UserOrdersDetail({ orders }) {
             borderRadius: "5px",
           }}
         >
-          <OrderCard dataOrder={dataOrder}></OrderCard>
+          <OrderCard
+            dataOrder={dataOrder}
+            setChangeStatus={setChangeStatus}
+            changeStatus={changeStatus}
+            openForm={openForm}
+          ></OrderCard>
         </div>
       ) : null}
     </div>
