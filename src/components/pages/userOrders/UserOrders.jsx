@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
-import { Box, Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import UserOrdersDetail from "./UserOrdersDetail";
 import UserOrderForm from "./UserOrderForm";
 
@@ -58,6 +58,15 @@ const UserOrders = () => {
     >
       <Box>
         <div style={{ marginBottom: "1rem" }}>
+          <TextField
+            id="date"
+            label="Filtrar por fecha"
+            type="date"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            style={{ marginRight: "1rem" }}
+          />
           <Button
             style={{ marginLeft: "1rem" }}
             variant="outlined"
