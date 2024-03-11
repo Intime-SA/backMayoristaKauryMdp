@@ -25,18 +25,25 @@ const UserOrders = () => {
 
     // Si hay una fecha de filtro, agregar el filtro a la consulta
     if (filterDate) {
-      // Convertir la fecha del TextField a un objeto Date en UTC
-      const selectedDate = new Date(filterDate + "T00:00:00Z");
+      // Convertir la fecha del TextField a un objeto Date
+      const selectedDate = new Date(filterDate);
+
+      // Extraer la fecha del objeto Date
+      const selectedDateOnly = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate()
+      );
 
       // Construir el filtro para la fecha
       queryRef = query(
         refCollection,
-        where("date", ">=", Timestamp.fromDate(selectedDate)),
+        where("date", ">=", Timestamp.fromDate(selectedDateOnly)),
         where(
           "date",
           "<",
           Timestamp.fromDate(
-            new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000)
+            new Date(selectedDateOnly.getTime() + 24 * 60 * 60 * 1000)
           )
         ) // Para incluir todas las horas del día seleccionado
       );
