@@ -16,6 +16,7 @@ import {
   Button,
   CircularProgress,
   Modal,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -27,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 
 const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5); // Número de productos por página
@@ -38,6 +40,8 @@ const ItemListContainer = () => {
   const [nonEmptyRecordsLength, setNonEmptyRecordsLength] = useState(0);
   const [updatedRecordsCount, setUpdatedRecordsCount] = useState(0);
   const [productsTotal, setProductsTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [postUpdate, setPostUpdate] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -49,6 +53,7 @@ const ItemListContainer = () => {
         id: doc.id,
       }));
       setProducts(data);
+      setFilteredProducts(data); // Inicialmente, establecemos los productos filtrados como todos los productos
       setLoading(false);
     };
 
@@ -59,12 +64,12 @@ const ItemListContainer = () => {
     if (products) {
       setProductsTotal(products.length);
     }
-  }, [products]);
+  }, [products, postUpdate]);
 
   // Calcular índices del primer y último producto en la página actual
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
+  const currentProducts = filteredProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -117,7 +122,7 @@ const ItemListContainer = () => {
   };
 
   const exportToExcel = () => {
-    const data = products.map((producto) => {
+    const data = filteredProducts.map((producto) => {
       const unitPrice = parseFloat(producto.unit_price.toFixed(2));
 
       console.log(producto.category);
@@ -160,16 +165,6 @@ const ItemListContainer = () => {
       "Precio",
       "Precio Promocional",
     ];
-    // const productHeaders = pedidoLista.reduce((headers, pedido) => {
-    //   const numProductos = pedido.productos.length;
-    //   for (let i = 0; i < numProductos; i++) {
-    //     if (header.length < numProductos) {
-    //       headers.push(...[`Producto ${i + 1}`]);
-    //       // Agrega otras propiedades del producto si es necesario
-    //     }
-    //   }
-    //   return headers;
-    // }, []);
 
     const wsData = [header, ...data];
     // wsData[0].push(...productHeaders); // Agrega los encabezados de productos al encabezado principal
@@ -265,7 +260,7 @@ const ItemListContainer = () => {
     }
     setEstado(false);
     setShowContagramBtn(false);
-    window.location.reload();
+    setPostUpdate(true);
   };
 
   const reloadUpdatedProducts = async () => {
@@ -276,6 +271,7 @@ const ItemListContainer = () => {
       id: doc.id,
     }));
     setProducts(updatedProducts);
+    setFilteredProducts(updatedProducts); // Actualiza los productos filtrados con los productos actualizados
   };
 
   const style2 = {
@@ -303,6 +299,16 @@ const ItemListContainer = () => {
 
   const handleClose2 = () => {
     setEstado(false);
+  };
+
+  // Función para filtrar productos por nombre
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchTerm(searchTerm);
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filteredProducts);
   };
 
   return (
@@ -387,12 +393,15 @@ const ItemListContainer = () => {
                     <CircularProgress size={50} color="info" />
                   </div>
                 </Backdrop>
-                <input
+                <TextField
                   type="file"
-                  accept=".xlsx"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileUpload}
+                  inputProps={{
+                    accept: ".xlsx",
+                    ref: fileInputRef,
+                    style: { display: "none" },
+                    onChange: handleFileUpload,
+                  }}
+                  variant="outlined"
                 />
                 <Button
                   style={{ margin: "1rem" }}
@@ -423,7 +432,14 @@ const ItemListContainer = () => {
           </Button>
         </Tooltip>
       </div>
+
       <h6>Cantidad total de productos: {productsTotal}</h6>
+      <TextField
+        label="Producto"
+        onChange={handleSearch}
+        value={searchTerm}
+        style={{ marginLeft: "10px", padding: "5px" }}
+      />
       {!open && (
         <div style={{ width: "100%" }}>
           <ItemListDetail

@@ -21,7 +21,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import EditProduct from "./EditProduct";
 import "./ItemListDetail.css";
 
@@ -127,12 +127,16 @@ function Row(props) {
           sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
           align="right"
         >
-          <Button onClick={() => editProducts(row.idc)}>
-            <span class="material-symbols-outlined">edit</span>
-          </Button>
-          <Button onClick={() => deleteProduct(row.id)}>
-            <span class="material-symbols-outlined">delete</span>
-          </Button>
+          <Tooltip describeChild title="Editar">
+            <Button onClick={() => editProducts(row.idc)}>
+              <span class="material-symbols-outlined">edit</span>
+            </Button>
+          </Tooltip>
+          <Tooltip describeChild title="Borrar">
+            <Button onClick={() => deleteProduct(row.id)}>
+              <span class="material-symbols-outlined">delete</span>
+            </Button>
+          </Tooltip>
         </TableCell>
       </TableRow>
       <TableRow>

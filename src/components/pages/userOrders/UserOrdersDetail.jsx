@@ -419,24 +419,32 @@ function Row(props) {
                   </h6>
                 </MenuItem>
               )}
-              <MenuItem
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-                onClick={() => handleChangeStatus("archivada", row.numberOrder)}
-              >
-                <span
-                  style={{ fontSize: "100%", margin: "1rem" }}
-                  class="material-symbols-outlined"
+              {row.status !== "nueva" &&
+              row.status !== "pagoRecibido" &&
+              row.status !== "empaquetada" ? (
+                <MenuItem
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                  onClick={() =>
+                    handleChangeStatus("archivada", row.numberOrder)
+                  }
                 >
-                  inventory_2
-                </span>
-                <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
-                  Archivar
-                </h6>
-              </MenuItem>
+                  <span
+                    style={{ fontSize: "100%", margin: "1rem" }}
+                    class="material-symbols-outlined"
+                  >
+                    inventory_2
+                  </span>
+                  <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                    Archivar
+                  </h6>
+                </MenuItem>
+              ) : (
+                <div></div>
+              )}
 
               {row.status === "nueva" && (
                 <MenuItem

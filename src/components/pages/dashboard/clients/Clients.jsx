@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import ClientListDetail from "./ClientListDetail";
-import { Box, Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import ClientForm from "./ClientForm";
 import * as XLSX from "xlsx"; // Importa la biblioteca XLSX
 
@@ -14,6 +14,7 @@ const Clients = () => {
   const [currentPage, setCurrentPage] = useState(1); // Página actual
   const [customersPerPage] = useState(5); // Cantidad de clientes por página
   const [clients, setClients] = useState();
+  const [filterValue, setFilterValue] = useState(""); // Estado para almacenar el valor del filtro
 
   useEffect(() => {
     let refCollection = collection(db, "users");
@@ -59,19 +60,8 @@ const Clients = () => {
       "Nombre",
       "Apellido",
     ];
-    // const productHeaders = pedidoLista.reduce((headers, pedido) => {
-    //   const numProductos = pedido.productos.length;
-    //   for (let i = 0; i < numProductos; i++) {
-    //     if (header.length < numProductos) {
-    //       headers.push(...[`Producto ${i + 1}`]);
-    //       // Agrega otras propiedades del producto si es necesario
-    //     }
-    //   }
-    //   return headers;
-    // }, []);
 
     const wsData = [header, ...data];
-    // wsData[0].push(...productHeaders); // Agrega los encabezados de productos al encabezado principal
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);
     const wb = XLSX.utils.book_new();
@@ -82,7 +72,15 @@ const Clients = () => {
   // Calcular índices del primer y último cliente en la página actual
   const indexOfLastCustomer = currentPage * customersPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
-  const currentCustomers = customers.slice(
+
+  // Filtrar los clientes por el valor del campo de filtro
+  const filteredCustomers = customers.filter((customer) =>
+    `${customer.name.toLowerCase()} ${customer.apellido.toLowerCase()}`.includes(
+      filterValue.toLowerCase()
+    )
+  );
+
+  const currentCustomers = filteredCustomers.slice(
     indexOfFirstCustomer,
     indexOfLastCustomer
   );
@@ -135,8 +133,16 @@ const Clients = () => {
             Nuevo Cliente
           </Button>
         </div>
+        {/* Campo de filtro */}
       </Box>
       <h6>Cantidad total de clientes: {clients}</h6>
+      <TextField
+        label="Buscar cliente"
+        value={filterValue}
+        onChange={(e) => setFilterValue(e.target.value)}
+        variant="outlined"
+        style={{ marginBottom: "1rem" }}
+      />
       <div style={{ width: "100%" }}>
         {!openForm ? (
           <ClientListDetail
