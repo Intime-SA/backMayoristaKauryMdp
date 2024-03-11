@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../../../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { Box, Button, TextField } from "@mui/material";
 import UserOrdersDetail from "./UserOrdersDetail";
 import UserOrderForm from "./UserOrderForm";
@@ -11,10 +17,32 @@ const UserOrders = () => {
   const [changeStatus, setChangeStatus] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // Página actual
   const [ordersPerPage] = useState(8); // Cantidad de órdenes por página
+  const [filterDate, setFilterDate] = useState(""); // Estado para almacenar la fecha de filtro
 
   useEffect(() => {
     let refCollection = collection(db, "userOrders");
-    getDocs(refCollection)
+    let queryRef = refCollection;
+
+    // Si hay una fecha de filtro, agregar el filtro a la consulta
+    if (filterDate) {
+      // Convertir la fecha del TextField a un objeto Date en UTC
+      const selectedDate = new Date(filterDate + "T00:00:00Z");
+
+      // Construir el filtro para la fecha
+      queryRef = query(
+        refCollection,
+        where("date", ">=", Timestamp.fromDate(selectedDate)),
+        where(
+          "date",
+          "<",
+          Timestamp.fromDate(
+            new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000)
+          )
+        ) // Para incluir todas las horas del día seleccionado
+      );
+    }
+
+    getDocs(queryRef)
       .then((querySnapshot) => {
         let newArray = [];
         querySnapshot.forEach((doc) => {
@@ -34,7 +62,7 @@ const UserOrders = () => {
         setOrders(newArray);
       })
       .catch((err) => console.log(err));
-  }, [openForm, changeStatus]);
+  }, [openForm, changeStatus, filterDate]); // Añadir filterDate a las dependencias
 
   // Calcular índices del primer y último pedido en la página actual
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -43,6 +71,12 @@ const UserOrders = () => {
 
   // Cambiar de página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Función para manejar el cambio en el TextField de fecha
+  const handleDateChange = (event) => {
+    setFilterDate(event.target.value);
+    console.log(event.target.value);
+  };
 
   return (
     <div
@@ -66,6 +100,8 @@ const UserOrders = () => {
               shrink: true,
             }}
             style={{ marginRight: "1rem" }}
+            value={filterDate} // Asignar valor del estado
+            onChange={handleDateChange} // Manejar cambio de fecha
           />
           <Button
             style={{ marginLeft: "1rem" }}
