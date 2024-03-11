@@ -365,6 +365,16 @@ const ItemListContainer = () => {
                   onClick={handleClick}
                 >
                   Subir archivo
+                  <TextField
+                    type="file"
+                    inputProps={{
+                      accept: ".xlsx",
+                      ref: fileInputRef,
+                      style: { display: "none" },
+                      onChange: handleFileUpload,
+                    }}
+                    variant="outlined"
+                  />
                 </Button>
                 <Backdrop
                   sx={{
@@ -393,16 +403,7 @@ const ItemListContainer = () => {
                     <CircularProgress size={50} color="info" />
                   </div>
                 </Backdrop>
-                <TextField
-                  type="file"
-                  inputProps={{
-                    accept: ".xlsx",
-                    ref: fileInputRef,
-                    style: { display: "none" },
-                    onChange: handleFileUpload,
-                  }}
-                  variant="outlined"
-                />
+
                 <Button
                   style={{ margin: "1rem" }}
                   variant="contained"

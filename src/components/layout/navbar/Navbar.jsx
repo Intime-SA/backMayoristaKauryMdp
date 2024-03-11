@@ -111,7 +111,7 @@ function Navbar(props) {
     <Box
       sx={{
         display: "flex",
-        backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(1).png?alt=media&token=4fef3d27-c33c-4d85-8b4f-6283d22b13d9")`,
+        backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/fondoKaury%20(1).png?alt=media&token=bed0fb8e-4f33-4f4e-a984-1d123cb2bf6a")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
