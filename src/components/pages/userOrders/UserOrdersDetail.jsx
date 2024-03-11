@@ -50,6 +50,9 @@ import {
   MenuList,
 } from "@mui/material";
 import OrderCard from "./OrderCard";
+import emailjs from "emailjs-com";
+import EmailModal from "../dashboard/clients/EmailModal";
+import EmailModalOrder from "./EmailModalOrder";
 
 function Row(props) {
   const {
@@ -64,6 +67,10 @@ function Row(props) {
   const [nombreCliente, setNombreCliente] = useState(null);
   const [status, setStatus] = useState("Estado no encontrado");
   const [anchorEl, setAnchorEl] = useState(null);
+  const [openModalEmail, setOpenModalEmail] = useState(false);
+  const [closeModalEmail, setCloseModalEmail] = useState(false);
+  const [email, setEmail] = useState("");
+  const [toname, setToname] = useState("");
 
   const openDataOrderCard = async (id) => {
     const refCollection = collection(db, "userOrders");
@@ -201,6 +208,55 @@ function Row(props) {
 
   console.log(status);
 
+  const handleOpenModal = async (clientRef) => {
+    try {
+      const clienteDoc = await getDoc(clientRef);
+
+      if (clienteDoc.exists()) {
+        // Si existe, obtener los datos del cliente y construir el nombre
+        const clienteData = clienteDoc.data();
+        const nombreCliente = clienteData.name;
+        const emailCliente = clienteData.email; // Suponiendo que el campo del nombre del cliente se llama "nombre"
+
+        // Establecer los valores de toname, email y abrir el modal
+        setToname(nombreCliente);
+        setEmail(emailCliente);
+        setOpenModalEmail(true);
+
+        return nombreCliente;
+      } else {
+        console.log("El documento del cliente no existe.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error al abrir el modal:", error);
+      return null;
+    }
+  };
+
+  const sendEmail = (subject, message, toname) => {
+    emailjs
+      .send(
+        "service_h6a5dzf",
+        "template_59j1wkl",
+        {
+          from_email: email,
+          subject: subject,
+          message: message,
+          to_name: toname,
+        },
+        "uAivPuB-RJ_3LBVlN"
+      )
+      .then(
+        (response) => {
+          console.log("Correo electrónico enviado con éxito:", response);
+        },
+        (error) => {
+          console.error("Error al enviar el correo electrónico:", error);
+        }
+      );
+  };
+
   const handleChangeStatus = async (nuevoEstado, orderId) => {
     try {
       const refCollection = collection(db, "userOrders");
@@ -221,6 +277,12 @@ function Row(props) {
               setOpenOrder(false);
             }
             console.log("Estado de la orden actualizado correctamente.");
+
+            // Aquí agregamos la condición para verificar si el nuevo estado es "enviada"
+            if (nuevoEstado === "enviada") {
+              // Ejecutar la función que deseas cuando el estado es "enviada"
+              handleOpenModal(row.client);
+            }
           } else {
             console.log("No se encontró el documento.");
           }
@@ -233,6 +295,15 @@ function Row(props) {
 
   return (
     <React.Fragment>
+      <EmailModalOrder
+        open={openModalEmail}
+        setCloseModalEmail={setCloseModalEmail}
+        setOpenModalEmail={setOpenModalEmail}
+        handleClose={closeModalEmail}
+        sendEmail={sendEmail}
+        email={email}
+        toname={toname}
+      />
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell align="center" style={{ width: "5%" }}>
           <Button onClick={() => openDataOrderCard(row.numberOrder)}>
@@ -490,6 +561,8 @@ function Row(props) {
 function UserOrdersDetail({ orders, setChangeStatus, changeStatus, openForm }) {
   const [openOrder, setOpenOrder] = useState(false);
   const [dataOrder, setDataOrder] = useState([]);
+
+  // Llamar a la función de ordenamiento por fecha al inicio
   // Aquí se espera la prop products
   return (
     <div

@@ -9,6 +9,8 @@ const UserOrders = () => {
   const [orders, setOrders] = useState([]);
   const [openForm, setOpenForm] = useState(false);
   const [changeStatus, setChangeStatus] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // Página actual
+  const [ordersPerPage] = useState(8); // Cantidad de órdenes por página
 
   useEffect(() => {
     let refCollection = collection(db, "userOrders");
@@ -21,12 +23,26 @@ const UserOrders = () => {
             newArray.push({ ...orderData, id: doc.id });
           }
         });
+
+        // Ordenar los pedidos por fecha de más reciente a más antiguo
+        newArray.sort((a, b) => {
+          const dateA = new Date(a.date.seconds * 1000);
+          const dateB = new Date(b.date.seconds * 1000);
+          return dateB - dateA; // Invertir el orden de la comparación
+        });
+
         setOrders(newArray);
       })
       .catch((err) => console.log(err));
   }, [openForm, changeStatus]);
 
-  console.log(orders);
+  // Calcular índices del primer y último pedido en la página actual
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  // Cambiar de página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div
@@ -76,13 +92,35 @@ const UserOrders = () => {
           <UserOrderForm setOpenForm={setOpenForm} />
         ) : (
           <UserOrdersDetail
-            orders={orders}
+            orders={currentOrders}
             setChangeStatus={setChangeStatus}
             changeStatus={changeStatus}
             openForm={openForm}
           />
         )}
       </div>
+      <Box
+        mt={2}
+        style={{ display: "flex", justifyContent: "center", width: "100%" }}
+      >
+        {/* Botones de paginación */}
+        <Button
+          variant="contained"
+          color="inherit"
+          disabled={currentPage === 1}
+          onClick={() => paginate(currentPage - 1)}
+          style={{ margin: "1rem" }}
+        >
+          <span class="material-symbols-outlined">navigate_before</span>
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => paginate(currentPage + 1)}
+          style={{ margin: "1rem" }}
+        >
+          <span class="material-symbols-outlined">navigate_next</span>
+        </Button>
+      </Box>
     </div>
   );
 };

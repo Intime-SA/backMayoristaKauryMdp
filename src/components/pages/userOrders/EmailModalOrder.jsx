@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 
-const EmailModal = ({
+const EmailModalOrder = ({
   open,
   handleClose,
   sendEmail,
   email,
   toname,
   setCloseModalEmail,
+  setOpenModalEmail,
 }) => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -16,12 +17,7 @@ const EmailModal = ({
     // Llamar a la función sendEmail pasando el asunto y el mensaje
     sendEmail(subject, message, toname);
     // Cerrar el modal
-    handleClose();
-  };
-
-  const volver = () => {
-    setCloseModalEmail(true);
-    handleClose();
+    setOpenModalEmail(false);
   };
 
   return (
@@ -76,7 +72,7 @@ const EmailModal = ({
         >
           Enviar
         </Button>
-        <Button variant="contained" onClick={handleClose}>
+        <Button variant="contained" onClick={() => setOpenModalEmail(false)}>
           Volver
         </Button>
       </div>
@@ -84,4 +80,4 @@ const EmailModal = ({
   );
 };
 
-export default EmailModal;
+export default EmailModalOrder;
