@@ -14,14 +14,31 @@ import {
   Alert,
   AlertTitle,
 } from "@mui/material";
-import { getDoc } from "firebase/firestore";
+import {
+  getDoc,
+  collection,
+  getDocs,
+  updateDoc,
+  addDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 
 const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
   const [dataCliente, setDataCliente] = useState(null);
   const [idClient, setIdClient] = useState("");
+  const [cardBackgroundColor, setCardBackgroundColor] = useState("#ffffff"); // Estado inicial: blanco
 
   useEffect(() => {}, [changeStatus]);
+
+  useEffect(() => {
+    // Cambiar el color de fondo de la tarjeta según el estado
+    if (dataOrder.status === "archivada") {
+      setCardBackgroundColor("#e0e0e0"); // Gris un poco más fuerte
+    } else {
+      setCardBackgroundColor("#ffffff"); // Blanco
+    }
+  }, [dataOrder.status]);
 
   useEffect(() => {
     const obtenerDataCliente = async () => {
@@ -109,6 +126,12 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           Cancelado
         </Alert>
       );
+    } else if (estado === "archivada") {
+      return (
+        <Alert variant="contained" color="info">
+          <AlertTitle>Archivada</AlertTitle>
+        </Alert>
+      );
     }
   };
 
@@ -122,6 +145,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
         justifyContent: "space-between",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
         borderRadius: "16px",
+        backgroundColor: cardBackgroundColor, // Color de fondo dinámico
       }}
     >
       <CardContent>
@@ -244,6 +268,13 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           Piso/Dpto: {dataOrder.infoEntrega.pisoDpto}
           <Divider />
           <br />
+          {/* Mostrar el estado anterior solo si la orden está archivada */}
+          {dataOrder.status === "archivada" && (
+            <div style={{ fontSize: "200%" }}>
+              {" "}
+              {estadoRender(dataOrder.lastState)}
+            </div>
+          )}
         </Typography>
       </CardContent>
       <CardActions>

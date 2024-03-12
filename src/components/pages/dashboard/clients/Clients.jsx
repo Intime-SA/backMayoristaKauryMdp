@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import ClientListDetail from "./ClientListDetail";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import ClientForm from "./ClientForm";
 import * as XLSX from "xlsx"; // Importa la biblioteca XLSX
 
@@ -66,7 +66,7 @@ const Clients = () => {
     const ws = XLSX.utils.aoa_to_sheet(wsData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "MiHojaDeCalculo");
-    XLSX.writeFile(wb, "mi_archivo_excel.xlsx");
+    XLSX.writeFile(wb, "Clientes.xlsx");
   };
 
   // Calcular índices del primer y último cliente en la página actual
@@ -137,11 +137,32 @@ const Clients = () => {
       </Box>
       <h6>Cantidad total de clientes: {clients}</h6>
       <TextField
-        label="Buscar cliente"
+        label=""
         value={filterValue}
         onChange={(e) => setFilterValue(e.target.value)}
         variant="outlined"
-        style={{ marginBottom: "1rem" }}
+        style={{ marginLeft: "10px", padding: "5px", marginBottom: "0.5rem" }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <div
+                style={{
+                  width: "10rem",
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                }}
+              >
+                <span
+                  style={{ fontSize: "150%" }}
+                  class="material-symbols-outlined"
+                >
+                  manage_search
+                </span>
+              </div>
+            </InputAdornment>
+          ),
+        }}
       />
       <div style={{ width: "100%" }}>
         {!openForm ? (

@@ -15,6 +15,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  InputAdornment,
   Modal,
   TextField,
   Tooltip,
@@ -172,7 +173,7 @@ const ItemListContainer = () => {
     const ws = XLSX.utils.aoa_to_sheet(wsData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "MiHojaDeCalculo");
-    XLSX.writeFile(wb, "mi_archivo_excel.xlsx");
+    XLSX.writeFile(wb, "Productos.xlsx");
   };
 
   const handleFileUpload = async (e) => {
@@ -435,12 +436,35 @@ const ItemListContainer = () => {
       </div>
 
       <h6>Cantidad total de productos: {productsTotal}</h6>
-      <TextField
-        label="Producto"
-        onChange={handleSearch}
-        value={searchTerm}
-        style={{ marginLeft: "10px", padding: "5px" }}
-      />
+      <div>
+        <TextField
+          label=""
+          onChange={handleSearch}
+          value={searchTerm}
+          style={{ marginLeft: "10px", padding: "5px", marginBottom: "0.5rem" }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <div
+                  style={{
+                    width: "10rem",
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span
+                    style={{ fontSize: "150%" }}
+                    class="material-symbols-outlined"
+                  >
+                    manage_search
+                  </span>
+                </div>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
       {!open && (
         <div style={{ width: "100%" }}>
           <ItemListDetail

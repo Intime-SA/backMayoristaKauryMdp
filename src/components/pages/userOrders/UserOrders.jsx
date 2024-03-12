@@ -4,6 +4,8 @@ import {
   Timestamp,
   collection,
   getDocs,
+  limit,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -47,6 +49,9 @@ const UserOrders = () => {
           )
         ) // Para incluir todas las horas del día seleccionado
       );
+    } else {
+      // Si no hay fecha de filtro, obtener los últimos 10 registros
+      queryRef = query(refCollection, orderBy("date", "desc"), limit(10));
     }
 
     getDocs(queryRef)
@@ -69,7 +74,7 @@ const UserOrders = () => {
         setOrders(newArray);
       })
       .catch((err) => console.log(err));
-  }, [openForm, changeStatus, filterDate]); // Añadir filterDate a las dependencias
+  }, [openForm, changeStatus, filterDate]);
 
   // Calcular índices del primer y último pedido en la página actual
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -110,19 +115,7 @@ const UserOrders = () => {
             value={filterDate} // Asignar valor del estado
             onChange={handleDateChange} // Manejar cambio de fecha
           />
-          <Button
-            style={{ marginLeft: "1rem" }}
-            variant="outlined"
-            color="error"
-          >
-            <span
-              style={{ marginRight: "0.5rem" }}
-              class="material-symbols-outlined"
-            >
-              download
-            </span>
-            Exportar Lista
-          </Button>
+
           <Button
             style={{ marginLeft: "1rem" }}
             variant="contained"
