@@ -60,10 +60,9 @@ const EditProduct = ({
       try {
         const categoriesCollection = collection(db, "categorys");
         const categoriesSnapshot = await getDocs(categoriesCollection);
-        const categoriesData = categoriesSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const categoriesData = categoriesSnapshot.docs
+          .map((doc) => ({ id: doc.id, ...doc.data() })) // Mapea los datos y asigna el ID
+          .filter((category) => category.status === true); // Filtra solo las categorías con estado verdadero
         setCategories(categoriesData);
       } catch (error) {
         console.error("Error fetching categories: ", error);

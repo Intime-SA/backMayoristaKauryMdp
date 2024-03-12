@@ -23,6 +23,9 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
+import { Link } from "react-router-dom";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import ModalPDF from "./ModalPDF";
 
 const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
   const [dataCliente, setDataCliente] = useState(null);
@@ -278,9 +281,18 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button>
-          <span class="material-symbols-outlined">print</span>
-        </Button>
+        <PDFDownloadLink
+          style={{ marginTop: "10px" }}
+          document={<ModalPDF data={dataOrder} dataCliente={dataCliente} />}
+          fileName="hola"
+        >
+          {({ blob, url, loading, error }) => (
+            <Button variant="contained">
+              {loading ? "Generando PDF..." : "Descargar PDF"}
+              <span class="material-symbols-outlined">print</span>
+            </Button>
+          )}
+        </PDFDownloadLink>
       </CardActions>
     </Card>
   );

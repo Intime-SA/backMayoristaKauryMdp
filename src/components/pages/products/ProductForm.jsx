@@ -55,9 +55,9 @@ const ProductForm = ({
     let refCollection = collection(db, "categorys");
     getDocs(refCollection)
       .then((res) => {
-        let newArray = res.docs.map((category) => {
-          return { ...category.data(), id: category.id };
-        });
+        let newArray = res.docs
+          .map((category) => ({ ...category.data(), id: category.id })) // Mapea los datos y asigna el ID
+          .filter((category) => category.status === true); // Filtra solo las categorías con estado verdadero
         setCategories(newArray);
       })
       .catch((err) => console.log(err));

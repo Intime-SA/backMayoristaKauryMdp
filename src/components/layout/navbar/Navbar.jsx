@@ -19,6 +19,7 @@ import { logOut } from "../../../firebaseConfig";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import ClassIcon from "@mui/icons-material/Class";
 
 const drawerWidth = 200;
 

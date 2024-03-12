@@ -1,3 +1,4 @@
+import Category from "../components/pages/categorys/category";
 import Dashboard from "../components/pages/dashboard/Dashboard";
 import Home from "../components/pages/home/Home";
 import ItemListContainer from "../components/pages/products/ItemListContainer";
@@ -23,5 +24,10 @@ export const routes = [
     id: "dashboard",
     path: "/dashboard",
     Element: Dashboard,
+  },
+  {
+    id: "categorys",
+    path: "/categorys",
+    Element: Category,
   },
 ];

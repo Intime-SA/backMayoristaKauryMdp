@@ -352,7 +352,7 @@ function Row(props) {
           </TableCell>
           <TableCell align="center" style={{ width: "5%" }}>
             <Button onClick={() => openDataOrderCard(row.numberOrder)}>
-              {row.numberOrder}
+              #{row.numberOrder}
             </Button>
           </TableCell>
           <TableCell style={{ width: "15%" }}>{formattedFechaInicio}</TableCell>
