@@ -284,7 +284,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
         <PDFDownloadLink
           style={{ marginTop: "10px" }}
           document={<ModalPDF data={dataOrder} dataCliente={dataCliente} />}
-          fileName="hola"
+          fileName={"OrdenNumero-" + dataOrder.numberOrder}
         >
           {({ blob, url, loading, error }) => (
             <Button variant="contained">
