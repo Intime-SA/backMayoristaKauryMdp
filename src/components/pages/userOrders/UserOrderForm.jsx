@@ -192,7 +192,7 @@ function UserOrderForm({ setOpenForm }) {
       };
 
       const orderItems = productosSeleccionados.map((producto) => ({
-        productId: producto.id, // O el campo adecuado que contenga el ID del producto
+        productId: producto.id,
         name: producto.name,
         quantity: producto.cantidad,
         unit_price: producto.unit_price,
@@ -208,8 +208,8 @@ function UserOrderForm({ setOpenForm }) {
 
       const obj = {
         canalVenta: "Directo",
-        client: clienteRef, // Obtener la ruta del cliente
-        date: serverTimestamp(), // Asigna la fecha de la orden si es necesario
+        client: clienteRef,
+        date: serverTimestamp(),
         infoEntrega: {
           calle: clienteSeleccionado.datosEnvio.calle,
           ciudad: clienteSeleccionado.datosEnvio.barrio,
@@ -220,13 +220,34 @@ function UserOrderForm({ setOpenForm }) {
           pisoDpto: clienteSeleccionado.datosEnvio.pisoDpto,
         },
         note: "",
-        numberOrder: nuevoId, // Asigna el número de orden si es necesario
-        orderItems: orderItems, // Aquí se renderiza el arreglo de productos seleccionados
-        status: "nueva", // Asigna el estado de la orden si es necesario
-        total: calcularTotalOrden(), // Calcula el total de la orden
+        numberOrder: nuevoId,
+        orderItems: orderItems,
+        status: "nueva",
+        total: calcularTotalOrden(),
       };
 
       console.log(obj);
+
+      // Después de agregar la orden a la colección 'userOrders', actualizamos el stock de los productos seleccionados
+      await Promise.all(
+        productosSeleccionados.map(async (producto) => {
+          const productRef = doc(db, "products", producto.id);
+          const productSnapshot = await getDoc(productRef);
+          console.log(productSnapshot);
+          console.log(producto.quantity);
+          console.log(producto.cantidad);
+          if (productSnapshot.exists()) {
+            const currentStock = productSnapshot.data().stock;
+            const newStock = currentStock - producto.cantidad;
+
+            await updateDoc(productRef, { stock: newStock });
+          } else {
+            throw new Error(`El producto ${producto.name} no existe.`);
+          }
+        })
+      );
+
+      // Agregar la orden a la colección 'userOrders'
       const refCollection = collection(db, "userOrders");
       await addDoc(refCollection, obj);
 
