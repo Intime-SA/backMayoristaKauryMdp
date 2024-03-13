@@ -423,11 +423,11 @@ const ItemListContainer = () => {
             <span class="material-symbols-outlined">upload_file</span>
           </Button>
         </Tooltip>
-        <Tooltip describeChild title="Importar Productos">
+        {/*<Tooltip describeChild title="Importar Productos">
           <Button onClick={() => importarDatos()}>
             <span class="material-symbols-outlined">mp</span>
           </Button>
-        </Tooltip>
+                </Tooltip> */}
         <Tooltip describeChild title="Descargar lista de productos">
           <Button onClick={() => exportToExcel()}>
             <span class="material-symbols-outlined">download</span>
