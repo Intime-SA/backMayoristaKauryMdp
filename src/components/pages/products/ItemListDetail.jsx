@@ -34,11 +34,9 @@ function Row(props) {
 
   useEffect(() => {
     const traerCategorias = async (param) => {
-      const docSnap = await getDoc(param);
-      if (docSnap.exists()) {
-        setCategory(docSnap.data().name);
-        setIsChange(false);
-      }
+      const docRef = doc(db, "categorys", param);
+      const docNamber = await getDoc(docRef);
+      setCategory(docNamber.data().name);
     };
 
     traerCategorias(row.category);

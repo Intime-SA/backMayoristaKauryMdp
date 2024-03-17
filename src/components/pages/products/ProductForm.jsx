@@ -138,7 +138,7 @@ const ProductForm = ({
             description: newProduct.description,
             visible: true,
             idc: newProduct.idc,
-            category: categoryRef, // Utilizar la referencia al documento de la categoría
+            category: categoryRef.id, // Utilizar la referencia al documento de la categoría
             timestamp: serverTimestamp(),
           };
           console.log(obj);

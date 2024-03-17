@@ -137,7 +137,7 @@ const EditProduct = ({
         // Actualizar el campo 'category' del producto con el DocumentReference de la categoría seleccionada
         const updatedProduct = {
           ...editedProduct,
-          category: categoryRef, // Aquí asignamos directamente el DocumentReference
+          category: categoryRef.id, // Aquí asignamos directamente el DocumentReference
         };
 
         // Obtener la referencia del documento del producto

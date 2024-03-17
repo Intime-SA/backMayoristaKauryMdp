@@ -41,7 +41,7 @@ function Navbar(props) {
 
   const welcomeUser = () => {
     const userData = JSON.parse(localStorage.getItem("userInfo"));
-    if (userData.rol === "falopa") {
+    if (userData.rol === rolAdmin) {
       let admin = "Administrador";
       return `Usuario: ${userData.email} - Rol: ${admin}`;
     } else if (userData.rol === "user") {
