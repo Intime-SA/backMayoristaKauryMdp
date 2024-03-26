@@ -295,6 +295,28 @@ function Row(props) {
         if (element.data().numberOrder === orderId) {
           idOrder = element.id;
           const docSnapshot = await getDoc(doc(db, "userOrders", idOrder));
+          if (nuevoEstado === "pagoRecibido") {
+            const orderItems = docSnapshot.data().orderItems;
+            // Restar stock de cada producto en orderItems
+            orderItems.forEach(async (item) => {
+              const productId = item.productId;
+              const quantity = item.quantity;
+              // Obtener el documento del producto
+              const productRef = doc(db, "products", productId);
+              const productDoc = await getDoc(productRef);
+              if (productDoc.exists()) {
+                const currentStock = productDoc.data().stock;
+                // Actualizar el stock restando la cantidad de la orden
+                const updatedStock = currentStock - quantity;
+                // Actualizar el documento del producto en la base de datos
+                await updateDoc(productRef, { stock: updatedStock });
+                console.log(`Stock actualizado para el producto ${productId}`);
+              } else {
+                console.log(`No se encontró el producto con ID ${productId}`);
+              }
+            });
+          }
+
           lastState = docSnapshot.data().status;
           if (docSnapshot.exists()) {
             // Update the status field of the document
