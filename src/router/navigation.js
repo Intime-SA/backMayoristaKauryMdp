@@ -3,6 +3,7 @@ import StoreIcon from "@mui/icons-material/Store";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import ShopIcon from "@mui/icons-material/Shop";
 import ClassIcon from "@mui/icons-material/Class";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export const menuItems = [
   {
@@ -34,5 +35,11 @@ export const menuItems = [
     path: "/categorys",
     title: "Categorias",
     Icon: ClassIcon,
+  },
+  {
+    id: "dashboard",
+    path: "/dashboard",
+    title: "Clientes",
+    Icon: AccountCircleIcon,
   },
 ];

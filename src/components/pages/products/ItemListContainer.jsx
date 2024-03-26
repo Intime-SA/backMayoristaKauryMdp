@@ -208,7 +208,7 @@ const ItemListContainer = () => {
         const worksheet = workbook.Sheets[sheetName];
         const excelData = XLSX.utils.sheet_to_json(worksheet, {
           header: 1,
-          range: 2,
+          range: 0,
         }); // Ignora las dos primeras filas
         resolve(excelData);
       };
@@ -221,6 +221,8 @@ const ItemListContainer = () => {
     });
   };
 
+  const navigate = useNavigate(); // Importa useNavigate
+
   const updateFirebaseProducts = async (excelData) => {
     const productsRef = collection(db, "products");
     const nonEmptyRecords = excelData.filter((row) => row.length > 0);
@@ -228,9 +230,9 @@ const ItemListContainer = () => {
 
     for (const rowData of excelData.slice(1)) {
       // Ignora la primera fila (encabezados)
-      const productId = rowData[1] !== undefined ? rowData[1].toString() : ""; // Supongamos que la primera columna es el ID del producto
-      const unitPrice = rowData[5];
-      const stock = rowData[6]; // Obtén el valor de unit_price desde el archivo Excel
+      const productId = rowData[0] !== undefined ? rowData[0].toString() : ""; // Supongamos que la primera columna es el ID del producto
+      const unitPrice = rowData[4];
+      const stock = rowData[11]; // Obtén el valor de unit_price desde el archivo Excel
 
       // Busca el producto en el objeto products
       const productToUpdate = products.find(
@@ -262,6 +264,7 @@ const ItemListContainer = () => {
     setEstado(false);
     setShowContagramBtn(false);
     setPostUpdate(true);
+    navigate("/products");
   };
 
   const reloadUpdatedProducts = async () => {

@@ -43,6 +43,8 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
     }
   }, [dataOrder.status]);
 
+  console.log(dataOrder);
+
   useEffect(() => {
     const obtenerDataCliente = async () => {
       try {
