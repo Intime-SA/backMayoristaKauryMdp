@@ -36,10 +36,4 @@ export const menuItems = [
     title: "Categorias",
     Icon: ClassIcon,
   },
-  {
-    id: "dashboard",
-    path: "/dashboard",
-    title: "Clientes",
-    Icon: AccountCircleIcon,
-  },
 ];

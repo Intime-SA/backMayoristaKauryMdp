@@ -20,6 +20,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import ClassIcon from "@mui/icons-material/Class";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const drawerWidth = 200;
 
@@ -82,12 +83,9 @@ function Navbar(props) {
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  <DashboardIcon sx={{ color: "#c4072c" }} />
+                  <AccountCircleIcon sx={{ color: "#c4072c" }} />
                 </ListItemIcon>
-                <ListItemText
-                  primary={"Administracion"}
-                  sx={{ color: "#c4072c" }}
-                />
+                <ListItemText primary={"Clientes"} sx={{ color: "#c4072c" }} />
               </ListItemButton>
             </ListItem>
           </Link>
