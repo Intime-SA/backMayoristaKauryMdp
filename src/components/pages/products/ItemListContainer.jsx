@@ -231,33 +231,37 @@ const ItemListContainer = () => {
     for (const rowData of excelData.slice(1)) {
       // Ignora la primera fila (encabezados)
       const productId = rowData[0] !== undefined ? rowData[0].toString() : ""; // Supongamos que la primera columna es el ID del producto
-      const unitPrice = rowData[4];
-      const stock = rowData[11]; // Obtén el valor de unit_price desde el archivo Excel
+      const unitPrice = rowData[5];
+      const stock = rowData[11];
+      const conditionColumn = rowData[6]; // Obtén el valor de la columna [6] desde el archivo Excel
 
-      // Busca el producto en el objeto products
-      const productToUpdate = products.find(
-        (product) => product.id === productId
-      );
-      console.log(productToUpdate);
-      // Verifica si el producto existe en el objeto products y si los datos son diferentes
-      if (
-        productToUpdate &&
-        (productToUpdate.unit_price !== unitPrice ||
-          productToUpdate.stock !== stock)
-      ) {
-        const updatedData = {
-          unit_price: unitPrice,
-          stock: stock,
-          // Otros campos...
-        };
-        console.log(updatedData);
-        const productDocRef = doc(productsRef, productId);
+      // Verifica si la condición es igual a 2
+      if (conditionColumn === 2) {
+        // Busca el producto en el objeto products
+        const productToUpdate = products.find(
+          (product) => product.id === productId
+        );
 
-        try {
-          await updateDoc(productDocRef, updatedData);
-          setUpdatedRecordsCount((prevCount) => prevCount + 1);
-        } catch (error) {
-          console.error("Error al actualizar el producto", error);
+        // Verifica si el producto existe en el objeto products y si los datos son diferentes
+        if (
+          productToUpdate &&
+          (productToUpdate.unit_price !== unitPrice ||
+            productToUpdate.stock !== stock)
+        ) {
+          const updatedData = {
+            unit_price: unitPrice,
+            stock: stock,
+            // Otros campos...
+          };
+
+          const productDocRef = doc(productsRef, productId);
+
+          try {
+            await updateDoc(productDocRef, updatedData);
+            setUpdatedRecordsCount((prevCount) => prevCount + 1);
+          } catch (error) {
+            console.error("Error al actualizar el producto", error);
+          }
         }
       }
     }
