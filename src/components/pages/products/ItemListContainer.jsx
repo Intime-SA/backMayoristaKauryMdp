@@ -236,7 +236,8 @@ const ItemListContainer = () => {
       const conditionColumn = rowData[6]; // Obtén el valor de la columna [6] desde el archivo Excel
 
       // Verifica si la condición es igual a 2
-      if (conditionColumn === 2) {
+      if (conditionColumn === 5) {
+        // Busca el producto en) {
         // Busca el producto en el objeto products
         const productToUpdate = products.find(
           (product) => product.id === productId
