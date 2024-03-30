@@ -334,14 +334,19 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               justifyContent: "space-between",
               marginRight: "2rem",
               marginTop: "1rem",
+              color: "#c4072c",
             }}
           >
             <h6>
-              <strong>Total:</strong>
+              <strong>TOTAL:</strong>
             </h6>
-            <h6 style={{ fontFamily: "Roboto Condensed, sans-serif" }}>
-              ARS $ {dataOrder.total}{" "}
-            </h6>
+            <h5 style={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+              ARS ${" "}
+              {dataOrder.total.toLocaleString("es-AR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}{" "}
+            </h5>
           </div>
           <br />
           <strong>Información de Entrega:</strong>

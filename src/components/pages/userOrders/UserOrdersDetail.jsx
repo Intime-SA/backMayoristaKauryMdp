@@ -834,7 +834,7 @@ function UserOrdersDetail({ orders, setChangeStatus, changeStatus, openForm }) {
                   fontFamily: "Roboto Condensed, sans-serif",
                 }}
               >
-                Total
+                Total (SIN ENVIO)
               </TableCell>
               <TableCell
                 align="right"
