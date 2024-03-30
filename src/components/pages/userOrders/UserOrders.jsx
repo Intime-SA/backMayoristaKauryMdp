@@ -25,8 +25,10 @@ const UserOrders = () => {
     let refCollection = collection(db, "userOrders");
     let queryRef = refCollection;
 
-    // Si hay una fecha de filtro, agregar el filtro a la consulta
-    if (filterDate) {
+    // Si filterDate está vacío o no es una fecha válida, obtener todas las órdenes
+    if (!filterDate || isNaN(new Date(filterDate).getTime())) {
+      queryRef = refCollection;
+    } else {
       // Convertir la fecha del TextField a un objeto Date
       const selectedDate = new Date(filterDate);
 
@@ -49,9 +51,6 @@ const UserOrders = () => {
           )
         ) // Para incluir todas las horas del día seleccionado
       );
-    } else {
-      // Si no hay fecha de filtro, obtener los últimos 10 registros
-      queryRef = query(refCollection, orderBy("date", "desc"), limit(10));
     }
 
     getDocs(queryRef)
