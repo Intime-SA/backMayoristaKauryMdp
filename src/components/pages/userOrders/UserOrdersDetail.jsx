@@ -82,6 +82,7 @@ function Row(props) {
     const snapShotCollection = await getDocs(refCollection);
     setOpenOrder(true);
     snapShotCollection.forEach((element) => {
+      console.log(element.data());
       if (element.data().numberOrder === id) setDataOrder(element.data());
     });
   };

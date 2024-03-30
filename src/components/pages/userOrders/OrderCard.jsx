@@ -178,6 +178,61 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
             Nombre: {dataCliente?.name}
           </React.Fragment>
           <Divider />
+          {dataOrder.tipoEnvio === 1 ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{ fontSize: "150%", color: "red" }}
+                class="material-symbols-outlined"
+              >
+                local_shipping
+              </span>
+              <Typography
+                variant="body2"
+                color="error"
+                style={{ margin: "1rem" }}
+              >
+                Envio a domicilio
+              </Typography>
+            </div>
+          ) : (
+            <div>
+              <div style={{ display: "flex", marginTop: "1rem" }}>
+                <span
+                  style={{ fontSize: "150%", color: "red" }}
+                  class="material-symbols-outlined"
+                >
+                  store
+                </span>
+                <Typography
+                  variant="body2"
+                  color="error"
+                  style={{ marginLeft: "1rem" }}
+                >
+                  Retiro por sucursal
+                </Typography>
+              </div>
+
+              <Typography variant="body2" color="error">
+                {dataOrder.sucursal === 1 && (
+                  <div>
+                    <Typography variant="body2" color="error">
+                      Jose Marmol 970 / 10:00 a 17:00hs
+                    </Typography>
+                  </div>
+                )}
+                {dataOrder.sucursal === 2 && (
+                  <Typography variant="body2" color="error">
+                    Rivadavia 5931 / 10:00 a 17:00hs
+                  </Typography>
+                )}
+              </Typography>
+            </div>
+          )}
           <br />
           <strong>Canal de Venta:</strong> {dataOrder.canalVenta}
           <br />
