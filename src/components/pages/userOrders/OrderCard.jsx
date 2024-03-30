@@ -140,6 +140,25 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
     }
   };
 
+  const phoneNumber = (number) => {
+    console.log(number);
+    handleWhatsAppClick(number);
+  };
+
+  const handleWhatsAppClick = (number) => {
+    // Cambia '1234567890' por el número de teléfono del cliente
+    const phoneNumber = `54${number}`;
+    const message = "Hola, te contactamos de Kaury Mayorista MDP";
+
+    // Crea el enlace con el API de WhatsApp Business
+    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    // Abre el enlace en una nueva ventana
+    window.open(whatsappLink, "_blank");
+  };
+
   return (
     <Card
       sx={{
@@ -176,7 +195,22 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
             Apellido: {dataCliente?.apellido}
             <br />
             Nombre: {dataCliente?.name}
+            <br />
+            Telefono: {dataCliente?.telefono}
           </React.Fragment>
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <Button
+              style={{ marginBottom: "0.5rem" }}
+              onClick={() => phoneNumber(dataCliente?.telefono)}
+            >
+              <img
+                style={{ marginTop: "0.5rem" }}
+                width="20rem"
+                src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/whatsapp.svg?alt=media&token=83bb48a7-7405-4a69-867c-44568a7e108f"
+                alt="logowsp"
+              />
+            </Button>
+          </div>
           <Divider />
           {dataOrder.tipoEnvio === 1 ? (
             <div
