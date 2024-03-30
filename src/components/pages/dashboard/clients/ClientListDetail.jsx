@@ -61,7 +61,7 @@ function Row(props) {
   const sendEmail = (subject, message, toname) => {
     emailjs
       .send(
-        "service_h6a5dzf",
+        "service_trtdi6v",
         "template_59j1wkl",
         {
           from_email: email,
