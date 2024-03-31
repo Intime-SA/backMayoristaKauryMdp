@@ -230,7 +230,30 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                 color="error"
                 style={{ margin: "1rem" }}
               >
-                Envio a domicilio
+                Envio a
+              </Typography>
+              <Typography
+                variant="body2"
+                color="error"
+                style={{ margin: "1rem" }}
+              >
+                {dataOrder.envioSeleccionado === "envioDomicilio" ? (
+                  <Typography
+                    variant="body2"
+                    color="error"
+                    style={{ margin: "1rem" }}
+                  >
+                    Domicilio cliente
+                  </Typography>
+                ) : (
+                  <Typography
+                    variant="body2"
+                    color="error"
+                    style={{ margin: "1rem" }}
+                  >
+                    Sucursal a Convenir
+                  </Typography>
+                )}
               </Typography>
             </div>
           ) : (
