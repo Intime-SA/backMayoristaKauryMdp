@@ -25,9 +25,9 @@ export const routes = [
     path: "/dashboard",
     Element: Dashboard,
   },
-  {
+  /*   {
     id: "categorys",
     path: "/categorys",
     Element: Category,
-  },
+  }, */
 ];

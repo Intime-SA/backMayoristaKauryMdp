@@ -30,10 +30,10 @@ export const menuItems = [
     title: "Ventas",
     Icon: ShopIcon,
   },
-  {
+  /*   {
     id: "categorys",
     path: "/categorys",
     title: "Categorias",
     Icon: ClassIcon,
-  },
+  }, */
 ];
