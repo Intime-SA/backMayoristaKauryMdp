@@ -307,12 +307,6 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               {dataOrder.orderItems.map((item, index) => (
                 <React.Fragment key={index}>
                   <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar
-                        alt={`Imagen del Producto ${index + 1}`}
-                        src={item.image}
-                      />
-                    </ListItemAvatar>
                     <ListItemText
                       primary={`Articulo #${item.name}`}
                       secondary={

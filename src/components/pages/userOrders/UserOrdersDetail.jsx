@@ -593,7 +593,7 @@ function Row(props) {
                 <TableBody>
                   {row.orderItems.map((producto) => (
                     <TableRow key={producto.productId}>
-                      <TableCell>
+                      {/*                       <TableCell>
                         <img
                           style={{
                             width: "3rem",
@@ -603,7 +603,7 @@ function Row(props) {
                           src={producto.image}
                           alt=""
                         />
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell align="left" component="th" scope="row">
                         {producto.productId}{" "}
                         {/* Reemplaza 'nombre' con la propiedad correcta que contiene el nombre del producto */}
