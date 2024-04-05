@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { db } from "../../../firebaseConfig";
+import { db, obtenerProductos } from "../../../firebaseConfig";
 import {
   addDoc,
   collection,
@@ -24,7 +24,6 @@ import {
 import ProductForm from "./ProductForm";
 import * as XLSX from "xlsx";
 import axios from "axios";
-import { productsCollection } from "../../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 const ItemListContainer = () => {
@@ -45,6 +44,26 @@ const ItemListContainer = () => {
   const [postUpdate, setPostUpdate] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    obtenerProductos((querySnapshot) => {
+      const dataProducts = [];
+      querySnapshot.forEach((doc) => {
+        const product = { ...doc.data(), id: doc.id };
+        dataProducts.push(product); // Aquí solo necesitas pasar 'product' en lugar de '...dataProducts, product'
+      });
+
+      setProducts(dataProducts);
+      setFilteredProducts(dataProducts); // Inicialmente, establecemos los productos filtrados como todos los productos
+      setLoading(false);
+    });
+
+    // Esto desuscribirá el listener cuando el componente se desmonte
+    return () => {
+      // Agrega código para desuscribirte del listener de 'obtenerProductos' si es necesario
+    };
+  }, [isChange]);
+
+  /*   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       const productsRef = collection(db, "products");
@@ -59,7 +78,7 @@ const ItemListContainer = () => {
     };
 
     fetchProducts();
-  }, [isChange]);
+  }, [isChange]); */
 
   useEffect(() => {
     if (products) {

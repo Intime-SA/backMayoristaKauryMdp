@@ -7,7 +7,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 
-import { collection, getFirestore } from "firebase/firestore";
+import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
@@ -31,7 +31,9 @@ const auth = getAuth(app);
 export const storage = getStorage(app);
 export const db = getFirestore(app);
 
-export const productsCollection = collection(db, "products");
+export const obtenerProductos = (callback) =>
+  onSnapshot(collection(db, "products"), callback);
+
 export const onSingIn = async ({ email, password }) => {
   try {
     const res = await signInWithEmailAndPassword(auth, email, password);

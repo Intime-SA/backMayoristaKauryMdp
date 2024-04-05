@@ -25,31 +25,14 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import {
-  Cloud,
-  ContentCopy,
-  ContentCut,
-  ContentPaste,
-  OpenInNew,
-  OpenInNewOff,
-  OpenInNewOffOutlined,
-} from "@mui/icons-material";
+
 import {
   Alert,
   AlertTitle,
   Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
   Checkbox,
-  Divider,
-  ListItemIcon,
-  ListItemText,
   Menu,
   MenuItem,
-  MenuList,
 } from "@mui/material";
 import OrderCard from "./OrderCard";
 import emailjs from "emailjs-com";
