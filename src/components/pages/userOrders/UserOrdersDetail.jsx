@@ -566,7 +566,6 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell></TableCell>
                     <TableCell>Producto</TableCell>
                     <TableCell align="right">Cantidad</TableCell>
                     <TableCell align="right">Precio Unitario</TableCell>
