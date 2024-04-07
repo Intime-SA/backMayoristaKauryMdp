@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     backgroundColor: "#ffffff",
-    padding: 20,
+    padding: 10,
   },
   table: {
     display: "flex",
@@ -32,12 +32,14 @@ const styles = StyleSheet.create({
   },
   tableHeader: {
     fontWeight: "bold",
-    fontSize: "15px",
+    fontSize: "8px",
   },
   tableCell: {
     paddingRight: "5px", // Ajusta el margen derecho de todas las celdas
     paddingLeft: "5px", // Ajusta el margen izquierdo de todas las celdas
     textAlign: "right",
+    fontSize: "7px",
+    margin: "1px",
   },
   container: {
     display: "flex",
@@ -47,14 +49,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: "175px",
+    width: "225px",
     top: "20px",
     height: "100px",
   },
 
   textColum1: {
     fontFamily: "Helvetica",
-    fontSize: 20,
+    fontSize: "7px",
     color: "#red",
     margin: "10px",
     textAlign: "left",
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
 
   textColum2: {
     fontFamily: "Helvetica",
-    fontSize: 20,
+    fontSize: "7px",
     color: "#89ca8f",
     margin: "10px",
     textAlign: "left",
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
 
   textColum3: {
     fontFamily: "Helvetica",
-    fontSize: 25,
+    fontSize: "7px",
     color: "#89ca8f",
     margin: "10px",
     textAlign: "right",
@@ -114,9 +116,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 10,
     height: "100px",
+    width: "350px",
   },
   infoText: {
-    fontSize: 12,
+    fontSize: "8px",
     marginBottom: 5,
   },
 });
@@ -166,9 +169,9 @@ const ModalPDF = ({ data, dataCliente }) => {
               </Text>
               <Text style={styles.infoText}>Teléfono: +54 223 348-5438</Text>
               <Text style={styles.infoText}>
-                Email: kaurymdp.store@gmail.com
+                Email: comercial@mayoristakaurymdp.com
               </Text>
-              <Text style={styles.infoText}>www.kaurymayoristamdp.com</Text>
+              <Text style={styles.infoText}>www.mayoristakaurymdp.com</Text>
             </View>
 
             <Image
@@ -198,39 +201,45 @@ const ModalPDF = ({ data, dataCliente }) => {
               </Text>
               <Text style={styles.infoText}>
                 {cliente && cliente.datosEnvio
-                  ? `Dirección: ${cliente.datosEnvio.calle} ${cliente.datosEnvio.numero}, ${cliente.datosEnvio.barrio}, ${cliente.datosEnvio.ciudad}, ${cliente.datosEnvio.provincia}, CP: ${cliente.datosEnvio.codigoPostal}, Piso/Dpto: ${cliente.datosEnvio.pisoDpto}`
+                  ? `Dirección: ${cliente.datosEnvio.calle} ${cliente.datosEnvio.numero}, ${cliente.datosEnvio.ciudad}, ${cliente.datosEnvio.provincia}, CP: ${cliente.datosEnvio.codigoPostal}, Piso/Dpto: ${cliente.datosEnvio.pisoDpto}`
                   : "Dirección de envío no disponible"}
               </Text>
             </View>
           </View>
           <View style={styles.table}>
             <View style={styles.tableRow}>
-              <Text style={{ ...styles.tableHeader, width: "200px" }}>
+              <Text
+                style={{
+                  ...styles.tableHeader,
+                  width: "300px",
+                  marginLeft: "5px",
+                }}
+              >
                 Producto
               </Text>
               <Text
                 style={{
                   ...styles.tableCell,
                   ...styles.tableHeader,
-                  width: "50px",
+                  width: "25px",
                 }}
               >
-                Unidades
-              </Text>
-              <Text
-                style={{
-                  ...styles.tableCell,
-                  ...styles.tableHeader,
-                  width: "75px",
-                }}
-              >
-                Precio
+                U.
               </Text>
               <Text
                 style={{
                   ...styles.tableCell,
                   ...styles.tableHeader,
                   width: "50px",
+                }}
+              >
+                Precio U.
+              </Text>
+              <Text
+                style={{
+                  ...styles.tableCell,
+                  ...styles.tableHeader,
+                  width: "30px",
                 }}
               >
                 Dto %
@@ -239,8 +248,9 @@ const ModalPDF = ({ data, dataCliente }) => {
                 style={{
                   ...styles.tableCell,
                   ...styles.tableHeader,
-                  width: "150px",
+                  width: "125px",
                   textAlign: "right",
+                  marginRight: "10px",
                 }}
               >
                 Totales
@@ -248,12 +258,12 @@ const ModalPDF = ({ data, dataCliente }) => {
             </View>
             {data.orderItems.map((producto, index) => (
               <View key={producto.productoId} style={styles.tableRow}>
-                <View style={{ ...styles.tableCell, width: "200px" }}>
+                <View style={{ ...styles.tableCell, width: "300px" }}>
                   <Text
                     style={{
                       color: "black",
                       textAlign: "left",
-                      fontSize: "10px",
+                      fontSize: "7.5px",
                     }}
                   >
                     {"Articulo: " +
@@ -267,47 +277,51 @@ const ModalPDF = ({ data, dataCliente }) => {
                   </Text>
                 </View>
 
-                <View style={{ ...styles.tableCell, width: "50px" }}>
+                <View style={{ ...styles.tableCell, width: "25px" }}>
                   <Text
                     style={{
                       color: "black",
                       textAlign: "right",
-                      fontSize: "10px",
+                      fontSize: "7.5px",
                     }}
                   >
                     {producto.quantity}
                   </Text>
                 </View>
-                <View style={{ ...styles.tableCell, width: "75px" }}>
-                  <Text
-                    style={{
-                      color: "black",
-                      textAlign: "right",
-                      fontSize: "10px",
-                    }}
-                  >
-                    {parseFloat(producto.unit_price)
-                      .toFixed(2)
-                      .toLocaleString("es-AR", {
-                        style: "currency",
-                        currency: "ARS",
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                  </Text>
-                </View>
                 <View style={{ ...styles.tableCell, width: "50px" }}>
                   <Text
                     style={{
                       color: "black",
                       textAlign: "right",
-                      fontSize: "10px",
+                      fontSize: "7px",
+                    }}
+                  >
+                    {parseFloat(producto.unit_price).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </Text>
+                </View>
+                <View style={{ ...styles.tableCell, width: "30px" }}>
+                  <Text
+                    style={{
+                      color: "black",
+                      textAlign: "right",
+                      fontSize: "7px",
                     }}
                   >
                     {producto.descuento}
                   </Text>
                 </View>
-                <View style={{ ...styles.tableCell, width: "150px" }}>
+                <View
+                  style={{
+                    ...styles.tableCell,
+                    width: "125px",
+                    marginLeft: "10px",
+                  }}
+                >
                   <Text style={styles.tableCell}>
                     {producto.subtotal.toFixed(2).toLocaleString("es-AR", {
                       style: "currency",
@@ -331,12 +345,11 @@ const ModalPDF = ({ data, dataCliente }) => {
             }}
           >
             <View>
-              <Text>Total Orden: </Text>
+              <Text style={{ fontSize: "10px" }}>Total Orden: </Text>
             </View>
             <View>
-              <Text>
-                $
-                {totalPrice.toFixed(2).toLocaleString("es-AR", {
+              <Text style={{ fontSize: "10px", fontWeight: 900 }}>
+                {totalPrice.toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumFractionDigits: 2,
