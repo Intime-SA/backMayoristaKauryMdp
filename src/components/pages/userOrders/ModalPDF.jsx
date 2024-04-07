@@ -186,7 +186,7 @@ const ModalPDF = ({ data, dataCliente }) => {
                 Pedido ID: # {data ? data.numberOrder : "no cargo la info"}
               </Text>
 
-              <Text style={{ marginBottom: "1rem", marginTop: "2rem" }}>
+              <Text style={{ marginBottom: "10px", marginTop: "2rem" }}>
                 {cliente
                   ? cliente.name + " " + cliente.apellido
                   : "no cargo la info"}
