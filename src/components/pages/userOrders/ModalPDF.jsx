@@ -204,6 +204,31 @@ const ModalPDF = ({ data, dataCliente }) => {
                   ? `Dirección: ${cliente.datosEnvio.calle} ${cliente.datosEnvio.numero}, ${cliente.datosEnvio.ciudad}, ${cliente.datosEnvio.provincia}, CP: ${cliente.datosEnvio.codigoPostal}, Piso/Dpto: ${cliente.datosEnvio.pisoDpto}`
                   : "Dirección de envío no disponible"}
               </Text>
+              <Text style={styles.infoText}>
+                {data.tipoEnvio === 1
+                  ? "Envio Adreani"
+                  : "Retiro por sucursal kaury"}
+              </Text>
+              {data.tipoEnvio === 1 && (
+                <Text style={styles.infoText}>
+                  {data.envioSeleccionado === "envioSucursal"
+                    ? "Entrega a sucursal a coordinar"
+                    : "Envio a domicilio"}
+                </Text>
+              )}
+              {data.tipoEnvio === 2 && (
+                <Text style={styles.infoText}>
+                  {data.sucursal === 1 ? (
+                    <Text style={styles.infoText}>
+                      Rivadavia 5931 / 10:00 a 17:00hs
+                    </Text>
+                  ) : (
+                    <Text style={styles.infoText}>
+                      Jose Marmol 970 / 10:00 a 17:00hs
+                    </Text>
+                  )}
+                </Text>
+              )}
             </View>
           </View>
           <View style={styles.table}>
