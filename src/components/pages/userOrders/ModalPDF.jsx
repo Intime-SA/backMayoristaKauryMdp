@@ -172,7 +172,7 @@ const ModalPDF = ({ data, dataCliente }) => {
             </View>
 
             <Image
-              src="https://back-mayorista-kaury-mdp.vercel.app/kaury.jpg"
+              src="https://back-mayorista-kaury-mdp.vercel.app/kaury_logo_19.svg"
               alt="logiyo"
               style={styles.image}
             />
