@@ -170,7 +170,7 @@ const ModalPDF = ({ data, dataCliente }) => {
             </View>
 
             <Image
-              src="https://mayoristamdp.com/backmayoristakaurymdp/public/kaury.jpg"
+              src="https://mayoristamdp.com/kaury.jpg"
               alt="logiyo"
               style={styles.image}
             />
