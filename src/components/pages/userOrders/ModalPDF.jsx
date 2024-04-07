@@ -125,6 +125,8 @@ const ModalPDF = ({ data, dataCliente }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [cliente, setCliente] = useState([]);
 
+  console.log(window.location.href); // Imprimir la URL de la página
+
   useEffect(() => {
     setCliente(dataCliente);
     // Calculate the total price when data changes

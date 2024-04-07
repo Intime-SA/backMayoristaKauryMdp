@@ -159,6 +159,11 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
     window.open(whatsappLink, "_blank");
   };
 
+  const handleDownloadPDF = () => {
+    console.log(window.location.href); // Imprimir la URL de la página
+    // Lógica para descargar el PDF
+  };
+
   return (
     <Card
       sx={{
@@ -402,7 +407,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           fileName={"OrdenNumero-" + dataOrder.numberOrder}
         >
           {({ blob, url, loading, error }) => (
-            <Button variant="contained">
+            <Button variant="contained" onClick={handleDownloadPDF}>
               {loading ? "Generando PDF..." : "Descargar PDF"}
               <span class="material-symbols-outlined">print</span>
             </Button>
