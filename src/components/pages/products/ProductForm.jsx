@@ -70,7 +70,7 @@ const ProductForm = ({
       setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
     } else {
       // De lo contrario, actualiza el estado normalmente
-      setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+      setNewProduct({ ...newProduct, [e.target.name]: e.target.value.trim() });
     }
   };
 
