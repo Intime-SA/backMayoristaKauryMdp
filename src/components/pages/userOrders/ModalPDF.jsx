@@ -125,7 +125,7 @@ const ModalPDF = ({ data, dataCliente }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [cliente, setCliente] = useState([]);
 
-  console.log(window.location.href); // Imprimir la URL de la página
+  // Imprimir la URL de la página
 
   useEffect(() => {
     setCliente(dataCliente);
@@ -172,7 +172,7 @@ const ModalPDF = ({ data, dataCliente }) => {
             </View>
 
             <Image
-              src="https://mayoristamdp.com/kaury.jpg"
+              src="https://back-mayorista-kaury-mdp.vercel.app/kaury.jpg"
               alt="logiyo"
               style={styles.image}
             />
