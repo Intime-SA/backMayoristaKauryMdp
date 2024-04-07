@@ -197,6 +197,8 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
             Nombre: {dataCliente?.name}
             <br />
             Telefono: {dataCliente?.telefono}
+            <br />
+            DNI/CUIT: {dataCliente?.dni}
           </React.Fragment>
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <Button
@@ -369,9 +371,9 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           <strong>Información de Entrega:</strong>
           <br />
           <Divider />
-          País: {dataOrder.infoEntrega.pais}
+          País: Argentina
           <br />
-          Estado: {dataOrder.infoEntrega.estado}
+          Provincia: {dataOrder.infoEntrega.estado}
           <br />
           Ciudad: {dataOrder.infoEntrega.ciudad}
           <br />

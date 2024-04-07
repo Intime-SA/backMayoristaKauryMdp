@@ -105,19 +105,6 @@ const ItemListContainer = () => {
     setOpen(true);
   };
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    height: "80vh",
-    width: "80vw",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
-
   const importarDatos = async () => {
     try {
       const response = await axios.get("../../../products3.json");
