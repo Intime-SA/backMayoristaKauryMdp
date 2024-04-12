@@ -11,6 +11,8 @@ import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
+import imageCompression from "browser-image-compression";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -53,8 +55,31 @@ export const forgotPassword = async (email) => {
 };
 
 export const uploadFile = async (file) => {
-  const storageRef = ref(storage, v4());
-  await uploadBytes(storageRef, file);
-  let url = await getDownloadURL(storageRef);
-  return url;
+  try {
+    // Comprimir la imagen antes de cargarla
+    const compressedFile = await imageCompression(file, {
+      maxSizeMB: 0.8, // Tamaño máximo del archivo después de la compresión en MB
+      maxWidthOrHeight: 800, // Ancho o alto máximo de la imagen
+    });
+
+    console.log(compressedFile);
+
+    // Obtener una referencia al almacenamiento
+    const storageRef = ref(storage, "nuevaCarpeta/" + v4());
+
+    // Cargar la imagen comprimida en el almacenamiento
+
+    const subida = await uploadBytes(storageRef, compressedFile);
+    console.log(subida);
+
+    // Obtener la URL de descarga de la imagen cargada
+    const url = await getDownloadURL(storageRef);
+
+    // Devolver la URL de descarga de la imagen
+    return url;
+  } catch (error) {
+    // Manejar cualquier error que ocurra durante el proceso de carga
+    console.error("Error al cargar la imagen:", error);
+    throw error;
+  }
 };

@@ -42,6 +42,7 @@ const ItemListContainer = () => {
   const [productsTotal, setProductsTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [postUpdate, setPostUpdate] = useState(false);
+  /*  const [ejecutar, setEjecutar] = useState(false); */
 
   useEffect(() => {
     setLoading(true);
@@ -63,6 +64,32 @@ const ItemListContainer = () => {
     };
   }, [isChange]);
 
+  /*   useEffect(() => {
+    const updateProducts = async () => {
+      setLoading(true);
+      const productsRef = collection(db, "products");
+      const querySnapshot = await getDocs(productsRef);
+
+      querySnapshot.forEach(async (doc) => {
+        try {
+          const productRef = doc.ref;
+          const productData = doc.data();
+          const updatedData = {
+            ...productData,
+            imageCard: productData.image, // Agrega el campo imageCard con el valor de image
+          };
+          await updateDoc(productRef, updatedData);
+        } catch (error) {
+          console.error("Error updating document:", error);
+        }
+      });
+
+      setLoading(false);
+    };
+
+    updateProducts();
+  }, [ejecutar]);
+ */
   /*   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -147,6 +174,7 @@ const ItemListContainer = () => {
         producto.category.id,
         producto.idc,
         producto.image,
+        producto.imageCard,
         producto.talle,
         producto.color,
         producto.name,
@@ -162,7 +190,8 @@ const ItemListContainer = () => {
     const header = [
       "Categoria",
       "ID",
-      "URL Imagen",
+      "URL ImagenOriginal",
+      "URL ImagenCard",
       "Talle",
       "Color",
       "Nombre",
@@ -228,6 +257,49 @@ const ItemListContainer = () => {
   };
 
   const navigate = useNavigate(); // Importa useNavigate
+
+  /*   const updateFirebaseProducts = async (excelData) => {
+    const productsRef = collection(db, "products");
+    const nonEmptyRecords = excelData.filter((row) => row.length > 0);
+    setNonEmptyRecordsLength(nonEmptyRecords.length - 1);
+
+    for (const rowData of excelData.slice(1)) {
+      const productId = rowData[0]?.toString() || ""; // Supongamos que la primera columna es el ID del producto
+      const imageCard = rowData[1];
+
+      if (productId) {
+        try {
+          const productDocRef = doc(productsRef, productId);
+          const docSnap = await getDoc(productDocRef);
+
+          if (docSnap.exists()) {
+            console.log(docSnap.data());
+            const productData = docSnap.data();
+
+            if (productData.imageCard !== imageCard) {
+              const updatedData = {
+                imageCard: imageCard,
+              };
+
+              await updateDoc(productDocRef, updatedData);
+              setUpdatedRecordsCount((prevCount) => prevCount + 1);
+              console.log(
+                "Se actualizo correctamente imageCard de: #" +
+                  docSnap.data().name
+              );
+            }
+          }
+        } catch (error) {
+          console.error("Error al actualizar el producto", error);
+        }
+      }
+    }
+
+    setEstado(false);
+    setShowContagramBtn(false);
+    setPostUpdate(true);
+    navigate("/products");
+  }; */
 
   const updateFirebaseProducts = async (excelData) => {
     const productsRef = collection(db, "products");
@@ -437,6 +509,11 @@ const ItemListContainer = () => {
             <span class="material-symbols-outlined">upload_file</span>
           </Button>
         </Tooltip>
+        {/*         <Tooltip describeChild title="EJECUTAR FUNCION">
+          <Button onClick={() => setEjecutar(true)}>
+            <span class="material-symbols-outlined">upload_file</span>
+          </Button>
+        </Tooltip> */}
         {/*<Tooltip describeChild title="Importar Productos">
           <Button onClick={() => importarDatos()}>
             <span class="material-symbols-outlined">mp</span>

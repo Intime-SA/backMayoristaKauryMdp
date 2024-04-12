@@ -76,7 +76,10 @@ const ProductForm = ({
 
   const handleImage = async () => {
     setIsLoading(true);
+
+    // Subir la imagen comprimida a Firebase
     const url = await uploadFile(file);
+
     setNewProduct({ ...newProduct, image: url });
     setIsLoading(false);
     setIsImageUploaded(true);
