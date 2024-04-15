@@ -15,12 +15,17 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
+import { db, uploadFile } from "../../../firebaseConfig"; // Assuming you have a storage reference in firebaseConfig
+import { Skeleton } from "@mui/material";
 
 const Category = () => {
   const [categories, setCategories] = React.useState([]);
   const [newCategoryId, setNewCategoryId] = React.useState("");
   const [newCategoryName, setNewCategoryName] = React.useState("");
+  const [file, setFile] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [actualizar, setActualizar] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   React.useEffect(() => {
     const fetchCategories = async () => {
@@ -41,9 +46,11 @@ const Category = () => {
     };
 
     fetchCategories();
-  }, [categories]);
+  }, [actualizar]);
 
   const handleToggle = (categoryId) => async (event) => {
+    setActualizar(!event.target.checked);
+
     console.log("Toggle switch for category:", categoryId);
     console.log("New switch state:", event.target.checked);
 
@@ -59,72 +66,188 @@ const Category = () => {
             : category
         )
       );
+      window.location.reload();
     } catch (error) {
       console.error("Error updating category status: ", error);
     }
   };
 
   const handleAddCategory = async () => {
+    const isCategoryIdExists = categories.some(
+      (category) => category.id === newCategoryId
+    );
+
+    if (isCategoryIdExists) {
+      // Mostrar un mensaje de error o manejar la situación de alguna otra manera
+      setError(
+        "El ID de la categoría ya existe. Por favor, elige un ID único."
+      );
+      return;
+    }
+
+    const url = await uploadFile(file);
     try {
-      await setDoc(doc(db, "categorys", newCategoryId), {
+      const categoryRef = doc(db, "categorys", newCategoryId);
+      const categoryData = {
         name: newCategoryName,
-        status: false, // You might want to set a default status here
-      });
-      // Clear input fields after adding category
+        status: false,
+        image: url, // You might want to set a default status here
+      };
+
+      await setDoc(categoryRef, categoryData);
+
+      // Clear input fields and image after adding category
       setNewCategoryId("");
       setNewCategoryName("");
+      setError(""); // Limpiar el mensaje de error
+      window.location.reload();
     } catch (error) {
       console.error("Error adding category: ", error);
     }
   };
 
   return (
-    <div>
-      <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        subheader={<ListSubheader style={{ fontSize: "150%" }}></ListSubheader>}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
+      {/* Sección para cargar una nueva categoría */}
+      <div
+        style={{
+          width: "90%",
+          maxWidth: "1000px",
+          marginBottom: "2rem",
+          padding: "1rem",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+        }}
       >
+        <h2 style={{ marginBottom: "1rem", fontWeight: "800" }}>
+          Nueva Categoría
+        </h2>
+        <TextField
+          label="ID"
+          value={newCategoryId}
+          onChange={(e) => setNewCategoryId(e.target.value.replace(/\s/g, ""))}
+          error={Boolean(error)} // Activar el estado de error en el TextField
+          helperText={error} // Mostrar el mensaje de error
+        />
+        <TextField
+          fullWidth
+          label="Nombre"
+          value={newCategoryName}
+          onChange={(e) => setNewCategoryName(e.target.value)}
+          style={{ marginTop: "1rem" }}
+        />
         <div
           style={{
-            width: "40vw",
+            marginTop: "1rem",
             display: "flex",
-            justifyContent: "space-around",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <TextField
-            label="ID"
-            value={newCategoryId}
-            onChange={(e) => setNewCategoryId(e.target.value)}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files[0])}
+            style={{ display: "none" }}
+            id="fileInput"
           />
-          <TextField
-            label="Nombre"
-            value={newCategoryName}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-          />
-          <Button variant="contained" onClick={handleAddCategory}>
-            Agregar Categoría
-          </Button>
+          <label htmlFor="fileInput" style={{ marginRight: "1rem" }}>
+            {!isLoading && (
+              <Button
+                onClick={() => setIsLoading(true)}
+                variant="contained"
+                component="span"
+                style={{ backgroundColor: "#3f51b5", color: "white" }}
+              >
+                Cargar Imagen
+              </Button>
+            )}
+          </label>
+          {isLoading && (
+            <Button
+              onClick={handleAddCategory}
+              variant="contained"
+              color="success"
+            >
+              Crear Categoría
+            </Button>
+          )}
         </div>
-        {categories.map((category) => (
-          <ListItem key={category.id}>
-            <ListItemIcon>
-              <CategoryIcon />
-            </ListItemIcon>
-            <ListItemText
-              id={`switch-list-label-${category.id}`}
-              primary={category.name}
-            />
-            <Switch
-              edge="end"
-              onChange={handleToggle(category.id)}
-              checked={category.status}
-              inputProps={{
-                "aria-labelledby": `switch-list-label-${category.id}`,
-              }}
-            />
-          </ListItem>
-        ))}
-      </List>
+      </div>
+
+      {/* Sección para mostrar el listado de categorías */}
+      <div
+        style={{
+          width: "90%",
+          maxWidth: "1000px",
+          padding: "1rem",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+        }}
+      >
+        <h2 style={{ marginBottom: "1rem", fontWeight: "800" }}>
+          Listado de Categorías
+        </h2>
+        <List
+          sx={{
+            width: "100%",
+            bgcolor: "background.paper",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+          subheader={<ListSubheader></ListSubheader>}
+        >
+          {categories.length === 0
+            ? // Renderizar múltiples esqueletos de texto mientras se carga
+              Array.from({ length: 5 }).map((_, index) => (
+                <ListItem key={index}>
+                  <ListItemIcon>
+                    <Skeleton variant="circular" width={100} height={100} />
+                  </ListItemIcon>
+                  <ListItemText style={{ marginLeft: "1rem" }}>
+                    <Skeleton variant="text" width={150} />
+                  </ListItemText>
+                </ListItem>
+              ))
+            : // Renderizar las categorías normales una vez cargadas
+              categories.map((category) => (
+                <ListItem key={category.id}>
+                  <ListItemIcon>
+                    <img
+                      src={
+                        category.image ||
+                        "https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/Mayorista%20Mar%20del%20Plata%20(2).png?alt=media&token=87bdf689-8eb7-49b1-9317-f6a52a9a0781"
+                      }
+                      alt="categoryImage"
+                      style={{
+                        borderRadius: "50px",
+                        width: "100px",
+                        height: "100px",
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={category.name}
+                    style={{ margin: "1rem" }}
+                  />
+                  <Switch
+                    edge="end"
+                    onChange={handleToggle(category.id)}
+                    checked={category.status}
+                  />
+                </ListItem>
+              ))}
+        </List>
+      </div>
     </div>
   );
 };
