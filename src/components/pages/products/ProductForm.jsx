@@ -31,7 +31,7 @@ const ProductForm = ({
     stock: "",
     unit_price: "",
     promotional_price: "",
-    image: "",
+    imageCard: "",
     color: "",
     talle: "",
     idc: "",
@@ -80,7 +80,7 @@ const ProductForm = ({
     // Subir la imagen comprimida a Firebase
     const url = await uploadFile(file);
 
-    setNewProduct({ ...newProduct, image: url });
+    setNewProduct({ ...newProduct, imageCard: url });
     setIsLoading(false);
     setIsImageUploaded(true);
   };
@@ -197,7 +197,7 @@ const ProductForm = ({
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             {isImageUploaded ? (
               <img
-                src={newProduct.image}
+                src={newProduct.imageCard}
                 alt="Producto"
                 style={{
                   width: "100px",

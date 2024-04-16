@@ -176,9 +176,9 @@ function Row(props) {
                       component="th"
                       scope="row"
                     >
-                      {row.image ? (
+                      {row.imageCard ? (
                         <img
-                          src={row.image}
+                          src={row.imageCard}
                           alt={row.name}
                           style={{
                             width: "100px",

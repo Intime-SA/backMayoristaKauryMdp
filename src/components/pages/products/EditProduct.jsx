@@ -101,7 +101,7 @@ const EditProduct = ({
   const handleImage = async () => {
     setIsLoading(true);
     const url = await uploadFile(file);
-    setEditedProduct({ ...editedProduct, image: url });
+    setEditedProduct({ ...editedProduct, imageCard: url });
     setIsLoading(false);
     setIsImageUploaded(true);
   };
@@ -189,9 +189,9 @@ const EditProduct = ({
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            {editedProduct.image ? (
+            {editedProduct.imageCard ? (
               <img
-                src={editedProduct.image}
+                src={editedProduct.imageCard}
                 alt="Producto"
                 style={{
                   width: "100px",
