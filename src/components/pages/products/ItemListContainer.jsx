@@ -42,7 +42,7 @@ const ItemListContainer = () => {
   const [productsTotal, setProductsTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [postUpdate, setPostUpdate] = useState(false);
-  /*  const [ejecutar, setEjecutar] = useState(false); */
+  /*   const [ejecutar, setEjecutar] = useState(false); */
 
   useEffect(() => {
     setLoading(true);
@@ -510,7 +510,7 @@ const ItemListContainer = () => {
           </Button>
         </Tooltip>
         {/*         <Tooltip describeChild title="EJECUTAR FUNCION">
-          <Button onClick={() => setEjecutar(true)}>
+          <Button onClick={() => setShowContagramBtn(true)}>
             <span class="material-symbols-outlined">upload_file</span>
           </Button>
         </Tooltip> */}
