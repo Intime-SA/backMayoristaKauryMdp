@@ -3,12 +3,12 @@ import { Button, Modal, TextField, Typography } from "@mui/material";
 
 const EmailModalOrder = ({
   open,
-  handleClose,
+  handleModalClose,
   sendEmail,
   email,
   toname,
-  setCloseModalEmail,
   setOpenModalEmail,
+  setProgress,
 }) => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -18,12 +18,14 @@ const EmailModalOrder = ({
     sendEmail(subject, message, toname);
     // Cerrar el modal
     setOpenModalEmail(false);
+    setProgress(true);
+    windows.location.reload();
   };
 
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={handleModalClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

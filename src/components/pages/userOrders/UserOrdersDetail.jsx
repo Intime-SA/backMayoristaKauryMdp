@@ -31,6 +31,7 @@ import {
   AlertTitle,
   Button,
   Checkbox,
+  LinearProgress,
   Menu,
   MenuItem,
 } from "@mui/material";
@@ -50,6 +51,7 @@ function Row(props) {
     openOrder,
     selected,
     handleChangeCheckbox,
+    setProgress,
   } = props;
   const [open, setOpen] = useState(false);
   const [nombreCliente, setNombreCliente] = useState(null);
@@ -68,6 +70,7 @@ function Row(props) {
       console.log(element.data());
       if (element.data().numberOrder === id) setDataOrder(element.data());
     });
+    setProgress(false);
   };
 
   const open2 = Boolean(anchorEl);
@@ -308,25 +311,30 @@ function Row(props) {
               status: nuevoEstado,
               lastState: lastState,
             });
-            setChangeStatus(!changeStatus);
-            openDataOrderCard(orderId);
-            if (openOrder) {
-              setOpenOrder(false);
-            }
-            console.log("Estado de la orden actualizado correctamente.");
 
-            // Aquí agregamos la condición para verificar si el nuevo estado es "enviada"
             if (nuevoEstado === "enviada") {
               // Ejecutar la función que deseas cuando el estado es "enviada"
               handleOpenModal(row.client);
-            } else if (nuevoEstado === "archivada") {
-              // Guardar el documento en la nueva colección con lastState y status
-              await agregarDocumentoAFirebase(
-                docSnapshot,
-                lastState,
-                nuevoEstado
-              );
+              await waitForModalClose();
+              setChangeStatus(!changeStatus);
+              openDataOrderCard(orderId);
             }
+
+            setChangeStatus(!changeStatus);
+            openDataOrderCard(orderId);
+            /*             if (openOrder) {
+              setOpenOrder(false);
+            } */
+            console.log("Estado de la orden actualizado correctamente.");
+
+            // Aquí agregamos la condición para verificar si el nuevo estado es "enviada"
+          } else if (nuevoEstado === "archivada") {
+            // Guardar el documento en la nueva colección con lastState y status
+            await agregarDocumentoAFirebase(
+              docSnapshot,
+              lastState,
+              nuevoEstado
+            );
           } else {
             console.log("No se encontró el documento.");
           }
@@ -335,6 +343,17 @@ function Row(props) {
     } catch (error) {
       console.error("Error al actualizar el estado de la orden:", error);
     }
+  };
+
+  const waitForModalClose = () => {
+    return new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (!openModalEmail) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 15000); // Intervalo de comprobación en milisegundos
+    });
   };
 
   return (
@@ -347,7 +366,9 @@ function Row(props) {
         sendEmail={sendEmail}
         email={email}
         toname={toname}
+        setProgress={setProgress}
       />
+
       {row.status !== "archivada" && (
         <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
           <TableCell>
@@ -619,10 +640,17 @@ function Row(props) {
   );
 }
 
-function UserOrdersDetail({ orders, setChangeStatus, changeStatus, openForm }) {
+function UserOrdersDetail({
+  orders,
+  setChangeStatus,
+  changeStatus,
+  openForm,
+  currentPage,
+}) {
   const [openOrder, setOpenOrder] = useState(false);
   const [dataOrder, setDataOrder] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState([]);
+  const [progress, setProgress] = useState(false);
 
   const exportToExcel = () => {
     // Construir los datos para cada orden seleccionada
@@ -771,6 +799,11 @@ function UserOrdersDetail({ orders, setChangeStatus, changeStatus, openForm }) {
           </span>{" "}
           Exportar
         </Button>
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+        >
+          <h6> Pagina: {currentPage}</h6>
+        </div>
         <TableContainer
           component={Paper}
           style={{ backgroundColor: "rgba(249, 214, 224, 0.6)" }}
@@ -866,11 +899,17 @@ function UserOrdersDetail({ orders, setChangeStatus, changeStatus, openForm }) {
                   changeStatus={changeStatus}
                   openOrder={openOrder}
                   selected={selectedOrders} // Indicar si la orden está seleccionada
-                  handleChangeCheckbox={handleCheckboxChange} // Pasar la función de manejo de cambio del checkbox
+                  handleChangeCheckbox={handleCheckboxChange}
+                  setProgress={setProgress} // Pasar la función de manejo de cambio del checkbox
                 />
               ))}
             </TableBody>
           </Table>
+          {progress && (
+            <Box sx={{ width: "100%" }}>
+              <LinearProgress />
+            </Box>
+          )}
         </TableContainer>
       </div>
 

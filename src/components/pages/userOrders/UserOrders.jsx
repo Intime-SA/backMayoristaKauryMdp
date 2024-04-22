@@ -117,22 +117,51 @@ const UserOrders = () => {
     console.log(event.target.value);
   };
 
-  const handleSearch = (e) => {
-    const searchTerm = e.target.value;
-    setSearchTerm(searchTerm);
-    console.log(searchTerm);
+  const [event, setEvent] = useState(null);
+  const [cambio, setCambio] = useState(false);
 
-    // Convertir el término de búsqueda a un número
-    const searchTermNumber = parseInt(searchTerm);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const storedSearchTerm = localStorage.getItem("searchTerm");
+      if (storedSearchTerm !== null) {
+        handleSearch(event);
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [changeStatus, event, cambio]); // Agrega event como dependencia
 
-    console.log(orders);
-    // Filtrar los pedidos donde el número de orden sea exactamente igual al término de búsqueda
-    const filteredOrder = orders.filter(
-      (order) => order.numberOrder === searchTermNumber
-    );
+  const handleSearch = async (e) => {
+    try {
+      // Guardar el evento y el término de búsqueda en el estado
+      setEvent(e);
+      const searchTerm = e.target.value;
+      setSearchTerm(searchTerm);
 
-    // Establecer los pedidos filtrados como el nuevo estado
-    setOrdersFilters(filteredOrder);
+      // Convertir el término de búsqueda a un número
+      const searchTermNumber = parseInt(searchTerm);
+
+      // Guardar el término de búsqueda en localStorage
+      localStorage.setItem("searchTerm", searchTerm);
+
+      // Obtener los datos de las órdenes de Firestore
+      const querySnapshot = await getDocs(collection(db, "userOrders"));
+
+      // Convertir los documentos en un array de órdenes
+      const newArray = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      // Filtrar las órdenes según el término de búsqueda
+      const filteredOrder = newArray.filter(
+        (order) => order.numberOrder === searchTermNumber
+      );
+
+      // Establecer las órdenes filtradas como el nuevo estado
+      setOrdersFilters(filteredOrder);
+    } catch (error) {
+      console.error("Error al buscar y filtrar las órdenes:", error);
+    }
   };
 
   return (
@@ -199,6 +228,8 @@ const UserOrders = () => {
             changeStatus={changeStatus}
             openForm={openForm}
             ordersLenght={orders.length}
+            setCambio={setCambio}
+            currentPage={currentPage}
           />
         )}
       </div>
@@ -216,6 +247,7 @@ const UserOrders = () => {
         <Typography component="span" variant="body2" color="text.primary">
           Ordenes Activas: <strong>{ordersLength}</strong>
         </Typography>
+
         <div>
           <Button
             variant="contained"
@@ -226,6 +258,7 @@ const UserOrders = () => {
           >
             <span class="material-symbols-outlined">navigate_before</span>
           </Button>
+
           <Button
             variant="contained"
             onClick={() => paginate(currentPage + 1)}
