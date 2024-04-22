@@ -9,7 +9,13 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { Box, Button, TextField, InputAdornment } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  InputAdornment,
+  Checkbox,
+} from "@mui/material";
 import UserOrdersDetail from "./UserOrdersDetail";
 import UserOrderForm from "./UserOrderForm";
 import Typography from "@mui/material/Typography";
@@ -24,6 +30,7 @@ const UserOrders = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [orderFilters, setOrdersFilters] = useState([]);
   const [ordersLength, setOrdersLength] = useState(0);
+  const [archivada, setArchivada] = useState(false);
 
   useEffect(() => {
     // Esperar a que orders tenga datos
@@ -44,7 +51,7 @@ const UserOrders = () => {
     };
 
     recorrerOrders();
-  }, [orders]);
+  }, [orders, archivada]);
 
   useEffect(() => {
     let refCollection = collection(db, "userOrders");
@@ -78,27 +85,50 @@ const UserOrders = () => {
       );
     }
 
-    getDocs(queryRef)
-      .then((querySnapshot) => {
-        let newArray = [];
-        querySnapshot.forEach((doc) => {
-          const orderData = doc.data();
-          if (orderData) {
-            newArray.push({ ...orderData, id: doc.id });
-          }
-        });
+    if (archivada) {
+      getDocs(queryRef)
+        .then((querySnapshot) => {
+          let newArray = [];
+          querySnapshot.forEach((doc) => {
+            const orderData = doc.data();
+            if (orderData.status === "archivada") {
+              newArray.push({ ...orderData, id: doc.id });
+            }
+          });
 
-        // Ordenar los pedidos por fecha de más reciente a más antiguo
-        newArray.sort((a, b) => {
-          const dateA = new Date(a.date.seconds * 1000);
-          const dateB = new Date(b.date.seconds * 1000);
-          return dateB - dateA; // Invertir el orden de la comparación
-        });
+          // Ordenar los pedidos por fecha de más reciente a más antiguo
+          newArray.sort((a, b) => {
+            const dateA = new Date(a.date.seconds * 1000);
+            const dateB = new Date(b.date.seconds * 1000);
+            return dateB - dateA; // Invertir el orden de la comparación
+          });
+          console.log(newArray);
+          setOrders(newArray);
+        })
+        .catch((err) => console.log(err));
+    } else if (!archivada) {
+      getDocs(queryRef)
+        .then((querySnapshot) => {
+          let newArray = [];
+          querySnapshot.forEach((doc) => {
+            const orderData = doc.data();
+            if (orderData.status !== "archivada") {
+              newArray.push({ ...orderData, id: doc.id });
+            }
+          });
 
-        setOrders(newArray);
-      })
-      .catch((err) => console.log(err));
-  }, [openForm, changeStatus, filterDate]);
+          // Ordenar los pedidos por fecha de más reciente a más antiguo
+          newArray.sort((a, b) => {
+            const dateA = new Date(a.date.seconds * 1000);
+            const dateB = new Date(b.date.seconds * 1000);
+            return dateB - dateA; // Invertir el orden de la comparación
+          });
+          console.log(newArray);
+          setOrders(newArray);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [openForm, changeStatus, filterDate, archivada]);
 
   // Calcular índices del primer y último pedido en la página actual
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -184,6 +214,23 @@ const UserOrders = () => {
             alignItems: "center",
           }}
         >
+          <Typography
+            component="span"
+            variant="body1"
+            color="text.primary"
+            style={{
+              fontFamily: '"Roboto Condensed", sans-serif',
+              fontWeight: "800",
+            }}
+          >
+            Archivada
+          </Typography>
+          <Checkbox
+            checked={archivada}
+            onChange={() => setArchivada(!archivada)}
+            defaultChecked
+          />
+
           <TextField
             id="date"
             label="Filtrar por fecha"

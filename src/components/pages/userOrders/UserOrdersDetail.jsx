@@ -369,7 +369,7 @@ function Row(props) {
         setProgress={setProgress}
       />
 
-      {row.status !== "archivada" && (
+      {row.status && (
         <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
           <TableCell>
             <Checkbox
