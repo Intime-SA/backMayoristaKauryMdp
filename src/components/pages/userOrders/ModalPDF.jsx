@@ -181,16 +181,28 @@ const ModalPDF = ({ data, dataCliente }) => {
             />
           </View>
           <View style={styles.header}>
+            <Text
+              style={{
+                marginLeft: "450px",
+                fontSize: "10px",
+                marginTop: "5px",
+                textAlign: "right",
+              }}
+            >
+              Fecha Orden: {new Date(data.date.seconds * 1000).toLocaleString()}
+            </Text>
             <View style={styles.columnFlex2}>
               <Text>
                 Pedido ID: # {data ? data.numberOrder : "no cargo la info"}
               </Text>
 
               <Text style={{ marginBottom: "10px", marginTop: "2rem" }}>
+                Cliente:{" "}
                 {cliente
                   ? cliente.name + " " + cliente.apellido
                   : "no cargo la info"}
               </Text>
+
               <Text style={styles.infoText}>
                 {cliente
                   ? "Teléfono: " + cliente.telefono
