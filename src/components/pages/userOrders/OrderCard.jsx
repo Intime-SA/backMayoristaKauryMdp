@@ -180,13 +180,17 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
       <CardContent>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
-            style={{ textAlign: "right" }}
+            style={{ textAlign: "left" }}
             gutterBottom
             variant="h6"
             component="div"
             color="#3f51b5"
           >
-            <h6> ORDEN # {dataOrder.numberOrder}</h6>
+            <h6>
+              {" "}
+              ORDEN # <strong>{dataOrder.numberOrder}</strong>
+            </h6>
+            <h6 style={{ fontSize: "70%" }}> ID: {dataOrder.id}</h6>
           </Typography>
           <div>{estadoRender(dataOrder.status)}</div>
         </div>

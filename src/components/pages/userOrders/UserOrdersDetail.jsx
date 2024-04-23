@@ -63,14 +63,28 @@ function Row(props) {
   const [toname, setToname] = useState("");
 
   const openDataOrderCard = async (id) => {
-    const refCollection = collection(db, "userOrders");
-    const snapShotCollection = await getDocs(refCollection);
-    setOpenOrder(true);
-    snapShotCollection.forEach((element) => {
-      console.log(element.data());
-      if (element.id === id) setDataOrder(element.data());
-    });
-    setProgress(false);
+    try {
+      const refCollection = collection(db, "userOrders");
+      const snapShotCollection = await getDocs(refCollection);
+
+      setOpenOrder(true);
+
+      snapShotCollection.forEach((element) => {
+        const data = element.data();
+        const orderId = element.id;
+
+        console.log(data);
+
+        if (orderId === id) {
+          setDataOrder({ id: orderId, ...data });
+        }
+      });
+
+      setProgress(false);
+    } catch (error) {
+      console.error("Error al abrir los datos de la orden:", error);
+      setProgress(false);
+    }
   };
 
   const open2 = Boolean(anchorEl);
@@ -279,7 +293,7 @@ function Row(props) {
       let idOrder = "";
       let lastState = "";
       snapShotCollection.forEach(async (element) => {
-        if (element.data().numberOrder === orderId) {
+        if (element.id === orderId) {
           idOrder = element.id;
           const docSnapshot = await getDoc(doc(db, "userOrders", idOrder));
           if (nuevoEstado === "pagoRecibido") {
@@ -455,9 +469,7 @@ function Row(props) {
                       justifyContent: "flex-start",
                       alignItems: "center",
                     }}
-                    onClick={() =>
-                      handleChangeStatus("empaquetada", row.numberOrder)
-                    }
+                    onClick={() => handleChangeStatus("empaquetada", row.id)}
                   >
                     <span
                       style={{ fontSize: "100%", margin: "1rem" }}
@@ -478,9 +490,7 @@ function Row(props) {
                       justifyContent: "flex-start",
                       alignItems: "center",
                     }}
-                    onClick={() =>
-                      handleChangeStatus("enviada", row.numberOrder)
-                    }
+                    onClick={() => handleChangeStatus("enviada", row.id)}
                   >
                     <span
                       style={{ fontSize: "100%", margin: "1rem" }}
@@ -502,9 +512,7 @@ function Row(props) {
                       justifyContent: "flex-start",
                       alignItems: "center",
                     }}
-                    onClick={() =>
-                      handleChangeStatus("archivada", row.numberOrder)
-                    }
+                    onClick={() => handleChangeStatus("archivada", row.id)}
                   >
                     <span
                       style={{ fontSize: "100%", margin: "1rem" }}
@@ -527,9 +535,7 @@ function Row(props) {
                       justifyContent: "flex-start",
                       alignItems: "center",
                     }}
-                    onClick={() =>
-                      handleChangeStatus("pagoRecibido", row.numberOrder)
-                    }
+                    onClick={() => handleChangeStatus("pagoRecibido", row.id)}
                   >
                     <span
                       style={{ fontSize: "100%", margin: "1rem" }}
@@ -549,9 +555,7 @@ function Row(props) {
                       justifyContent: "flex-start",
                       alignItems: "center",
                     }}
-                    onClick={() =>
-                      handleChangeStatus("cancelada", row.numberOrder)
-                    }
+                    onClick={() => handleChangeStatus("cancelada", row.id)}
                   >
                     <span
                       style={{ fontSize: "100%", margin: "1rem" }}
