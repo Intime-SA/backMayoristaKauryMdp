@@ -385,19 +385,24 @@ function Row(props) {
 
       {row.status && (
         <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-          <TableCell>
+          <TableCell style={{ fontSize: "1.2rem" }}>
             <Checkbox
               onClick={() => handleChangeCheckbox(row)} // Manejar los cambios en el checkbox
               inputProps={{ "aria-label": "controlled" }}
             />
           </TableCell>
-          <TableCell align="center" style={{ width: "5%" }}>
-            <Button onClick={() => openDataOrderCard(row.id)}>
-              #{row.numberOrder}
+          <TableCell align="center" style={{ width: "5%", fontSize: "1.2rem" }}>
+            <Button
+              style={{ fontSize: "1.2rem" }}
+              onClick={() => openDataOrderCard(row.id)}
+            >
+              # <strong> {row.numberOrder} </strong>
             </Button>
           </TableCell>
-          <TableCell style={{ width: "15%" }}>{formattedFechaInicio}</TableCell>
-          <TableCell style={{ width: "15%" }} align="right">
+          <TableCell style={{ width: "15%", fontSize: "1.2rem" }}>
+            {formattedFechaInicio}
+          </TableCell>
+          <TableCell style={{ width: "15%", fontSize: "1.2rem" }} align="right">
             <p
               style={{
                 fontFamily: "sans-serif",
@@ -406,6 +411,7 @@ function Row(props) {
                 alignItems: "center",
                 justifyContent: "center",
                 marginTop: "1rem",
+                fontSize: "1.2rem",
               }}
             >
               ${" "}
@@ -416,8 +422,8 @@ function Row(props) {
             </p>
           </TableCell>
           <TableCell
-            align="rigth"
-            style={{ width: "5%" }}
+            align="right"
+            style={{ width: "5%", fontSize: "1.2rem" }}
             component="th"
             scope="row"
           >
@@ -430,13 +436,13 @@ function Row(props) {
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell style={{ width: "25%" }} align="right">
+          <TableCell style={{ width: "25%", fontSize: "1.2rem" }} align="right">
             {nombreCliente === null ? "Cargando..." : nombreCliente}
           </TableCell>
-          <TableCell style={{ width: "15%" }} align="right">
+          <TableCell style={{ width: "15%", fontSize: "1.2rem" }} align="right">
             <div>{estadoRender(status)}</div>
           </TableCell>
-          <TableCell style={{ width: "15%" }} align="right">
+          <TableCell style={{ width: "15%", fontSize: "1.2rem" }} align="right">
             <div>
               <Button
                 id="demo-positioned-button"
@@ -472,12 +478,12 @@ function Row(props) {
                     onClick={() => handleChangeStatus("empaquetada", row.id)}
                   >
                     <span
-                      style={{ fontSize: "100%", margin: "1rem" }}
+                      style={{ margin: "1rem" }}
                       class="material-symbols-outlined"
                     >
                       deployed_code{" "}
                     </span>
-                    <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
+                    <h6 style={{ marginTop: "0.5rem" }}>
                       Marcar como empaquetada
                     </h6>
                   </MenuItem>
@@ -493,14 +499,12 @@ function Row(props) {
                     onClick={() => handleChangeStatus("enviada", row.id)}
                   >
                     <span
-                      style={{ fontSize: "100%", margin: "1rem" }}
+                      style={{ margin: "1rem" }}
                       class="material-symbols-outlined"
                     >
                       local_shipping
                     </span>
-                    <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
-                      Notificar envio
-                    </h6>
+                    <h6 style={{ marginTop: "0.5rem" }}>Notificar envio</h6>
                   </MenuItem>
                 )}
                 {row.status !== "nueva" &&
@@ -515,14 +519,12 @@ function Row(props) {
                     onClick={() => handleChangeStatus("archivada", row.id)}
                   >
                     <span
-                      style={{ fontSize: "100%", margin: "1rem" }}
+                      style={{ margin: "1rem" }}
                       class="material-symbols-outlined"
                     >
                       inventory_2
                     </span>
-                    <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
-                      Archivar
-                    </h6>
+                    <h6 style={{ marginTop: "0.5rem" }}>Archivar</h6>
                   </MenuItem>
                 ) : (
                   <div></div>
@@ -538,14 +540,12 @@ function Row(props) {
                     onClick={() => handleChangeStatus("pagoRecibido", row.id)}
                   >
                     <span
-                      style={{ fontSize: "100%", margin: "1rem" }}
+                      style={{ margin: "1rem" }}
                       class="material-symbols-outlined"
                     >
                       account_balance
                     </span>
-                    <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
-                      Recibi Pago
-                    </h6>
+                    <h6 style={{ marginTop: "0.5rem" }}>Recibi Pago</h6>
                   </MenuItem>
                 )}
                 {row.status === "nueva" && (
@@ -558,14 +558,12 @@ function Row(props) {
                     onClick={() => handleChangeStatus("cancelada", row.id)}
                   >
                     <span
-                      style={{ fontSize: "100%", margin: "1rem" }}
+                      style={{ margin: "1rem" }}
                       class="material-symbols-outlined"
                     >
                       block
                     </span>
-                    <h6 style={{ fontSize: "100%", marginTop: "0.5rem" }}>
-                      Cancelar
-                    </h6>
+                    <h6 style={{ marginTop: "0.5rem" }}>Cancelar</h6>
                   </MenuItem>
                 )}
               </Menu>
@@ -645,6 +643,7 @@ function Row(props) {
 }
 
 function UserOrdersDetail({
+  ordersLenght,
   orders,
   setChangeStatus,
   changeStatus,
@@ -655,6 +654,38 @@ function UserOrdersDetail({
   const [dataOrder, setDataOrder] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [progress, setProgress] = useState(false);
+  const [totalOrders, setTotalOrders] = useState([]);
+
+  /*   useEffect(() => {
+    const totalOrders = async () => {
+      try {
+        const refCollection = collection(db, "userOrders");
+        const snapShotCollection = await getDocs(refCollection);
+
+        let allOrders = [];
+
+        snapShotCollection.forEach((element) => {
+          // Accede a los datos de cada orden y su ID
+          const data = element.data();
+          const orderId = element.id;
+
+          // Almacena los datos de la orden junto con su ID en el array totalOrders
+          allOrders.push({ id: orderId, ...data });
+        });
+
+        // Muestra el array de órdenes en la consola
+        console.log("Órdenes:", allOrders);
+
+        // Establece el estado totalOrders con el array de órdenes
+        setTotalOrders(allOrders);
+      } catch (error) {
+        console.error("Error al obtener el total de órdenes:", error);
+      }
+    };
+
+    // Llama a la función totalOrders al montar el componente
+    totalOrders();
+  }, []); */
 
   const exportToExcel = () => {
     // Construir los datos para cada orden seleccionada
@@ -823,6 +854,7 @@ function UserOrdersDetail({
                   width: "5%",
                   paddingLeft: "8px",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  fontSize: "1.5rem",
                 }}
               >
                 <span class="material-symbols-outlined">check_box</span>
@@ -833,6 +865,8 @@ function UserOrdersDetail({
                   width: "5%",
                   paddingLeft: "8px",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  fontSize: "1.5rem",
+                  fontSize: "1.5rem",
                 }}
               >
                 ID
@@ -842,6 +876,7 @@ function UserOrdersDetail({
                 style={{
                   width: "30%",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  fontSize: "1.5rem",
                 }}
               >
                 Fecha
@@ -851,15 +886,17 @@ function UserOrdersDetail({
                 style={{
                   width: "15%",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  fontSize: "1.5rem",
                 }}
               >
-                Total (SIN ENVIO)
+                Total (s/envio)
               </TableCell>
               <TableCell
                 align="right"
                 style={{
                   width: "5%",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  fontSize: "1.5rem",
                 }}
               >
                 Productos
@@ -869,6 +906,7 @@ function UserOrdersDetail({
                 style={{
                   width: "25%",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  fontSize: "1.5rem",
                 }}
               >
                 Comprador
@@ -878,6 +916,7 @@ function UserOrdersDetail({
                 style={{
                   width: "10%",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  fontSize: "1.5rem",
                 }}
               >
                 Estado
@@ -887,6 +926,7 @@ function UserOrdersDetail({
                 style={{
                   width: "20%",
                   fontFamily: "Roboto Condensed, sans-serif",
+                  fontSize: "1.5rem",
                 }}
               >
                 Acciones

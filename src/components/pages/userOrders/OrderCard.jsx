@@ -180,13 +180,13 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
       <CardContent>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
-            style={{ textAlign: "left" }}
+            style={{ textAlign: "left", fontSize: "1.2rem" }}
             gutterBottom
             variant="h6"
             component="div"
             color="#3f51b5"
           >
-            <h6>
+            <h6 style={{ fontSize: "150%" }}>
               {" "}
               ORDEN # <strong>{dataOrder.numberOrder}</strong>
             </h6>
@@ -195,7 +195,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           <div>{estadoRender(dataOrder.status)}</div>
         </div>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body1" color="text.secondary" fontSize="1.2rem">
           <strong>Cliente:</strong>
           <Divider />
           <React.Fragment>
@@ -241,18 +241,16 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                 color="error"
                 style={{ margin: "1rem" }}
               >
-                Envio a
-              </Typography>
-              <Typography
-                variant="body2"
-                color="error"
-                style={{ margin: "1rem" }}
-              >
                 {dataOrder.envioSeleccionado === "envioDomicilio" ? (
                   <Typography
                     variant="body2"
                     color="error"
-                    style={{ margin: "1rem" }}
+                    style={{
+                      margin: "1rem",
+                      marginLeft: "0px",
+                      fontSize: "1.2rem",
+                      fontWeight: "900",
+                    }}
                   >
                     Domicilio cliente
                   </Typography>
@@ -260,7 +258,12 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                   <Typography
                     variant="body2"
                     color="error"
-                    style={{ margin: "1rem" }}
+                    style={{
+                      margin: "1rem",
+                      marginLeft: "0px",
+                      fontSize: "1.2rem",
+                      fontWeight: "900",
+                    }}
                   >
                     Sucursal a Convenir
                   </Typography>
@@ -279,7 +282,11 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                 <Typography
                   variant="body2"
                   color="error"
-                  style={{ marginLeft: "1rem" }}
+                  style={{
+                    marginLeft: "1rem",
+                    fontSize: "1.2rem",
+                    fontWeight: "900",
+                  }}
                 >
                   Retiro por sucursal
                 </Typography>
@@ -363,12 +370,18 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               marginRight: "2rem",
               marginTop: "1rem",
               color: "#c4072c",
+              marginTop: "0px",
+              paddingTop: "0px",
             }}
           >
-            <h6>
-              <strong>TOTAL:</strong>
-            </h6>
-            <h5 style={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+            <h6 style={{ fontSize: "1.5rem", fontWeight: "900" }}>TOTAL:</h6>
+            <h5
+              style={{
+                fontFamily: "Roboto Condensed, sans-serif",
+                fontSize: "1.5rem",
+                fontWeight: "900",
+              }}
+            >
               ARS ${" "}
               {dataOrder.total.toLocaleString("es-AR", {
                 minimumFractionDigits: 2,
@@ -376,7 +389,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               })}{" "}
             </h5>
           </div>
-          <br />
+          {/* <br />
           <strong>Información de Entrega:</strong>
           <br />
           <Divider />
@@ -394,8 +407,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           <br />
           Piso/Dpto: {dataOrder.infoEntrega.pisoDpto}
           <Divider />
-          <br />
-          {/* Mostrar el estado anterior solo si la orden está archivada */}
+          <br /> */}
           {dataOrder.status === "archivada" && (
             <div style={{ fontSize: "200%" }}>
               {" "}
