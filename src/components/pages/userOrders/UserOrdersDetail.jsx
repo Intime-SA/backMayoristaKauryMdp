@@ -68,7 +68,7 @@ function Row(props) {
     setOpenOrder(true);
     snapShotCollection.forEach((element) => {
       console.log(element.data());
-      if (element.data().numberOrder === id) setDataOrder(element.data());
+      if (element.id === id) setDataOrder(element.data());
     });
     setProgress(false);
   };
@@ -378,7 +378,7 @@ function Row(props) {
             />
           </TableCell>
           <TableCell align="center" style={{ width: "5%" }}>
-            <Button onClick={() => openDataOrderCard(row.numberOrder)}>
+            <Button onClick={() => openDataOrderCard(row.id)}>
               #{row.numberOrder}
             </Button>
           </TableCell>
