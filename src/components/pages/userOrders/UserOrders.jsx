@@ -25,7 +25,7 @@ const UserOrders = () => {
   const [openForm, setOpenForm] = useState(false);
   const [changeStatus, setChangeStatus] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // Página actual
-  const [ordersPerPage] = useState(8); // Cantidad de órdenes por página
+  const [ordersPerPage] = useState(10); // Cantidad de órdenes por página
   const [filterDate, setFilterDate] = useState(""); // Estado para almacenar la fecha de filtro
   const [searchTerm, setSearchTerm] = useState("");
   const [orderFilters, setOrdersFilters] = useState([]);
