@@ -209,19 +209,6 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
             <br />
             DNI/CUIT: {dataCliente?.dni}
           </React.Fragment>
-          <div style={{ display: "flex", justifyContent: "flex-start" }}>
-            <Button
-              style={{ marginBottom: "0.5rem" }}
-              onClick={() => phoneNumber(dataCliente?.telefono)}
-            >
-              <img
-                style={{ marginTop: "0.5rem" }}
-                width="20rem"
-                src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/whatsapp.svg?alt=media&token=83bb48a7-7405-4a69-867c-44568a7e108f"
-                alt="logowsp"
-              />
-            </Button>
-          </div>
           <Divider />
           {dataOrder.tipoEnvio === 1 ? (
             <div
@@ -231,7 +218,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               }}
             >
               <span
-                style={{ fontSize: "150%", color: "red" }}
+                style={{ fontSize: "150%", color: "red", marginTop: "1rem" }}
                 class="material-symbols-outlined"
               >
                 local_shipping
@@ -239,7 +226,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               <Typography
                 variant="body2"
                 color="error"
-                style={{ margin: "1rem" }}
+                style={{ marginLeft: "1rem" }}
               >
                 {dataOrder.envioSeleccionado === "envioDomicilio" ? (
                   <Typography
@@ -250,6 +237,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                       marginLeft: "0px",
                       fontSize: "1.2rem",
                       fontWeight: "900",
+                      marginBottom: "0px",
                     }}
                   >
                     Domicilio cliente
@@ -263,6 +251,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                       marginLeft: "0px",
                       fontSize: "1.2rem",
                       fontWeight: "900",
+                      marginBottom: "0px",
                     }}
                   >
                     Sucursal a Convenir
@@ -368,9 +357,8 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               display: "flex",
               justifyContent: "space-between",
               marginRight: "2rem",
-              marginTop: "1rem",
               color: "#c4072c",
-              marginTop: "0px",
+              marginTop: "1rem",
               paddingTop: "0px",
             }}
           >
@@ -416,19 +404,31 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           )}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <PDFDownloadLink
-          style={{ marginTop: "10px" }}
+          style={{ margin: "1rem  " }}
           document={<ModalPDF data={dataOrder} dataCliente={dataCliente} />}
           fileName={"OrdenNumero-" + dataOrder.numberOrder}
         >
           {({ blob, url, loading, error }) => (
             <Button variant="contained" onClick={handleDownloadPDF}>
-              {loading ? "Generando PDF..." : "Descargar PDF"}
               <span class="material-symbols-outlined">print</span>
             </Button>
           )}
         </PDFDownloadLink>
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <Button
+            style={{ marginBottom: "0.5rem" }}
+            onClick={() => phoneNumber(dataCliente?.telefono)}
+          >
+            <img
+              style={{ marginTop: "0.5rem" }}
+              width="30rem"
+              src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/0000000.jpg?alt=media&token=b0e2700c-4487-4764-9103-0814b47377c8"
+              alt="logowsp"
+            />
+          </Button>
+        </div>
       </CardActions>
     </Card>
   );
