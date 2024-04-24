@@ -230,7 +230,7 @@ const ModalPDF = ({ data, dataCliente }) => {
               )}
               {data.tipoEnvio === 2 && (
                 <Text style={styles.infoText}>
-                  {data.sucursal === 1 ? (
+                  {data.sucursal === 2 ? (
                     <Text style={styles.infoText}>
                       Rivadavia 5931 / 10:00 a 17:00hs
                     </Text>
