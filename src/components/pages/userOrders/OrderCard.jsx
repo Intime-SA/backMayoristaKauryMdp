@@ -196,8 +196,11 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
         </div>
 
         <Typography variant="body1" color="text.secondary" fontSize="1.2rem">
-          <strong>Cliente:</strong>
+          <strong>Fecha:</strong>{" "}
+          {new Date(dataOrder.date.seconds * 1000).toLocaleString()}
           <Divider />
+          <strong>Cliente:</strong>
+          <br />
           <React.Fragment>
             Email: {dataCliente?.email}
             <br />
@@ -297,14 +300,6 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               </Typography>
             </div>
           )}
-          <br />
-          <strong>Canal de Venta:</strong> {dataOrder.canalVenta}
-          <br />
-          <strong>Fecha:</strong>{" "}
-          {new Date(dataOrder.date.seconds * 1000).toLocaleString()}
-          <br />
-          <strong>Número de Pedido:</strong> {dataOrder.numberOrder}
-          <br />
           <Divider />
           <br />
           <strong>Productos:</strong>
@@ -377,7 +372,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               })}{" "}
             </h5>
           </div>
-          {/* <br />
+          <br />
           <strong>Información de Entrega:</strong>
           <br />
           <Divider />
@@ -395,7 +390,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           <br />
           Piso/Dpto: {dataOrder.infoEntrega.pisoDpto}
           <Divider />
-          <br /> */}
+          <br />
           {dataOrder.status === "archivada" && (
             <div style={{ fontSize: "200%" }}>
               {" "}
