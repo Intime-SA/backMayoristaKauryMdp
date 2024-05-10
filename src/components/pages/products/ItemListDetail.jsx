@@ -26,7 +26,7 @@ import EditProduct from "./EditProduct";
 import "./ItemListDetail.css";
 
 function Row(props) {
-  const { row, setIsChange, isChange } = props;
+  const { row, setIsChange, isChange, setCambio, cambio } = props;
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState(null);
   const [isEditing, setIsEditing] = useState(false); // Estado para indicar si se está editando el producto
@@ -225,6 +225,8 @@ function Row(props) {
               setIsEditing={setIsEditing}
               setIsChange={setIsChange}
               isChange={isChange}
+              setCambio={setCambio}
+              cambio={cambio}
             />
           )}
         </div>
@@ -233,7 +235,13 @@ function Row(props) {
   );
 }
 
-function ItemListDetail({ products, setIsChange, isChange }) {
+function ItemListDetail({
+  products,
+  setIsChange,
+  isChange,
+  setCambio,
+  cambio,
+}) {
   return (
     <TableContainer
       component={Paper}
@@ -295,6 +303,8 @@ function ItemListDetail({ products, setIsChange, isChange }) {
               row={product}
               setIsChange={setIsChange}
               isChange={isChange}
+              setCambio={setCambio}
+              cambio={cambio}
             />
           ))}
         </TableBody>

@@ -43,6 +43,8 @@ const ItemListContainer = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [postUpdate, setPostUpdate] = useState(false);
   /*   const [ejecutar, setEjecutar] = useState(false); */
+  const [event, setEvent] = useState(null);
+  const [cambio, setCambio] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -62,7 +64,7 @@ const ItemListContainer = () => {
     return () => {
       // Agrega código para desuscribirte del listener de 'obtenerProductos' si es necesario
     };
-  }, [isChange]);
+  }, [isChange, cambio]);
 
   /*   useEffect(() => {
     const updateProducts = async () => {
@@ -388,16 +390,31 @@ const ItemListContainer = () => {
     setEstado(false);
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const storedSearchTerm = localStorage.getItem("searchTerm");
+      if (storedSearchTerm !== null) {
+        console.log("daleee");
+        handleSearch(event); // Llama handleSearch con el término guardado
+      }
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [cambio, event]);
+
   // Función para filtrar productos por nombre
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
+    setEvent(e);
     const searchTerm = e.target.value;
     setSearchTerm(searchTerm);
+    localStorage.setItem("searchTerm", searchTerm); // Guarda el término de búsqueda en el almacenamiento local
+    console.log(searchTerm);
     const filteredProducts = products.filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredProducts(filteredProducts);
   };
 
+  // Función para manejar la búsqueda en tiempo real
   return (
     <div
       style={{
@@ -562,6 +579,8 @@ const ItemListContainer = () => {
             products={currentProducts}
             setIsChange={setIsChange}
             isChange={isChange}
+            setCambio={setCambio}
+            cambio={cambio}
           />
           <Box
             mt={2}

@@ -22,6 +22,8 @@ const EditProduct = ({
   setIsEditing,
   setIsChange,
   isChange,
+  setCambio,
+  cambio,
 }) => {
   const [editedProduct, setEditedProduct] = useState(null);
   const [file, setFile] = useState(null);
@@ -149,6 +151,7 @@ const EditProduct = ({
         // Cambiar los estados para indicar que la edición ha finalizado y que se debe actualizar la lista de productos
         setIsEditing(false);
         setIsChange(!isChange);
+        setCambio(!cambio);
       } catch (error) {
         console.error("Error updating product: ", error);
       }

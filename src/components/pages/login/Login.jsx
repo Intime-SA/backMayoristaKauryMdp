@@ -52,7 +52,7 @@ const Login = () => {
         };
         console.log(finalyUser);
         handleLogin(finalyUser);
-        navigate("/userOrders");
+        navigate("/");
       }
     } catch (error) {
       alert(
