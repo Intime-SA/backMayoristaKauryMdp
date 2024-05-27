@@ -65,7 +65,7 @@ export const uploadFile = async (file) => {
     console.log(compressedFile);
 
     // Obtener una referencia al almacenamiento
-    const storageRef = ref(storage, "nuevaCarpeta/" + v4());
+    const storageRef = ref(storage, "sinCache/" + v4());
 
     // Cargar la imagen comprimida en el almacenamiento
 
