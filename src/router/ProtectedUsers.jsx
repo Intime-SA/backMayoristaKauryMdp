@@ -4,6 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedUsers = () => {
   const { isLogged } = useContext(AuthContext);
+  console.log(isLogged);
 
   return <>{isLogged ? <Outlet /> : <Navigate to="/login" />}</>;
 };

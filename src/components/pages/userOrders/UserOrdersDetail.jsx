@@ -54,9 +54,9 @@ function Row(props) {
     setProgress,
   } = props;
   const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [nombreCliente, setNombreCliente] = useState(null);
   const [status, setStatus] = useState("Estado no encontrado");
-  const [anchorEl, setAnchorEl] = useState(null);
   const [openModalEmail, setOpenModalEmail] = useState(false);
   const [closeModalEmail, setCloseModalEmail] = useState(false);
   const [email, setEmail] = useState("");

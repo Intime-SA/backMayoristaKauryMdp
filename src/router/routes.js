@@ -1,3 +1,4 @@
+import Administracion from "../components/pages/administracion/Administracion";
 import Category from "../components/pages/categorys/Category";
 import Dashboard from "../components/pages/dashboard/Dashboard";
 import Home from "../components/pages/home/Home";
@@ -29,5 +30,10 @@ export const routes = [
     id: "categorys",
     path: "/categorys",
     Element: Category,
+  },
+  {
+    id: "administracion",
+    path: "/administracion",
+    Element: Administracion,
   },
 ];
