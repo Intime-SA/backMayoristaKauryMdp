@@ -3,6 +3,7 @@
     { "source": "/products", "destination": "/" },
     { "source": "/categorys", "destination": "/" },
     { "source": "/dashboard", "destination": "/" },
-    { "source": "/userOrders", "destination": "/" }
+    { "source": "/userOrders", "destination": "/" },
+    { "source": "/administracion", "destination": "/" }
   ]
 }
