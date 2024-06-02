@@ -65,7 +65,7 @@ const UserOrders = () => {
           const timeDifference = currentTime - data.timestamp;
           const hoursDifference = timeDifference / (1000 * 60 * 60);
 
-          if (hoursDifference >= 48 && data.status === "nueva") {
+          if (hoursDifference >= 24 && data.status === "nueva") {
             arrayPendientes.push(data);
           }
         });
