@@ -63,14 +63,12 @@ const UserOrders = () => {
         let arrayPendientes = [];
         // Referencia a la colección "userOrders" donde el estado es "nueva" y no tiene timestamp
         orders.forEach((data) => {
-          console.log(data);
           if (data.timestamp) {
-            console.log(data.timestamp);
             const timeDifference = currentTime - data.timestamp;
-            console.log(timeDifference);
+
             const hoursDifference = timeDifference / (1000 * 60 * 60);
 
-            if (hoursDifference >= 12 && data.status === "nueva") {
+            if (hoursDifference >= 48 && data.status === "nueva") {
               arrayPendientes.push(data);
             }
           }
@@ -79,11 +77,11 @@ const UserOrders = () => {
         console.log(arrayPendientes);
 
         // Actualizar cada orden
-        /*         for (const order of arrayPendientes) {
+        for (const order of arrayPendientes) {
           const orderRef = doc(db, "userOrders", order.id);
           await updateDoc(orderRef, { status: "cancelada" });
           console.log(`Orden ${order.id} actualizada a 'cancelada'`);
-        } */
+        }
       } catch (error) {
         console.error("Error al actualizar las órdenes:", error);
       }
