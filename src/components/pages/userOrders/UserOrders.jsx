@@ -58,6 +58,7 @@ const UserOrders = () => {
   useEffect(() => {
     const actualizarOrdenes = async () => {
       const currentTime = new Date().getTime();
+      console.log(currentTime);
       try {
         let arrayPendientes = [];
         // Referencia a la colección "userOrders" donde el estado es "nueva" y no tiene timestamp
