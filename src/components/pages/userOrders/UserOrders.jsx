@@ -58,18 +58,20 @@ const UserOrders = () => {
   useEffect(() => {
     const actualizarOrdenes = async () => {
       const currentTime = new Date().getTime();
-      console.log(currentTime);
+      console.log("esto es current time del server: " + currentTime);
       try {
         let arrayPendientes = [];
         // Referencia a la colección "userOrders" donde el estado es "nueva" y no tiene timestamp
         orders.forEach((data) => {
-          console.log(data.timestamp);
-          const timeDifference = currentTime - data.timestamp;
-          console.log(timeDifference);
-          const hoursDifference = timeDifference / (1000 * 60 * 60);
+          if (data.timestamp) {
+            console.log(data.timestamp);
+            const timeDifference = currentTime - data.timestamp;
+            console.log(timeDifference);
+            const hoursDifference = timeDifference / (1000 * 60 * 60);
 
-          if (hoursDifference >= 12 && data.status === "nueva") {
-            arrayPendientes.push(data);
+            if (hoursDifference >= 12 && data.status === "nueva") {
+              arrayPendientes.push(data);
+            }
           }
         });
 
