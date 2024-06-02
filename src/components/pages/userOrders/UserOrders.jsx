@@ -64,6 +64,7 @@ const UserOrders = () => {
         // Referencia a la colección "userOrders" donde el estado es "nueva" y no tiene timestamp
         orders.forEach((data) => {
           const timeDifference = currentTime - data.timestamp;
+          console.log(timeDifference);
           const hoursDifference = timeDifference / (1000 * 60 * 60);
 
           if (hoursDifference >= 12 && data.status === "nueva") {
