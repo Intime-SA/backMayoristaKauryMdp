@@ -79,18 +79,18 @@ const UserOrders = () => {
         console.log(arrayPendientes);
 
         // Actualizar cada orden
-        for (const order of arrayPendientes) {
+        /*         for (const order of arrayPendientes) {
           const orderRef = doc(db, "userOrders", order.id);
           await updateDoc(orderRef, { status: "cancelada" });
           console.log(`Orden ${order.id} actualizada a 'cancelada'`);
-        }
+        } */
       } catch (error) {
         console.error("Error al actualizar las órdenes:", error);
       }
     };
 
     actualizarOrdenes();
-  }, []);
+  }, [orders]);
 
   useEffect(() => {
     let refCollection = collection(db, "userOrders");
