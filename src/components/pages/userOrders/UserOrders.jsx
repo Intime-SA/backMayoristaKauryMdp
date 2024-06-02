@@ -63,6 +63,7 @@ const UserOrders = () => {
         let arrayPendientes = [];
         // Referencia a la colección "userOrders" donde el estado es "nueva" y no tiene timestamp
         orders.forEach((data) => {
+          console.log(data);
           if (data.timestamp) {
             console.log(data.timestamp);
             const timeDifference = currentTime - data.timestamp;
