@@ -3,10 +3,12 @@ import { db } from "../../../firebaseConfig";
 import {
   Timestamp,
   collection,
+  doc,
   getDocs,
   limit,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import {
@@ -52,6 +54,37 @@ const UserOrders = () => {
 
     recorrerOrders();
   }, [orders, archivada]);
+
+  useEffect(() => {
+    const actualizarOrdenes = async () => {
+      const currentTime = new Date().getTime();
+      try {
+        let arrayPendientes = [];
+        // Referencia a la colección "userOrders" donde el estado es "nueva" y no tiene timestamp
+        orders.forEach((data) => {
+          const timeDifference = currentTime - data.timestamp;
+          const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+          if (hoursDifference >= 24 && data.status === "nueva") {
+            arrayPendientes.push(data);
+          }
+        });
+
+        console.log(arrayPendientes);
+
+        // Actualizar cada orden
+        for (const order of arrayPendientes) {
+          const orderRef = doc(db, "userOrders", order.id);
+          await updateDoc(orderRef, { status: "cancelada" });
+          console.log(`Orden ${order.id} actualizada a 'cancelada'`);
+        }
+      } catch (error) {
+        console.error("Error al actualizar las órdenes:", error);
+      }
+    };
+
+    actualizarOrdenes();
+  }, []);
 
   useEffect(() => {
     let refCollection = collection(db, "userOrders");
