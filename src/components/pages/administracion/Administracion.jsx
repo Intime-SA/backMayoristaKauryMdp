@@ -99,7 +99,7 @@ const Administracion = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <div style={{ marginTop: "5rem" }}>
         <h4 style={{ fontFamily: '"Kanit", sans-serif' }}>Administracion</h4>
         {costos.map((costo, index) => (
           <div key={index}>

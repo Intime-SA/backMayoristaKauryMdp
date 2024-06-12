@@ -73,8 +73,6 @@ function Row(props) {
         const data = element.data();
         const orderId = element.id;
 
-        console.log(data);
-
         if (orderId === id) {
           setDataOrder({ id: orderId, ...data });
         }

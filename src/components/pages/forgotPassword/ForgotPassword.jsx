@@ -34,8 +34,12 @@ const ForgotPassword = () => {
           // backgroundColor: theme.palette.secondary.main,
         }}
       >
-        <Typography variant="h5" color={"primary"}>
-          ¿Olvidaste tu contraseña?
+        <Typography
+          variant="h5"
+          color={"primary"}
+          style={{ fontFamily: '"Kanit", sans-serif' }}
+        >
+          ¿Desea actualizar su contraseña?
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid
@@ -52,10 +56,23 @@ const ForgotPassword = () => {
                 fullWidth
                 name="email"
                 onChange={(e) => setEmail(e.target.value)}
+                style={{ fontFamily: '"Kanit", sans-serif' }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
             </Grid>
             <Grid item xs={10} md={12}>
-              <Button type="submit" variant="contained" fullWidth>
+              <Button
+                style={{ fontFamily: '"Kanit", sans-serif' }}
+                type="submit"
+                variant="contained"
+                fullWidth
+              >
                 Recuperar
               </Button>
             </Grid>
@@ -65,6 +82,7 @@ const ForgotPassword = () => {
                 variant="contained"
                 fullWidth
                 onClick={() => navigate("/login")}
+                style={{ fontFamily: '"Kanit", sans-serif' }}
               >
                 Regresar
               </Button>

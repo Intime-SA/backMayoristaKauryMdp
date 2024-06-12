@@ -60,7 +60,7 @@ const UserOrders = () => {
   useEffect(() => {
     const actualizarOrdenes = async () => {
       const currentTime = new Date().getTime();
-      console.log("esto es current time del server: " + currentTime);
+
       try {
         let arrayPendientes = [];
         // Referencia a la colección "userOrders" donde el estado es "nueva" y no tiene timestamp
@@ -75,8 +75,6 @@ const UserOrders = () => {
             }
           }
         });
-
-        console.log(arrayPendientes);
 
         // Actualizar cada orden
         for (const order of arrayPendientes) {
@@ -243,6 +241,7 @@ const UserOrders = () => {
         fontSize: "2rem",
         position: "relative",
         width: "100%",
+        marginTop: "2rem",
       }}
     >
       <Box>
@@ -274,18 +273,29 @@ const UserOrders = () => {
             id="date"
             label="Filtrar por fecha"
             type="date"
-            InputLabelProps={{
-              shrink: true,
-            }}
             style={{ marginRight: "1rem" }}
             value={filterDate} // Asignar valor del estado
-            onChange={handleDateChange} // Manejar cambio de fecha
+            onChange={handleDateChange}
+            InputLabelProps={{
+              shrink: true,
+              style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+            }}
+            InputProps={{
+              style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+            }} // Manejar cambio de fecha
           />
           <div>
             <TextField
               label="Orden N°"
               onChange={handleSearch}
               value={searchTerm}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
             />
           </div>
           <Button

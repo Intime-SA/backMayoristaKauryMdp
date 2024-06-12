@@ -21,6 +21,7 @@ import { DrawerContext } from "../../context/DrawerContext";
 import { AuthContext } from "../../context/AuthContext";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "./Drawer.css";
+import Usuario from "../../pages/home/usuario/Usuario";
 
 export default function DrawerMenu() {
   const { user } = React.useContext(AuthContext);
@@ -57,16 +58,30 @@ export default function DrawerMenu() {
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+        sx={{
+          width: `calc(100% - ${drawerWidth}px)`,
+          ml: `${drawerWidth}px`,
+        }}
       >
         <Toolbar
-          sx={{ fontFamily: '"Kanit", sans-serif', backgroundColor: "#121621" }}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: '"Kanit", sans-serif',
+            backgroundColor: "#121621",
+            width: "100%",
+          }}
         >
-          <img
-            style={{ width: "120px", margin: "1rem" }}
-            src="https://www.kaury.com/img/kaury_logo_19.svg"
-            alt="logoKaury"
-          />
+          <div>
+            <img
+              style={{ width: "150px", margin: "0.5rem" }}
+              src="https://www.kaury.com/img/kaury_logo_19.svg"
+              alt="logoKaury"
+            />
+          </div>
+          <div>
+            <Usuario />
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer

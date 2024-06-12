@@ -98,6 +98,7 @@ const Clients = () => {
         fontSize: "2rem",
         position: "relative",
         width: "100%",
+        marginTop: "2rem",
       }}
     >
       <Box>

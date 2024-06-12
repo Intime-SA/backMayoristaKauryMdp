@@ -101,7 +101,10 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
 
   return (
     <div style={{ width: "100%", zoom: "0.9" }}>
-      <h5 style={{ marginTop: "1rem" }}>Agregar Cliente</h5>
+      <h5 style={{ marginTop: "1rem", fontFamily: '"Kanit", sans-serif' }}>
+        Completar datos Nuevo Cliente
+      </h5>
+
       <div
         style={{
           border: "1px solid #ccc",
@@ -126,7 +129,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
               width: "100%",
             }}
           >
-            <h5 style={{ margin: "1rem", marginBottom: "2rem" }}>
+            <h5
+              style={{
+                margin: "1rem",
+                marginBottom: "2rem",
+                fontFamily: '"Kanit", sans-serif',
+              }}
+            >
               Datos de Cliente
             </h5>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
@@ -142,7 +151,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
                 error={!!errors.name}
                 helperText={errors.name}
               />
@@ -158,7 +173,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
                 error={!!errors.apellido}
                 helperText={errors.apellido}
               />
@@ -175,7 +196,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
                 error={!!errors.email}
                 helperText={errors.email}
               />
@@ -191,7 +218,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
                 error={!!errors.telefono}
                 helperText={errors.telefono}
               />
@@ -213,6 +246,7 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                 marginTop: "0rem",
                 marginBottom: "2rem",
                 marginLeft: "1rem",
+                fontFamily: '"Kanit", sans-serif',
               }}
             >
               Datos de Envío
@@ -230,7 +264,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
               <TextField
                 name="datosEnvio.numero"
@@ -244,7 +284,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
               <TextField
                 name="datosEnvio.pisoDpto"
@@ -258,7 +304,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
               <TextField
                 name="datosEnvio.codigoPostal"
@@ -272,7 +324,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
               <TextField
                 name="datosEnvio.barrio"
@@ -286,7 +344,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
               <TextField
                 name="datosEnvio.ciudad"
@@ -300,7 +364,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
               <TextField
                 name="datosEnvio.provincia"
@@ -314,7 +384,13 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
             </div>
           </div>
@@ -323,14 +399,23 @@ const ClientForm = ({ customers, setOpenForm, openForm }) => {
             type="submit"
             variant="contained"
             color="primary"
-            style={{ marginBottom: "1rem", width: "50%", maxWidth: "200px" }}
+            style={{
+              marginBottom: "1rem",
+              width: "50%",
+              maxWidth: "200px",
+              fontFamily: '"Kanit", sans-serif',
+            }}
           >
             Cargar Cliente
           </Button>
         </form>
       </div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button variant="contained" onClick={handleReturn}>
+        <Button
+          style={{ fontFamily: '"Kanit", sans-serif' }}
+          variant="contained"
+          onClick={handleReturn}
+        >
           Volver
         </Button>
       </div>

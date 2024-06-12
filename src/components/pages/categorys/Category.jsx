@@ -14,6 +14,8 @@ import {
   updateDoc,
   setDoc,
   doc,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { db, uploadFile } from "../../../firebaseConfig"; // Assuming you have a storage reference in firebaseConfig
 import { Skeleton } from "@mui/material";
@@ -30,14 +32,19 @@ const Category = () => {
   React.useEffect(() => {
     const fetchCategories = async () => {
       try {
+        // Referencia a la colección "categorys" y ordena por el campo "status"
         const categoryCollection = collection(db, "categorys");
-        const querySnapshot = await getDocs(categoryCollection);
-        const categoriesData = [];
+        const categoryQuery = query(categoryCollection, orderBy("status"));
+        const querySnapshot = await getDocs(categoryQuery);
 
+        const categoriesData = [];
         querySnapshot.forEach((doc) => {
           const category = { id: doc.id, ...doc.data() };
           categoriesData.push(category);
         });
+
+        // Ordenar para que los valores true aparezcan primero
+        categoriesData.sort((a, b) => b.status - a.status);
 
         setCategories(categoriesData);
       } catch (error) {
@@ -111,8 +118,9 @@ const Category = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "flex-start",
         width: "100%",
+        marginTop: "5rem",
       }}
     >
       {/* Sección para cargar una nueva categoría */}
@@ -141,6 +149,13 @@ const Category = () => {
           onChange={(e) => setNewCategoryId(e.target.value.replace(/\s/g, ""))}
           error={Boolean(error)} // Activar el estado de error en el TextField
           helperText={error} // Mostrar el mensaje de error
+          InputLabelProps={{
+            shrink: true,
+            style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+          }}
+          InputProps={{
+            style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+          }}
         />
         <TextField
           fullWidth
@@ -148,6 +163,13 @@ const Category = () => {
           value={newCategoryName}
           onChange={(e) => setNewCategoryName(e.target.value)}
           style={{ marginTop: "1rem" }}
+          InputLabelProps={{
+            shrink: true,
+            style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+          }}
+          InputProps={{
+            style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+          }}
         />
         <div
           style={{
@@ -236,7 +258,10 @@ const Category = () => {
               ))
             : // Renderizar las categorías normales una vez cargadas
               categories.map((category) => (
-                <ListItem key={category.id}>
+                <ListItem
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                  key={category.id}
+                >
                   <ListItemIcon>
                     <img
                       src={

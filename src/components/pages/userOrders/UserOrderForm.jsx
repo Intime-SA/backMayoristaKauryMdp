@@ -266,10 +266,12 @@ function UserOrderForm({ setOpenForm }) {
       maxHeight: "50vh", // Establece una altura máxima para que los elementos sean desplazables si exceden el espacio
       overflowY: "auto", // Añade una barra de desplazamiento vertical si es necesario
       alignItems: "flex-start",
+      fontFamily: '"Kanit", sans-serif',
       width: "100%",
     },
     productContainer: {
       marginBottom: "0.5rem",
+      fontFamily: '"Kanit", sans-serif',
       width: "100%",
     },
 
@@ -283,6 +285,7 @@ function UserOrderForm({ setOpenForm }) {
       borderRadius: "8px",
       padding: "1rem",
       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+      fontFamily: '"Kanit", sans-serif',
       transition: "background-color 0.3s ease",
       "&:hover": {
         backgroundColor: "#e0e0e0",
@@ -297,12 +300,13 @@ function UserOrderForm({ setOpenForm }) {
       fontSize: "1.2rem",
       fontWeight: "bold",
       color: "#333",
+      fontFamily: '"Kanit", sans-serif',
     },
     productDetails: {
       margin: "0",
       fontSize: "0.9rem",
       color: "#666",
-      fontFamily: "Roboto Condensed, sans-serif",
+      fontFamily: '"Kanit", sans-serif',
       width: "100%",
     },
   };
@@ -327,7 +331,6 @@ function UserOrderForm({ setOpenForm }) {
           backgroundColor: "#f7f7f7",
         }}
       >
-        <h6>Cliente</h6>
         <Autocomplete
           options={clientes}
           getOptionLabel={(option) => `${option.name} ${option.apellido}`}
@@ -337,9 +340,19 @@ function UserOrderForm({ setOpenForm }) {
               {...params}
               label="Seleccionar cliente"
               variant="outlined"
+              sx={{ fontFamily: '"Kanit", sans-serif' }}
             />
           )}
+          sx={{
+            ".MuiAutocomplete-inputRoot": {
+              fontFamily: '"Kanit", sans-serif',
+            },
+            ".MuiAutocomplete-option": {
+              fontFamily: '"Kanit", sans-serif',
+            },
+          }}
         />
+
         <br />
         {/*         <div
           style={{
@@ -362,7 +375,10 @@ function UserOrderForm({ setOpenForm }) {
         </div> */}
       </div>
 
-      <Button style={{ margin: "1rem" }} onClick={() => setOpenModal(true)}>
+      <Button
+        style={{ margin: "1rem", fontFamily: '"Kanit", sans-serif' }}
+        onClick={() => setOpenModal(true)}
+      >
         <span class="material-symbols-outlined">search</span>
         Productos
       </Button>
@@ -387,6 +403,14 @@ function UserOrderForm({ setOpenForm }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ marginRight: "0.5rem" }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                min: 1,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
             />
             <Button
               onClick={handleBuscarProductos}
@@ -489,7 +513,14 @@ function UserOrderForm({ setOpenForm }) {
           variant="outlined"
           fullWidth
           style={{ marginTop: "1rem", width: "10%" }}
-          inputProps={{ min: 1 }}
+          InputLabelProps={{
+            shrink: true,
+            style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+          }}
+          InputProps={{
+            min: 1,
+            style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+          }}
         />
         <TextField
           label="Descuento %"
@@ -499,7 +530,14 @@ function UserOrderForm({ setOpenForm }) {
           variant="outlined"
           fullWidth
           style={{ marginTop: "1rem", width: "10%" }}
-          inputProps={{ min: 1 }}
+          InputLabelProps={{
+            shrink: true,
+            style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+          }}
+          InputProps={{
+            min: 1,
+            style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+          }}
         />
         <Button
           variant="contained"
@@ -510,12 +548,16 @@ function UserOrderForm({ setOpenForm }) {
         </Button>
       </div>
 
-      <h6 style={{ marginTop: "2rem" }}>Articulos agregados a la orden</h6>
+      <h6 style={{ marginTop: "2rem", fontFamily: '"Kanit", sans-serif' }}>
+        Articulos agregados a la orden
+      </h6>
       <TableContainer component={Paper} style={{ marginTop: "1rem" }}>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              <TableCell></TableCell>
+              <TableCell
+                style={{ fontFamily: '"Kanit", sans-serif' }}
+              ></TableCell>
               <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
                 Artículo
               </TableCell>
@@ -560,15 +602,19 @@ function UserOrderForm({ setOpenForm }) {
                     />
                   )}
                 </TableCell>
-                <TableCell>{producto.name}</TableCell>
-                <TableCell>
+                <TableCell style={{ fontFamily: '"Kanit", sans-serif' }}>
+                  {producto.name}
+                </TableCell>
+                <TableCell style={{ fontFamily: '"Kanit", sans-serif' }}>
                   {producto.unit_price.toLocaleString("es-AR", {
                     style: "currency",
                     currency: "ARS",
                   })}
                 </TableCell>
-                <TableCell>{producto.cantidad}</TableCell>
-                <TableCell>
+                <TableCell style={{ fontFamily: '"Kanit", sans-serif' }}>
+                  {producto.cantidad}
+                </TableCell>
+                <TableCell style={{ fontFamily: '"Kanit", sans-serif' }}>
                   {producto.porcentajeDescuento.toLocaleString("es-AR")} %
                 </TableCell>
                 <TableCell style={{ fontWeight: "900" }}>
@@ -600,20 +646,20 @@ function UserOrderForm({ setOpenForm }) {
         <h4
           style={{
             marginTop: "1rem",
-            fontFamily: "Roboto Condensed, sans-serif",
+            fontFamily: '"Kanit", sans-serif',
           }}
         >
           Total de la orden:
         </h4>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <strong style={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+          <strong style={{ fontFamily: '"Kanit", sans-serif' }}>
             ${calcularTotalOrden()}
           </strong>
           <Button
             onClick={handleSubmit}
-            style={{ margin: "1rem" }}
             variant="contained"
             color="success"
+            style={{ fontFamily: '"Kanit", sans-serif', margin: "1.5rem" }}
           >
             Crear Orden
           </Button>

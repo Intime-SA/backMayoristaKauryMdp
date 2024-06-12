@@ -425,6 +425,7 @@ const ItemListContainer = () => {
         fontSize: "2rem",
         position: "relative",
         width: "100%",
+        marginTop: "1rem",
       }}
     >
       <div style={{ marginLeft: "1rem" }}>

@@ -96,7 +96,9 @@ const EditClient = ({
 
   return (
     <div style={{ overflow: "auto", height: "50vh", zoom: "0.8" }}>
-      <h5 style={{ marginTop: "1rem" }}>Editar Cliente</h5>
+      <h5 style={{ marginTop: "1rem", fontFamily: '"Kanit", sans-serif' }}>
+        Editar Cliente
+      </h5>
       <div
         style={{
           border: "1px solid #ccc",
@@ -118,7 +120,13 @@ const EditClient = ({
               marginBottom: "0.5rem",
             }}
           >
-            <h5 style={{ margin: "1rem", marginBottom: "2rem" }}>
+            <h5
+              style={{
+                margin: "1rem",
+                marginBottom: "2rem",
+                fontFamily: '"Kanit", sans-serif',
+              }}
+            >
               Datos de Cliente
             </h5>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
@@ -134,7 +142,13 @@ const EditClient = ({
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
                 error={!!errors.name}
                 helperText={errors.name}
                 disabled // Deshabilitar edición
@@ -151,7 +165,13 @@ const EditClient = ({
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
                 error={!!errors.apellido}
                 helperText={errors.apellido}
                 disabled // Deshabilitar edición
@@ -168,7 +188,13 @@ const EditClient = ({
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
                 error={!!errors.email}
                 helperText={errors.email}
                 disabled // Deshabilitar edición
@@ -185,7 +211,13 @@ const EditClient = ({
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
                 error={!!errors.telefono}
                 helperText={errors.telefono}
               />
@@ -206,6 +238,7 @@ const EditClient = ({
                 marginTop: "0rem",
                 marginBottom: "2rem",
                 marginLeft: "1rem",
+                fontFamily: '"Kanit", sans-serif',
               }}
             >
               Datos de Envío
@@ -227,7 +260,13 @@ const EditClient = ({
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
 
               <TextField
@@ -246,7 +285,13 @@ const EditClient = ({
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
 
               <TextField
@@ -265,7 +310,13 @@ const EditClient = ({
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
 
               <TextField
@@ -284,7 +335,13 @@ const EditClient = ({
                   width: "50%",
                   maxWidth: "200px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
 
               <TextField
@@ -303,7 +360,13 @@ const EditClient = ({
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
 
               <TextField
@@ -322,7 +385,13 @@ const EditClient = ({
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
 
               <TextField
@@ -341,7 +410,13 @@ const EditClient = ({
                   width: "100%",
                   maxWidth: "400px",
                 }}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+                }}
+                InputProps={{
+                  style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+                }}
               />
             </div>
           </div>
@@ -350,14 +425,23 @@ const EditClient = ({
             type="submit"
             variant="contained"
             color="primary"
-            style={{ marginBottom: "1rem", width: "50%", maxWidth: "200px" }}
+            style={{
+              marginBottom: "1rem",
+              width: "50%",
+              maxWidth: "200px",
+              fontFamily: '"Kanit", sans-serif',
+            }}
           >
             Guardar Cambios
           </Button>
         </form>
       </div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button variant="contained" onClick={handleReturn}>
+        <Button
+          style={{ fontFamily: '"Kanit", sans-serif' }}
+          variant="contained"
+          onClick={handleReturn}
+        >
           Cancelar
         </Button>
       </div>
