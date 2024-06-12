@@ -304,6 +304,27 @@ const UserOrders = () => {
           </Button>
         </div>
       </Box>
+      <div
+        style={{ width: "100%", justifyContent: "flex-end", display: "flex" }}
+      >
+        <Button
+          variant="contained"
+          color="inherit"
+          disabled={currentPage === 1}
+          onClick={() => paginate(currentPage - 1)}
+          style={{ margin: "1rem" }}
+        >
+          <span class="material-symbols-outlined">navigate_before</span>
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => paginate(currentPage + 1)}
+          style={{ margin: "1rem", fontFamily: '"Kanit", sans-serif' }}
+        >
+          <span class="material-symbols-outlined">navigate_next</span>
+        </Button>
+      </div>
       <div style={{ width: "100%", height: "auto" }}>
         {openForm ? (
           <UserOrderForm setOpenForm={setOpenForm} />
@@ -341,26 +362,6 @@ const UserOrders = () => {
             {ordersLength}
           </strong>
         </Typography>
-
-        <div>
-          <Button
-            variant="contained"
-            color="inherit"
-            disabled={currentPage === 1}
-            onClick={() => paginate(currentPage - 1)}
-            style={{ margin: "1rem" }}
-          >
-            <span class="material-symbols-outlined">navigate_before</span>
-          </Button>
-
-          <Button
-            variant="contained"
-            onClick={() => paginate(currentPage + 1)}
-            style={{ margin: "1rem", fontFamily: '"Kanit", sans-serif' }}
-          >
-            <span class="material-symbols-outlined">navigate_next</span>
-          </Button>
-        </div>
       </Box>
     </div>
   );

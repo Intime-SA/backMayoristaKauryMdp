@@ -429,8 +429,18 @@ const ItemListContainer = () => {
     >
       <div style={{ marginLeft: "1rem" }}>
         <Tooltip describeChild title="Agregar producto nuevo">
-          <Button onClick={() => handleOpen(null)}>
-            <span class="material-symbols-outlined">add_box</span>
+          <Button
+            style={{ fontFamily: '"Kanit", sans-serif', margin: "1rem" }}
+            variant="contained"
+            onClick={() => handleOpen(null)}
+          >
+            <span
+              style={{ marginRight: "1rem" }}
+              class="material-symbols-outlined"
+            >
+              add_box
+            </span>
+            NUEVO PRODUCTO
           </Button>
         </Tooltip>
         {showContagramBtn && (
@@ -545,8 +555,19 @@ const ItemListContainer = () => {
           </Box>
         )}
         <Tooltip describeChild title="Actualizar stock">
-          <Button onClick={() => setShowContagramBtn(true)}>
-            <span class="material-symbols-outlined">upload_file</span>
+          <Button
+            style={{ fontFamily: '"Kanit", sans-serif' }}
+            variant="contained"
+            color="success"
+            onClick={() => setShowContagramBtn(true)}
+          >
+            <span
+              style={{ marginRight: "1rem" }}
+              class="material-symbols-outlined"
+            >
+              directory_sync
+            </span>
+            Actualizar Productos
           </Button>
         </Tooltip>
         {/*         <Tooltip describeChild title="EJECUTAR FUNCION">
@@ -559,11 +580,6 @@ const ItemListContainer = () => {
             <span class="material-symbols-outlined">mp</span>
           </Button>
                 </Tooltip> */}
-        <Tooltip describeChild title="Descargar lista de productos">
-          <Button onClick={() => exportToExcel()}>
-            <span class="material-symbols-outlined">download</span>
-          </Button>
-        </Tooltip>
       </div>
 
       <div style={{ marginBottom: "1rem" }}>
@@ -594,10 +610,57 @@ const ItemListContainer = () => {
             ),
           }}
         />
+
+        <Tooltip describeChild title="Descargar lista de productos">
+          <Button onClick={() => exportToExcel()}>
+            <span class="material-symbols-outlined">download</span>
+          </Button>
+        </Tooltip>
       </div>
-      <h6 style={{ fontFamily: '"Kanit", sans-serif', fontWeight: "100" }}>
-        Cantidad total de productos: {productsTotal}
-      </h6>
+      <div
+        mt={2}
+        style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+      >
+        {/* Botones de paginación */}
+        <Button
+          variant="contained"
+          color="inherit"
+          disabled={currentPage === 1}
+          onClick={() => paginate(currentPage - 1)}
+          style={{ margin: "1rem" }}
+        >
+          <span class="material-symbols-outlined">navigate_before</span>
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => paginate(currentPage + 1)}
+          style={{ margin: "1rem" }}
+        >
+          <span class="material-symbols-outlined">navigate_next</span>
+        </Button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <h6 style={{ fontFamily: '"Kanit", sans-serif', fontWeight: "100" }}>
+          Cantidad total de productos: {productsTotal}
+        </h6>
+        <h6
+          style={{
+            fontFamily: '"Kanit", sans-serif',
+            marginRight: "1rem",
+            fontWeight: "100",
+          }}
+        >
+          {" "}
+          Pagina: {currentPage}
+        </h6>
+      </div>
+
       {!open && (
         <div style={{ width: "100%" }}>
           <ItemListDetail
@@ -607,28 +670,6 @@ const ItemListContainer = () => {
             setCambio={setCambio}
             cambio={cambio}
           />
-          <Box
-            mt={2}
-            style={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            {/* Botones de paginación */}
-            <Button
-              variant="contained"
-              color="inherit"
-              disabled={currentPage === 1}
-              onClick={() => paginate(currentPage - 1)}
-              style={{ margin: "1rem" }}
-            >
-              <span class="material-symbols-outlined">navigate_before</span>
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => paginate(currentPage + 1)}
-              style={{ margin: "1rem" }}
-            >
-              <span class="material-symbols-outlined">navigate_next</span>
-            </Button>
-          </Box>
         </div>
       )}
       {open ? (

@@ -1,7 +1,40 @@
-import { TextField, Button } from "@mui/material";
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { TextField, Button, ThemeProvider, createTheme } from "@mui/material";
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: '"Kanit", sans-serif',
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& label": {
+            fontFamily: '"Kanit", sans-serif',
+          },
+          "& input": {
+            fontFamily: '"Kanit", sans-serif',
+          },
+          "& .MuiInputBase-root": {
+            fontFamily: '"Kanit", sans-serif',
+          },
+          "& .MuiFormHelperText-root": {
+            fontFamily: '"Kanit", sans-serif',
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"Kanit", sans-serif',
+        },
+      },
+    },
+  },
+});
 
 const Administracion = () => {
   const [costos, setCostos] = useState([]);
@@ -65,55 +98,57 @@ const Administracion = () => {
   };
 
   return (
-    <div>
-      <h4>Administracion</h4>
-      {costos.map((costo, index) => (
-        <div key={index}>
-          <div style={{ margin: "1rem" }}>
-            <TextField
-              id={`andreaniCostoDomicilio_${index}`}
-              label="Costo de Envio"
-              defaultValue={formatCurrency(costo.andreaniCostoDomicilio || 0)}
-              helperText="Este es el costo de envio a Domicilio Cliente"
-              variant="standard"
-              onChange={(e) =>
-                handleChange(index, "andreaniCostoDomicilio", e.target.value)
-              }
-              onInput={handleInput} // Validar entrada
-            />
+    <ThemeProvider theme={theme}>
+      <div>
+        <h4 style={{ fontFamily: '"Kanit", sans-serif' }}>Administracion</h4>
+        {costos.map((costo, index) => (
+          <div key={index}>
+            <div style={{ margin: "1rem" }}>
+              <TextField
+                id={`andreaniCostoDomicilio_${index}`}
+                label="Costo de Envio"
+                defaultValue={formatCurrency(costo.andreaniCostoDomicilio || 0)}
+                helperText="Este es el costo de envio a Domicilio Cliente"
+                variant="standard"
+                onChange={(e) =>
+                  handleChange(index, "andreaniCostoDomicilio", e.target.value)
+                }
+                onInput={handleInput} // Validar entrada
+              />
+            </div>
+            <div style={{ margin: "1rem" }}>
+              <TextField
+                id={`andreaniAsucursal_${index}`}
+                label="Costo de Envio"
+                defaultValue={formatCurrency(costo.andreaniAsucursal || 0)}
+                helperText="Este es el costo de envio a Sucursal Andreani"
+                variant="standard"
+                onChange={(e) =>
+                  handleChange(index, "andreaniAsucursal", e.target.value)
+                }
+                onInput={handleInput} // Validar entrada
+              />
+            </div>
+            <div style={{ margin: "1rem" }}>
+              <TextField
+                id={`transferencia_${index}`}
+                label="Costo Transferencia"
+                defaultValue={formatPercentage(costo.transferencia) || 0}
+                helperText="Este es el costo % de pagar con transferencia en Retiro Showroom"
+                variant="standard"
+                onChange={(e) =>
+                  handleChange(index, "transferencia", e.target.value)
+                }
+                onInput={handleInput} // Validar entrada
+              />
+            </div>
           </div>
-          <div style={{ margin: "1rem" }}>
-            <TextField
-              id={`andreaniAsucursal_${index}`}
-              label="Costo de Envio"
-              defaultValue={formatCurrency(costo.andreaniAsucursal || 0)}
-              helperText="Este es el costo de envio a Sucursal Andreani"
-              variant="standard"
-              onChange={(e) =>
-                handleChange(index, "andreaniAsucursal", e.target.value)
-              }
-              onInput={handleInput} // Validar entrada
-            />
-          </div>
-          <div style={{ margin: "1rem" }}>
-            <TextField
-              id={`transferencia_${index}`}
-              label="Costo Transferencia"
-              defaultValue={formatPercentage(costo.transferencia) || 0}
-              helperText="Este es el costo % de pagar con transferencia en Retiro Showroom"
-              variant="standard"
-              onChange={(e) =>
-                handleChange(index, "transferencia", e.target.value)
-              }
-              onInput={handleInput} // Validar entrada
-            />
-          </div>
-        </div>
-      ))}
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        Guardar Cambios
-      </Button>
-    </div>
+        ))}
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Guardar Cambios
+        </Button>
+      </div>
+    </ThemeProvider>
   );
 };
 

@@ -63,7 +63,7 @@ export default function DrawerMenu() {
           sx={{ fontFamily: '"Kanit", sans-serif', backgroundColor: "#121621" }}
         >
           <img
-            style={{ width: "200px" }}
+            style={{ width: "120px", margin: "1rem" }}
             src="https://www.kaury.com/img/kaury_logo_19.svg"
             alt="logoKaury"
           />
@@ -99,7 +99,12 @@ export default function DrawerMenu() {
 
         {!openDrawer && (
           <Button onClick={() => setOpenDrawer(true)}>
-            <span class="material-symbols-outlined">arrow_forward_ios</span>
+            <span
+              style={{ color: "#DE1A33" }}
+              class="material-symbols-outlined"
+            >
+              arrow_forward_ios
+            </span>
           </Button>
         )}
 
@@ -111,7 +116,7 @@ export default function DrawerMenu() {
                 {!openDrawer && (
                   <Tooltip title={title}>
                     <ListItemIcon>
-                      <Icon sx={{ color: "white" }} />
+                      <Icon sx={{ color: "white", marginLeft: "0.5rem" }} />
                     </ListItemIcon>
                   </Tooltip>
                 )}
@@ -131,7 +136,7 @@ export default function DrawerMenu() {
               </ListItemButton>
             </ListItem>
           ))}
-          {user.rol === rolAdmin && (
+          {/* {user.rol === rolAdmin && (
             <Link to={"/dashboard"}>
               <ListItem disablePadding>
                 <ListItemButton>
@@ -161,7 +166,7 @@ export default function DrawerMenu() {
                 </ListItemButton>
               </ListItem>
             </Link>
-          )}
+          )} */}
         </List>
         <Divider />
 

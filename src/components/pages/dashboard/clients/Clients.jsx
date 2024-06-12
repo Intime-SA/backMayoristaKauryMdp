@@ -162,30 +162,9 @@ const Clients = () => {
           ),
         }}
       />
-      <h6 style={{ fontFamily: '"Kanit", sans-serif', fontWeight: "100px" }}>
-        Cantidad total de clientes: {clients}
-      </h6>
-      <div style={{ width: "100%" }}>
-        {!openForm ? (
-          <ClientListDetail
-            customers={currentCustomers}
-            setStatusDelete={setStatusDelete}
-            statusDelete={statusDelete}
-            setOpenForm={setOpenForm}
-            setStatusEdit={setStatusEdit}
-            statusEdit={statusEdit}
-          />
-        ) : (
-          <ClientForm
-            customers={customers}
-            setOpenForm={setOpenForm}
-            openForm={openForm}
-          />
-        )}
-      </div>
       <Box
         mt={2}
-        style={{ display: "flex", justifyContent: "center", width: "100%" }}
+        style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
       >
         {/* Botones de paginación */}
         <Button
@@ -205,6 +184,42 @@ const Clients = () => {
           <span class="material-symbols-outlined">navigate_next</span>
         </Button>
       </Box>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <h6 style={{ fontFamily: '"Kanit", sans-serif', fontWeight: "100px" }}>
+          Cantidad total de clientes: {clients}
+        </h6>
+        <h6
+          style={{ fontFamily: '"Kanit", sans-serif', marginRight: "0.5rem" }}
+        >
+          {" "}
+          Pagina: {currentPage}
+        </h6>
+      </div>
+
+      <div style={{ width: "100%" }}>
+        {!openForm ? (
+          <ClientListDetail
+            customers={currentCustomers}
+            setStatusDelete={setStatusDelete}
+            statusDelete={statusDelete}
+            setOpenForm={setOpenForm}
+            setStatusEdit={setStatusEdit}
+            statusEdit={statusEdit}
+          />
+        ) : (
+          <ClientForm
+            customers={customers}
+            setOpenForm={setOpenForm}
+            openForm={openForm}
+          />
+        )}
+      </div>
     </div>
   );
 };

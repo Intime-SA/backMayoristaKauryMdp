@@ -173,7 +173,9 @@ const ProductForm = ({
 
   return (
     <div>
-      <h5 style={{ marginTop: "1rem" }}>Agregar Producto</h5>
+      <h5 style={{ marginTop: "1rem", fontFamily: '"Kanit", sans-serif' }}>
+        Completar datos > Nuevo Producto
+      </h5>
       <div
         style={{
           display: "flex",
@@ -226,9 +228,13 @@ const ProductForm = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 40%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
               error={!!nameError}
               helperText={nameError}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
             />
             <TextField
               name="idc"
@@ -238,9 +244,13 @@ const ProductForm = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 40%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
               error={!!idcError}
               helperText={idcError}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
             />
             <TextField
               name="description"
@@ -250,7 +260,11 @@ const ProductForm = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "100%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
             />
             <TextField
               name="stock"
@@ -261,9 +275,13 @@ const ProductForm = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
               error={!!stockError}
               helperText={stockError}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
             />
             <TextField
               name="unit_price"
@@ -274,7 +292,11 @@ const ProductForm = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
               error={!!unitPriceError}
               helperText={unitPriceError}
             />
@@ -287,7 +309,11 @@ const ProductForm = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
             />
             <TextField
               name="talle"
@@ -297,7 +323,11 @@ const ProductForm = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
             />
             <TextField
               name="color"
@@ -306,17 +336,38 @@ const ProductForm = ({
               value={newProduct.color}
               onChange={handleChange}
               fullWidth
-              style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              style={{
+                flex: "1 1 20%",
+                marginBottom: "1rem",
+                fontFamily: '"Kanit", sans-serif',
+              }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
             />
             <FormControl
               variant="outlined"
               fullWidth
-              InputLabelProps={{ shrink: true }}
-              style={{ marginBottom: "1rem" }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' },
+              }}
+              inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
+              style={{
+                marginBottom: "1rem",
+                fontFamily: '"Kanit", sans-serif',
+              }}
+              s
             >
               <InputLabel
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' },
+                }}
+                style={{ fontFamily: '"Kanit", sans-serif' }}
+                inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
                 id="category-label"
                 shrink
               >
@@ -329,11 +380,22 @@ const ProductForm = ({
                 onChange={handleChange} // Suponiendo que handleChange actualiza el estado con el valor seleccionado
                 fullWidth
                 label="Categoria"
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{
+                  shrink: true,
+                  style: { fontFamily: '"Kanit", sans-serif' },
+                }}
+                inputProps={{ style: { fontFamily: '"Kanit", sans-serif' } }}
                 error={categoryError}
+                style={{ fontFamily: '"Kanit", sans-serif' }}
               >
                 {categories.map((category) => (
-                  <MenuItem key={category.id} value={category.id}>
+                  <MenuItem
+                    style={{
+                      fontFamily: '"Kanit", sans-serif',
+                    }}
+                    key={category.id}
+                    value={category.id}
+                  >
                     {category.name}
                   </MenuItem>
                 ))}
@@ -358,7 +420,11 @@ const ProductForm = ({
               id="fileInput"
             />
             <label htmlFor="fileInput" style={{ marginRight: "8px" }}>
-              <Button variant="contained" component="span">
+              <Button
+                style={{ fontFamily: '"Kanit", sans-serif' }}
+                variant="contained"
+                component="span"
+              >
                 Cargar Imagen
               </Button>
             </label>
@@ -367,13 +433,21 @@ const ProductForm = ({
                 variant="contained"
                 onClick={handleImage}
                 disabled={isLoading}
-                style={{ marginRight: "8px" }}
+                style={{
+                  marginRight: "8px",
+                  fontFamily: '"Kanit", sans-serif',
+                }}
               >
                 {isLoading ? "Cargando..." : "Subir Imagen"}
               </Button>
             )}
             {isImageUploaded && (
-              <Button type="submit" variant="contained" color="success">
+              <Button
+                style={{ fontFamily: '"Kanit", sans-serif' }}
+                type="submit"
+                variant="contained"
+                color="success"
+              >
                 Crear Producto
               </Button>
             )}
@@ -386,7 +460,11 @@ const ProductForm = ({
           justifyContent: "flex-end",
         }}
       >
-        <Button variant="contained" onClick={handleReturn}>
+        <Button
+          style={{ fontFamily: '"Kanit", sans-serif' }}
+          variant="contained"
+          onClick={handleReturn}
+        >
           Volver
         </Button>
       </div>

@@ -6,6 +6,8 @@ import ClassIcon from "@mui/icons-material/Class";
 
 import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
 
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 export const menuItems = [
   {
     id: "home",
@@ -32,15 +34,21 @@ export const menuItems = [
     Icon: ShopIcon,
   },
   {
-    id: "categorys",
-    path: "/categorys",
-    title: "Categorias",
-    Icon: ClassIcon,
+    id: "dashboard",
+    path: "/dashboard",
+    title: "Clientes",
+    Icon: AccountCircleIcon,
   },
   {
     id: "administracion",
     path: "/administracion",
     title: "Administracion",
     Icon: DashboardCustomizeIcon,
+  },
+  {
+    id: "categorys",
+    path: "/categorys",
+    title: "Categorias",
+    Icon: ClassIcon,
   },
 ];

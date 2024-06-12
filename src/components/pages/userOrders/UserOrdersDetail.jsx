@@ -943,24 +943,37 @@ function UserOrdersDetail({
           alignItems: "flex-start",
         }}
       >
-        <Button
-          style={{ margin: "1rem" }}
-          variant="outlined"
-          onClick={() => exportToExcel()}
-          style={{ fontFamily: '"Kanit", sans-serif' }}
-        >
-          <span
-            style={{ marginRight: "1rem" }}
-            class="material-symbols-outlined"
-          >
-            download
-          </span>{" "}
-          Exportar
-        </Button>
         <div
-          style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            width: "100%",
+          }}
         >
-          <h6 style={{ fontFamily: '"Kanit", sans-serif' }}>
+          <Button
+            variant="outlined"
+            onClick={() => exportToExcel()}
+            style={{
+              fontFamily: '"Kanit", sans-serif',
+              marginBottom: "0.5rem",
+            }}
+          >
+            <span
+              style={{ marginRight: "1rem" }}
+              class="material-symbols-outlined"
+            >
+              download
+            </span>{" "}
+            Exportar
+          </Button>
+          <h6
+            style={{
+              fontFamily: '"Kanit", sans-serif',
+              marginRight: "0.5rem",
+              fontWeight: "100",
+            }}
+          >
             {" "}
             Pagina: {currentPage}
           </h6>
