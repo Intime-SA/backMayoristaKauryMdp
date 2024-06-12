@@ -63,7 +63,7 @@ function Row(props) {
       <TableRow
         sx={{
           "& > *": { borderBottom: "unset" },
-          fontFamily: "Roboto, sans-serif",
+          fontFamily: '"Kanit", sans-serif',
         }}
       >
         <TableCell>
@@ -76,55 +76,43 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif", fontWeight: 900 }}
+          sx={{ fontFamily: '"Kanit", sans-serif', fontWeight: 900 }}
           component="th"
           scope="row"
         >
           {row.idc}
         </TableCell>
         <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          sx={{ fontFamily: '"Kanit", sans-serif' }}
           component="th"
           scope="row"
         >
           {row.name}
         </TableCell>
         <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          sx={{ fontFamily: '"Kanit", sans-serif' }}
           align="right"
           style={{ fontWeight: "900" }}
         >
           $ {row.unit_price.toFixed(2)}
         </TableCell>
 
-        <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-          align="right"
-        >
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }} align="right">
           {row.stock}
         </TableCell>
-        <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-          align="right"
-        >
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }} align="right">
           {row.talle}
         </TableCell>
-        <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-          align="right"
-        >
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }} align="right">
           {row.color}
         </TableCell>
         <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif", fontWeight: 900 }}
+          sx={{ fontFamily: '"Kanit", sans-serif', fontWeight: 900 }}
           align="right"
         >
           {category}
         </TableCell>
-        <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-          align="right"
-        >
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }} align="right">
           <Tooltip describeChild title="Editar">
             <Button onClick={() => editProducts(row.idc)}>
               <span class="material-symbols-outlined">edit</span>
@@ -151,19 +139,19 @@ function Row(props) {
                   <TableRow>
                     <TableCell
                       align="center"
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      sx={{ fontFamily: '"Kanit", sans-serif' }}
                     >
                       Imagen
                     </TableCell>
                     <TableCell
                       align="left"
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      sx={{ fontFamily: '"Kanit", sans-serif' }}
                     >
                       Descripción
                     </TableCell>
                     <TableCell
                       align="right"
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      sx={{ fontFamily: '"Kanit", sans-serif' }}
                     >
                       Precio Promocional
                     </TableCell>
@@ -198,13 +186,11 @@ function Row(props) {
                         />
                       )}
                     </TableCell>
-                    <TableCell
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-                    >
+                    <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }}>
                       {row.description}
                     </TableCell>
                     <TableCell
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      sx={{ fontFamily: '"Kanit", sans-serif' }}
                       align="right"
                     >
                       $ {row.promotional_price}
@@ -250,47 +236,51 @@ function ItemListDetail({
     >
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableRow style={{ backgroundColor: "rgba(249, 214, 224, 0.6)" }}>
+          <TableRow style={{ backgroundColor: "#121621", color: "white" }}>
             <TableCell />
-            <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+            <TableCell
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
+            >
               ID
             </TableCell>
-            <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
+            <TableCell
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
+            >
               Producto
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
             >
               Precio
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
             >
               Stock
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
             >
               Talle
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
             >
               Color
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
             >
               Categoria
             </TableCell>
             <TableCell
               align="right"
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
             >
               Acciones
             </TableCell>

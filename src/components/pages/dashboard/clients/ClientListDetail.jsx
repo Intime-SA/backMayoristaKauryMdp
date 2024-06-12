@@ -104,7 +104,12 @@ function Row(props) {
     if (row.datosEnvio && Object.keys(row.datosEnvio).length > 0) {
       return (
         <div>
-          <Typography variant="body1">Datos de Envío:</Typography>
+          <Typography
+            variant="body1"
+            style={{ fontFamily: '"Kanit", sans-serif' }}
+          >
+            Datos de Envío:
+          </Typography>
           <ul>
             {Object.entries(row.datosEnvio).map(([key, value]) => (
               <li key={key}>
@@ -181,48 +186,40 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+          sx={{ fontFamily: '"Kanit", sans-serif' }}
           component="th"
           scope="row"
         >
           {row.name + " " + row.apellido}
         </TableCell>
-        <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
-          $
-        </TableCell>
-        <TableCell sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
-          $
-        </TableCell>
-        <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-          align="center"
-        >
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }}>$</TableCell>
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }}>$</TableCell>
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }} align="center">
           {client()}
         </TableCell>
-        <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-        ></TableCell>
-        <TableCell
-          sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-          align="rigth"
-        >
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }}></TableCell>
+        <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }} align="rigth">
           <div
             style={{
               display: "flex",
               justifyContent: "center",
             }}
           >
-            <Button onClick={() => editClient(row.id)}>
-              <span class="material-symbols-outlined">edit</span>
-            </Button>
+            <Tooltip title={`Editar ${row.name}`}>
+              <Button onClick={() => editClient(row.id)}>
+                <span class="material-symbols-outlined">edit</span>
+              </Button>
+            </Tooltip>
             <Tooltip title={renderShippingData()} arrow>
               <Button>
                 <span class="material-symbols-outlined">local_shipping</span>
               </Button>
             </Tooltip>
-            <Button onClick={() => handleOpenModal(row.email, row.name)}>
-              <span class="material-symbols-outlined">mail</span>
-            </Button>
+            <Tooltip title={`Enviar correo a ${row.name}`}>
+              <Button onClick={() => handleOpenModal(row.email, row.name)}>
+                <span class="material-symbols-outlined">mail</span>
+              </Button>
+            </Tooltip>
             <EmailModal
               open={openModal}
               handleClose={handleCloseModal}
@@ -252,18 +249,14 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-                    >
+                    <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }}>
                       Email
                     </TableCell>
-                    <TableCell
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-                    >
+                    <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }}>
                       Fecha Adhesion
                     </TableCell>
                     <TableCell
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      sx={{ fontFamily: '"Kanit", sans-serif' }}
                       align="right"
                     >
                       Contacto
@@ -274,19 +267,17 @@ function Row(props) {
                 <TableBody>
                   <TableRow /* key={row.fec} */>
                     <TableCell
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      sx={{ fontFamily: '"Kanit", sans-serif' }}
                       component="th"
                       scope="row"
                     >
                       {row.email}
                     </TableCell>
-                    <TableCell
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
-                    >
+                    <TableCell sx={{ fontFamily: '"Kanit", sans-serif' }}>
                       {formattedFechaInicio}
                     </TableCell>
                     <TableCell
-                      sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+                      sx={{ fontFamily: '"Kanit", sans-serif' }}
                       align="right"
                     >
                       <div
@@ -296,17 +287,19 @@ function Row(props) {
                           alignItems: "center",
                         }}
                       >
-                        <Button
-                          style={{ marginBottom: "0.5rem" }}
-                          onClick={() => phoneNumber(row.telefono)}
-                        >
-                          <img
-                            style={{ marginTop: "0.5rem" }}
-                            width="20rem"
-                            src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/whatsapp.svg?alt=media&token=83bb48a7-7405-4a69-867c-44568a7e108f"
-                            alt="logowsp"
-                          />
-                        </Button>
+                        <Tooltip title={`Enviar WhatsApp a ${row.name}`}>
+                          <Button
+                            style={{ marginBottom: "0.5rem" }}
+                            onClick={() => phoneNumber(row.telefono)}
+                          >
+                            <img
+                              style={{ marginTop: "0.5rem" }}
+                              width="20rem"
+                              src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/whatsapp.svg?alt=media&token=83bb48a7-7405-4a69-867c-44568a7e108f"
+                              alt="logowsp"
+                            />
+                          </Button>
+                        </Tooltip>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -372,38 +365,38 @@ function ClientListDetail({
       style={{ backgroundColor: "rgba(255, 255, 255, 0.6)" }}
     >
       <Table aria-label="collapsible table">
-        <TableHead sx={{ fontFamily: "Roboto Condensed, sans-serif" }}>
-          <TableRow style={{ backgroundColor: "rgba(249, 214, 224, 0.6)" }}>
+        <TableHead sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}>
+          <TableRow style={{ backgroundColor: "#121621" }}>
             <TableCell />
             <TableCell
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
               align="left"
             >
               Nombre Completo
             </TableCell>
             <TableCell
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
               align="left"
             >
               Total Consumido
             </TableCell>
             <TableCell
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
               align="left"
             >
               Cantidad Compras
             </TableCell>
             <TableCell
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
               align="center"
             >
               Usuario
             </TableCell>
             <TableCell
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
             ></TableCell>
             <TableCell
-              sx={{ fontFamily: "Roboto Condensed, sans-serif" }}
+              sx={{ fontFamily: '"Kanit", sans-serif', color: "white" }}
               align="center"
             >
               Acciones

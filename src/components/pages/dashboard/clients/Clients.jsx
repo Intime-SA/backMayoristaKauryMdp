@@ -93,19 +93,17 @@ const Clients = () => {
       style={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
         flexDirection: "column",
         fontSize: "2rem",
         position: "relative",
-        width: "70vw",
-        marginLeft: "13vw",
-        marginRight: "13vw",
+        width: "100%",
       }}
     >
       <Box>
         <div style={{ marginBottom: "1rem" }}>
           <Button
-            style={{ marginLeft: "1rem" }}
+            style={{ marginLeft: "1rem", fontFamily: '"Kanit", sans-serif' }}
             variant="outlined"
             color="error"
             onClick={exportToExcel}
@@ -119,7 +117,7 @@ const Clients = () => {
             Exportar Lista
           </Button>
           <Button
-            style={{ marginLeft: "1rem" }}
+            style={{ marginLeft: "1rem", fontFamily: '"Kanit", sans-serif' }}
             variant="contained"
             color="error"
             onClick={() => setOpenForm(true)}
@@ -135,13 +133,13 @@ const Clients = () => {
         </div>
         {/* Campo de filtro */}
       </Box>
-      <h6>Cantidad total de clientes: {clients}</h6>
+
       <TextField
         label=""
         value={filterValue}
         onChange={(e) => setFilterValue(e.target.value)}
         variant="outlined"
-        style={{ marginLeft: "10px", padding: "5px", marginBottom: "0.5rem" }}
+        style={{ marginLeft: "10px", padding: "5px", marginBottom: "1rem" }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -164,6 +162,9 @@ const Clients = () => {
           ),
         }}
       />
+      <h6 style={{ fontFamily: '"Kanit", sans-serif', fontWeight: "100px" }}>
+        Cantidad total de clientes: {clients}
+      </h6>
       <div style={{ width: "100%" }}>
         {!openForm ? (
           <ClientListDetail

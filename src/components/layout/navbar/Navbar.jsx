@@ -21,6 +21,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import ClassIcon from "@mui/icons-material/Class";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DrawerMenu from "../drawer/Drawer";
 
 const drawerWidth = 200;
 
@@ -63,14 +64,20 @@ function Navbar(props) {
     >
       <Toolbar />
 
-      <List>
+      <List
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {menuItems.map(({ id, path, title, Icon }) => {
           return (
             <Link key={id} to={path}>
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <Icon sx={{ color: "#c4072c" }} />
+                    <Icon sx={{ color: "#c4072c", marginBottom: "1rem" }} />
                   </ListItemIcon>
                   <ListItemText primary={title} sx={{ color: "#c4072c" }} />
                 </ListItemButton>
@@ -110,7 +117,6 @@ function Navbar(props) {
     <Box
       sx={{
         display: "flex",
-        backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/fondoKaury%20(1).png?alt=media&token=bed0fb8e-4f33-4f4e-a984-1d123cb2bf6a")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -125,7 +131,7 @@ function Navbar(props) {
       >
         <Toolbar
           sx={{
-            gap: "20px",
+            gap: "0px",
             display: "flex",
             justifyContent: "space-between",
             backgroundColor: "white",
@@ -198,6 +204,7 @@ function Navbar(props) {
         >
           {drawer}
         </Drawer>
+        <DrawerMenu />
       </Box>
       <Box
         component="main"

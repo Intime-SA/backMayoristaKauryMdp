@@ -178,7 +178,7 @@ const EditProduct = ({
         zoom: "0.9",
       }}
     >
-      <h5>Editar Producto</h5>
+      <h5 style={{ fontFamily: '"Kanit", sans-serif' }}>Editar Producto</h5>
       <div
         style={{
           border: "1px solid #ccc",
@@ -223,7 +223,13 @@ const EditProduct = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 50%", marginTop: "3.5%" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
               error={!!nameError}
               helperText={nameError}
             />
@@ -235,7 +241,13 @@ const EditProduct = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 40%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
               InputProps={{
                 readOnly: true,
                 style: {
@@ -252,7 +264,13 @@ const EditProduct = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "100%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
             />
             <TextField
               name="stock"
@@ -262,8 +280,18 @@ const EditProduct = ({
               value={editedProduct.stock}
               onChange={handleChange}
               fullWidth
-              style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              style={{
+                flex: "1 1 20%",
+                marginBottom: "1rem",
+                fontFamily: '"Kanit", sans-serif',
+              }}
+              InputLabelProps={{
+                shrink: true,
+                fontFamily: '"Kanit", sans-serif',
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
               error={!!stockError}
               helperText={stockError}
             />
@@ -275,8 +303,18 @@ const EditProduct = ({
               value={editedProduct.unit_price}
               onChange={handleChange}
               fullWidth
-              style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              style={{
+                flex: "1 1 20%",
+                marginBottom: "1rem",
+                fontFamily: '"Kanit", sans-serif',
+              }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
               error={!!unitPriceError}
               helperText={unitPriceError}
             />
@@ -289,7 +327,13 @@ const EditProduct = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
             />
             <TextField
               name="talle"
@@ -299,7 +343,13 @@ const EditProduct = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
             />
             <TextField
               name="color"
@@ -309,7 +359,13 @@ const EditProduct = ({
               onChange={handleChange}
               fullWidth
               style={{ flex: "1 1 20%", marginBottom: "1rem" }}
-              InputLabelProps={{ shrink: true }}
+              InputLabelProps={{
+                shrink: true,
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente de la etiqueta
+              }}
+              InputProps={{
+                style: { fontFamily: '"Kanit", sans-serif' }, // Cambiar la fuente del valor
+              }}
             />
           </div>
           <FormControl
@@ -354,7 +410,11 @@ const EditProduct = ({
               id="fileInput"
             />
             <label htmlFor="fileInput" style={{ marginRight: "8px" }}>
-              <Button variant="contained" component="span">
+              <Button
+                variant="contained"
+                component="span"
+                style={{ fontFamily: '"Kanit", sans-serif' }}
+              >
                 Actualizar Imagen
               </Button>
             </label>
@@ -363,13 +423,21 @@ const EditProduct = ({
                 variant="contained"
                 onClick={handleImage}
                 disabled={isLoading}
-                style={{ marginRight: "8px" }}
+                style={{
+                  marginRight: "8px",
+                  fontFamily: '"Kanit", sans-serif',
+                }}
               >
                 {isLoading ? "Cargando..." : "Subir Imagen"}
               </Button>
             )}
 
-            <Button type="submit" variant="contained" color="success">
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              style={{ fontFamily: '"Kanit", sans-serif' }}
+            >
               Actualizar Producto
             </Button>
           </div>
@@ -382,7 +450,11 @@ const EditProduct = ({
           marginTop: "1rem",
         }}
       >
-        <Button variant="contained" onClick={handleReturn}>
+        <Button
+          variant="contained"
+          onClick={handleReturn}
+          style={{ fontFamily: '"Kanit", sans-serif' }}
+        >
           Cerrar
         </Button>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { db } from "../../../firebaseConfig";
 import {
   Timestamp,
@@ -21,6 +21,7 @@ import {
 import UserOrdersDetail from "./UserOrdersDetail";
 import UserOrderForm from "./UserOrderForm";
 import Typography from "@mui/material/Typography";
+import { DrawerContext } from "../../context/DrawerContext";
 
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -33,6 +34,7 @@ const UserOrders = () => {
   const [orderFilters, setOrdersFilters] = useState([]);
   const [ordersLength, setOrdersLength] = useState(0);
   const [archivada, setArchivada] = useState(false);
+  const { openDrawer } = useContext(DrawerContext);
 
   useEffect(() => {
     // Esperar a que orders tenga datos
@@ -235,12 +237,12 @@ const UserOrders = () => {
     <div
       style={{
         display: "flex",
-        justifyContent: "space-around",
-        alignItems: "flex-end",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
         flexDirection: "column",
         fontSize: "2rem",
         position: "relative",
-        width: "95vw",
+        width: "100%",
       }}
     >
       <Box>
@@ -256,7 +258,7 @@ const UserOrders = () => {
             variant="body1"
             color="text.primary"
             style={{
-              fontFamily: '"Roboto Condensed", sans-serif',
+              fontFamily: '"Kanit", sans-serif',
               fontWeight: "800",
             }}
           >
@@ -287,7 +289,7 @@ const UserOrders = () => {
             />
           </div>
           <Button
-            style={{ marginLeft: "1rem" }}
+            style={{ marginLeft: "1rem", fontFamily: '"Kanit", sans-serif' }}
             variant="contained"
             color="error"
             onClick={() => setOpenForm(true)}
@@ -328,8 +330,16 @@ const UserOrders = () => {
         }}
       >
         {/* Botones de paginación */}
-        <Typography component="span" variant="body2" color="text.primary">
-          Ordenes Activas: <strong>{ordersLength}</strong>
+        <Typography
+          component="span"
+          variant="body2"
+          color="text.primary"
+          style={{ fontFamily: '"Kanit", sans-serif' }}
+        >
+          Ordenes Activas:{" "}
+          <strong style={{ fontFamily: '"Kanit", sans-serif' }}>
+            {ordersLength}
+          </strong>
         </Typography>
 
         <div>
@@ -346,7 +356,7 @@ const UserOrders = () => {
           <Button
             variant="contained"
             onClick={() => paginate(currentPage + 1)}
-            style={{ margin: "1rem" }}
+            style={{ margin: "1rem", fontFamily: '"Kanit", sans-serif' }}
           >
             <span class="material-symbols-outlined">navigate_next</span>
           </Button>

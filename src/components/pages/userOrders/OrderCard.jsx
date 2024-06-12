@@ -68,7 +68,13 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
     if (estado === "nueva") {
       return (
         <Alert severity="warning">
-          <AlertTitle style={{ fontSize: "100%", height: "0.5rem" }}>
+          <AlertTitle
+            style={{
+              fontSize: "100%",
+              height: "0.5rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+          >
             Pendiente
           </AlertTitle>
           {/* <strong>El pedido ya fue preparado</strong> */}
@@ -82,6 +88,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
             display: "flex",
             alignItems: "center",
             width: "100%",
+            fontFamily: '"Kanit", sans-serif',
           }}
           size="small"
           severity="info"
@@ -99,6 +106,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               alignItems: "center",
               width: "100%",
               marginTop: "0.1rem",
+              fontFamily: '"Kanit", sans-serif',
             }}
             variant="outlined"
           >
@@ -110,7 +118,13 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
     } else if (estado === "enviada") {
       return (
         <Alert variant="outlined" severity="success">
-          <AlertTitle style={{ fontSize: "100%", height: "0.5rem" }}>
+          <AlertTitle
+            style={{
+              fontSize: "100%",
+              height: "0.5rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+          >
             En Distribucion
           </AlertTitle>
           {/* <strong>El pedido fue entregado con exito</strong> */}
@@ -126,6 +140,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
             display: "flex",
             alignItems: "center",
             width: "100%",
+            fontFamily: '"Kanit", sans-serif',
           }}
         >
           Cancelado
@@ -133,7 +148,11 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
       );
     } else if (estado === "archivada") {
       return (
-        <Alert variant="contained" color="info">
+        <Alert
+          style={{ fontFamily: '"Kanit", sans-serif' }}
+          variant="contained"
+          color="info"
+        >
           <AlertTitle>Archivada</AlertTitle>
         </Alert>
       );
@@ -174,13 +193,18 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
         justifyContent: "space-between",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
         borderRadius: "16px",
-        backgroundColor: cardBackgroundColor, // Color de fondo dinámico
+        backgroundColor: cardBackgroundColor,
+        fontFamily: '"Kanit", sans-serif', // Color de fondo dinámico
       }}
     >
       <CardContent>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
-            style={{ textAlign: "left", fontSize: "1.2rem" }}
+            style={{
+              textAlign: "left",
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
             gutterBottom
             variant="h6"
             component="div"
@@ -188,19 +212,28 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           >
             <h6 style={{ fontSize: "150%" }}>
               {" "}
-              ORDEN # <strong>{dataOrder.numberOrder}</strong>
+              #
+              <strong style={{ fontFamily: '"Kanit", sans-serif' }}>
+                {dataOrder.numberOrder}
+              </strong>
             </h6>
-            <h6 style={{ fontSize: "70%" }}> ID: {dataOrder.id}</h6>
+            <h6 style={{ fontSize: "70%", fontFamily: '"Kanit", sans-serif' }}>
+              {" "}
+              ID: {dataOrder.id}
+            </h6>
           </Typography>
           <div>{estadoRender(dataOrder.status)}</div>
         </div>
 
-        <Typography variant="body1" color="text.secondary" fontSize="1.2rem">
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          fontSize="1.2rem"
+          style={{ fontFamily: '"Kanit", sans-serif' }}
+        >
           <strong>Fecha:</strong>{" "}
           {new Date(dataOrder.date.seconds * 1000).toLocaleString()}
           <Divider />
-          <strong>Cliente:</strong>
-          <br />
           <React.Fragment>
             Email: {dataCliente?.email}
             <br />
@@ -241,6 +274,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                       fontSize: "1.2rem",
                       fontWeight: "900",
                       marginBottom: "0px",
+                      fontFamily: '"Kanit", sans-serif',
                     }}
                   >
                     Domicilio cliente
@@ -255,6 +289,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                       fontSize: "1.2rem",
                       fontWeight: "900",
                       marginBottom: "0px",
+                      fontFamily: '"Kanit", sans-serif',
                     }}
                   >
                     Sucursal a Convenir
@@ -278,6 +313,7 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                     marginLeft: "1rem",
                     fontSize: "1.2rem",
                     fontWeight: "900",
+                    fontFamily: '"Kanit", sans-serif',
                   }}
                 >
                   Retiro por sucursal
@@ -287,13 +323,21 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               <Typography variant="body2" color="error">
                 {dataOrder.sucursal === 1 && (
                   <div>
-                    <Typography variant="body2" color="error">
+                    <Typography
+                      variant="body2"
+                      color="error"
+                      style={{ fontFamily: '"Kanit", sans-serif' }}
+                    >
                       Jose Marmol 970 / 10:00 a 17:00hs
                     </Typography>
                   </div>
                 )}
                 {dataOrder.sucursal === 2 && (
-                  <Typography variant="body2" color="error">
+                  <Typography
+                    variant="body2"
+                    color="error"
+                    style={{ fontFamily: '"Kanit", sans-serif' }}
+                  >
                     Rivadavia 5931 / 10:00 a 17:00hs
                   </Typography>
                 )}
@@ -302,7 +346,9 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
           )}
           <Divider />
           <br />
-          <strong>Productos:</strong>
+          <strong style={{ fontFamily: '"Kanit", sans-serif' }}>
+            Productos:
+          </strong>
           {/* Agregar un contenedor con estilos de desplazamiento */}
           <div style={{ maxHeight: "200px", overflowY: "auto" }}>
             <List>
@@ -317,22 +363,56 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
                             component="span"
                             variant="body2"
                             color="text.primary"
+                            style={{ fontFamily: '"Kanit", sans-serif' }}
                           >
-                            <strong>Descuento:</strong> {item.descuento}%
+                            <strong
+                              style={{ fontFamily: '"Kanit", sans-serif' }}
+                            >
+                              Descuento:
+                            </strong>{" "}
+                            {item.descuento}%
                             <br />
-                            <strong>Subtotal:</strong> $
-                            {item.subtotal.toLocaleString("es-AR")}
+                            <strong
+                              style={{ fontFamily: '"Kanit", sans-serif' }}
+                            >
+                              Subtotal:
+                            </strong>{" "}
+                            ${item.subtotal.toLocaleString("es-AR")}
                             <br />
-                            <strong>Precio Unitario:</strong> $
-                            {item.unit_price.toLocaleString("es-AR")}
+                            <strong
+                              style={{ fontFamily: '"Kanit", sans-serif' }}
+                            >
+                              Precio Unitario:
+                            </strong>{" "}
+                            ${item.unit_price.toLocaleString("es-AR")}
                             <br />
-                            <strong>Cantidad:</strong> {item.quantity}
+                            <strong
+                              style={{ fontFamily: '"Kanit", sans-serif' }}
+                            >
+                              Cantidad:
+                            </strong>{" "}
+                            {item.quantity}
                             <br />
-                            <strong>Talle:</strong> {item.talle}
+                            <strong
+                              style={{ fontFamily: '"Kanit", sans-serif' }}
+                            >
+                              Talle:
+                            </strong>{" "}
+                            {item.talle}
                             <br />
-                            <strong>Color:</strong> {item.color}
+                            <strong
+                              style={{ fontFamily: '"Kanit", sans-serif' }}
+                            >
+                              Color:
+                            </strong>{" "}
+                            {item.color}
                             <br />
-                            <strong>ID #</strong> {item.productId}
+                            <strong
+                              style={{ fontFamily: '"Kanit", sans-serif' }}
+                            >
+                              ID #
+                            </strong>{" "}
+                            {item.productId}
                             <br />
                           </Typography>
                         </React.Fragment>
@@ -357,10 +437,16 @@ const OrderCard = ({ dataOrder, setChangeStatus, changeStatus, openForm }) => {
               paddingTop: "0px",
             }}
           >
-            <h6 style={{ fontSize: "1.5rem", fontWeight: "900" }}>TOTAL:</h6>
+            <h6
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "900",
+                fontFamily: '"Kanit", sans-serif',
+              }}
+            ></h6>
             <h5
               style={{
-                fontFamily: "Roboto Condensed, sans-serif",
+                fontFamily: '"Kanit", sans-serif',
                 fontSize: "1.5rem",
                 fontWeight: "900",
               }}

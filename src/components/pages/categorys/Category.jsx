@@ -126,7 +126,13 @@ const Category = () => {
           borderRadius: "8px",
         }}
       >
-        <h2 style={{ marginBottom: "1rem", fontWeight: "800" }}>
+        <h2
+          style={{
+            marginBottom: "1rem",
+            fontWeight: "800",
+            fontFamily: '"Kanit", sans-serif',
+          }}
+        >
           Nueva Categoría
         </h2>
         <TextField
@@ -164,7 +170,11 @@ const Category = () => {
                 onClick={() => setIsLoading(true)}
                 variant="contained"
                 component="span"
-                style={{ backgroundColor: "#3f51b5", color: "white" }}
+                style={{
+                  backgroundColor: "#3f51b5",
+                  color: "white",
+                  fontFamily: '"Kanit", sans-serif',
+                }}
               >
                 Cargar Imagen
               </Button>
@@ -192,7 +202,13 @@ const Category = () => {
           borderRadius: "8px",
         }}
       >
-        <h2 style={{ marginBottom: "1rem", fontWeight: "800" }}>
+        <h2
+          style={{
+            marginBottom: "1rem",
+            fontWeight: "800",
+            fontFamily: '"Kanit", sans-serif',
+          }}
+        >
           Listado de Categorías
         </h2>
         <List
@@ -229,16 +245,22 @@ const Category = () => {
                       }
                       alt="categoryImage"
                       style={{
-                        borderRadius: "50px",
-                        width: "100px",
-                        height: "100px",
+                        borderRadius: "20px",
+                        width: "300px",
                       }}
                     />
                   </ListItemIcon>
-                  <ListItemText
-                    primary={category.name}
-                    style={{ margin: "1rem" }}
-                  />
+                  <div>
+                    <h5
+                      style={{
+                        fontFamily: '"Kanit", sans-serif',
+                        margin: "1rem",
+                      }}
+                    >
+                      {category.name}
+                    </h5>
+                  </div>
+
                   <Switch
                     edge="end"
                     onChange={handleToggle(category.id)}

@@ -99,7 +99,13 @@ function Row(props) {
     if (estado === "Nueva") {
       return (
         <Alert severity="warning">
-          <AlertTitle style={{ marginTop: "10%", fontSize: "75%" }}>
+          <AlertTitle
+            style={{
+              marginTop: "10%",
+              fontSize: "75%",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+          >
             Pendiente
           </AlertTitle>
           {/* <strong>El pedido ya fue preparado</strong> */}
@@ -107,7 +113,15 @@ function Row(props) {
       );
     } else if (estado === "Empaquetada") {
       return (
-        <Alert style={{ fontSize: "75%" }} size="small" severity="info">
+        <Alert
+          style={{
+            fontSize: "75%",
+
+            fontFamily: '"Kanit", sans-serif',
+          }}
+          size="small"
+          severity="info"
+        >
           Empaquetada
         </Alert>
       );
@@ -115,7 +129,11 @@ function Row(props) {
       return (
         <Alert severity="success">
           <AlertTitle
-            style={{ marginTop: "10%", fontSize: "75%" }}
+            style={{
+              marginTop: "10%",
+              fontSize: "75%",
+              fontFamily: '"Kanit", sans-serif',
+            }}
             variant="outlined"
           >
             Pago Recibido
@@ -126,7 +144,13 @@ function Row(props) {
     } else if (estado === "Enviada") {
       return (
         <Alert variant="outlined" severity="success">
-          <AlertTitle style={{ marginTop: "10%", fontSize: "75%" }}>
+          <AlertTitle
+            style={{
+              marginTop: "10%",
+              fontSize: "75%",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+          >
             En Distribucion
           </AlertTitle>
           {/* <strong>El pedido fue entregado con exito</strong> */}
@@ -385,33 +409,68 @@ function Row(props) {
 
       {row.status && (
         <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-          <TableCell style={{ fontSize: "1.2rem" }}>
+          <TableCell
+            style={{
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+          >
             <Checkbox
               onClick={() => handleChangeCheckbox(row)} // Manejar los cambios en el checkbox
               inputProps={{ "aria-label": "controlled" }}
             />
           </TableCell>
-          <TableCell align="center" style={{ width: "5%", fontSize: "1.2rem" }}>
+          <TableCell
+            align="center"
+            style={{
+              width: "5%",
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+          >
             <Button
-              style={{ fontSize: "1.2rem" }}
+              style={{ fontSize: "1.2rem", fontFamily: '"Kanit", sans-serif' }}
               onClick={() => openDataOrderCard(row.id)}
             >
-              # <strong> {row.numberOrder} </strong>
+              #{" "}
+              <strong
+                style={{
+                  fontSize: "1.2rem",
+                  fontFamily: '"Kanit", sans-serif',
+                }}
+              >
+                {" "}
+                {row.numberOrder}{" "}
+              </strong>
             </Button>
           </TableCell>
-          <TableCell style={{ width: "15%", fontSize: "1.2rem" }}>
+          <TableCell
+            style={{
+              width: "15%",
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+          >
             {formattedFechaInicio}
           </TableCell>
-          <TableCell style={{ width: "15%", fontSize: "1.2rem" }} align="right">
+          <TableCell
+            style={{
+              width: "15%",
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+            align="right"
+          >
             <p
               style={{
-                fontFamily: "sans-serif",
+                fontFamily: '"Kanit", sans-serif',
                 fontWeight: "bold",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 marginTop: "1rem",
                 fontSize: "1.2rem",
+                fontFamily: '"Kanit", sans-serif',
               }}
             >
               ${" "}
@@ -423,7 +482,11 @@ function Row(props) {
           </TableCell>
           <TableCell
             align="right"
-            style={{ width: "5%", fontSize: "1.2rem" }}
+            style={{
+              width: "5%",
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
             component="th"
             scope="row"
           >
@@ -436,13 +499,34 @@ function Row(props) {
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell style={{ width: "25%", fontSize: "1.2rem" }} align="right">
+          <TableCell
+            style={{
+              width: "25%",
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+            align="right"
+          >
             {nombreCliente === null ? "Cargando..." : nombreCliente}
           </TableCell>
-          <TableCell style={{ width: "15%", fontSize: "1.2rem" }} align="right">
+          <TableCell
+            style={{
+              width: "15%",
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+            align="right"
+          >
             <div>{estadoRender(status)}</div>
           </TableCell>
-          <TableCell style={{ width: "15%", fontSize: "1.2rem" }} align="right">
+          <TableCell
+            style={{
+              width: "15%",
+              fontSize: "1.2rem",
+              fontFamily: '"Kanit", sans-serif',
+            }}
+            align="right"
+          >
             <div>
               <Button
                 id="demo-positioned-button"
@@ -474,6 +558,7 @@ function Row(props) {
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "center",
+                      fontFamily: '"Kanit", sans-serif',
                     }}
                     onClick={() => handleChangeStatus("empaquetada", row.id)}
                   >
@@ -495,6 +580,7 @@ function Row(props) {
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "center",
+                      fontFamily: '"Kanit", sans-serif',
                     }}
                     onClick={() => handleChangeStatus("enviada", row.id)}
                   >
@@ -515,6 +601,7 @@ function Row(props) {
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "center",
+                      fontFamily: '"Kanit", sans-serif',
                     }}
                     onClick={() => handleChangeStatus("archivada", row.id)}
                   >
@@ -536,6 +623,7 @@ function Row(props) {
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "center",
+                      fontFamily: '"Kanit", sans-serif',
                     }}
                     onClick={() => handleChangeStatus("pagoRecibido", row.id)}
                   >
@@ -554,6 +642,7 @@ function Row(props) {
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "center",
+                      fontFamily: '"Kanit", sans-serif',
                     }}
                     onClick={() => handleChangeStatus("cancelada", row.id)}
                   >
@@ -587,12 +676,29 @@ function Row(props) {
                 component="div"
               ></Typography>
               <Table size="small" aria-label="purchases">
-                <TableHead>
+                <TableHead style={{ fontFamily: '"Kanit", sans-serif' }}>
                   <TableRow>
-                    <TableCell>ID Producto</TableCell>
-                    <TableCell align="right">Cantidad</TableCell>
-                    <TableCell align="right">Precio Unitario</TableCell>
-                    <TableCell align="right">SubTotal</TableCell>
+                    <TableCell style={{ fontFamily: '"Kanit", sans-serif' }}>
+                      ID Producto
+                    </TableCell>
+                    <TableCell
+                      style={{ fontFamily: '"Kanit", sans-serif' }}
+                      align="right"
+                    >
+                      Cantidad
+                    </TableCell>
+                    <TableCell
+                      style={{ fontFamily: '"Kanit", sans-serif' }}
+                      align="right"
+                    >
+                      Precio Unitario
+                    </TableCell>
+                    <TableCell
+                      style={{ fontFamily: '"Kanit", sans-serif' }}
+                      align="right"
+                    >
+                      SubTotal
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -609,13 +715,26 @@ function Row(props) {
                           alt=""
                         />
                       </TableCell> */}
-                      <TableCell align="left" component="th" scope="row">
+                      <TableCell
+                        style={{ fontFamily: '"Kanit", sans-serif' }}
+                        align="left"
+                        component="th"
+                        scope="row"
+                      >
                         {producto.productId}{" "}
                         {/* Reemplaza 'nombre' con la propiedad correcta que contiene el nombre del producto */}
                       </TableCell>
-                      <TableCell align="right">{producto.quantity}</TableCell>{" "}
+                      <TableCell
+                        style={{ fontFamily: '"Kanit", sans-serif' }}
+                        align="right"
+                      >
+                        {producto.quantity}
+                      </TableCell>{" "}
                       {/* Reemplaza 'cantidad' con la propiedad correcta que contiene la cantidad del producto */}
-                      <TableCell align="right">
+                      <TableCell
+                        style={{ fontFamily: '"Kanit", sans-serif' }}
+                        align="right"
+                      >
                         ${" "}
                         {producto.unit_price.toLocaleString("es-AR", {
                           minimumFractionDigits: 2,
@@ -623,7 +742,10 @@ function Row(props) {
                         })}
                       </TableCell>{" "}
                       {/* Reemplaza 'precio' con la propiedad correcta que contiene el precio unitario del producto */}
-                      <TableCell align="right">
+                      <TableCell
+                        style={{ fontFamily: '"Kanit", sans-serif' }}
+                        align="right"
+                      >
                         ${" "}
                         {producto.subtotal.toLocaleString("es-AR", {
                           minimumFractionDigits: 2,
@@ -825,6 +947,7 @@ function UserOrdersDetail({
           style={{ margin: "1rem" }}
           variant="outlined"
           onClick={() => exportToExcel()}
+          style={{ fontFamily: '"Kanit", sans-serif' }}
         >
           <span
             style={{ marginRight: "1rem" }}
@@ -837,7 +960,10 @@ function UserOrdersDetail({
         <div
           style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
         >
-          <h6> Pagina: {currentPage}</h6>
+          <h6 style={{ fontFamily: '"Kanit", sans-serif' }}>
+            {" "}
+            Pagina: {currentPage}
+          </h6>
         </div>
         <TableContainer
           component={Paper}
@@ -847,13 +973,14 @@ function UserOrdersDetail({
             aria-label="collapsible table"
             style={{ backgroundColor: "white" }}
           >
-            <TableHead style={{ backgroundColor: "rgba(249, 214, 224, 0.6)" }}>
+            <TableHead style={{ backgroundColor: "#121621" }}>
               <TableCell
                 align="center"
                 style={{
                   width: "5%",
                   paddingLeft: "8px",
-                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontFamily: '"Kanit", sans-serif',
+                  color: "white",
                   fontSize: "1.5rem",
                 }}
               >
@@ -864,7 +991,8 @@ function UserOrdersDetail({
                 style={{
                   width: "5%",
                   paddingLeft: "8px",
-                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontFamily: '"Kanit", sans-serif',
+                  color: "white",
                   fontSize: "1.5rem",
                   fontSize: "1.5rem",
                 }}
@@ -875,7 +1003,8 @@ function UserOrdersDetail({
                 align="left"
                 style={{
                   width: "30%",
-                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontFamily: '"Kanit", sans-serif',
+                  color: "white",
                   fontSize: "1.5rem",
                 }}
               >
@@ -885,7 +1014,8 @@ function UserOrdersDetail({
                 align="center"
                 style={{
                   width: "15%",
-                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontFamily: '"Kanit", sans-serif',
+                  color: "white",
                   fontSize: "1.5rem",
                 }}
               >
@@ -895,7 +1025,8 @@ function UserOrdersDetail({
                 align="right"
                 style={{
                   width: "5%",
-                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontFamily: '"Kanit", sans-serif',
+                  color: "white",
                   fontSize: "1.5rem",
                 }}
               >
@@ -905,7 +1036,8 @@ function UserOrdersDetail({
                 align="right"
                 style={{
                   width: "25%",
-                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontFamily: '"Kanit", sans-serif',
+                  color: "white",
                   fontSize: "1.5rem",
                 }}
               >
@@ -915,7 +1047,8 @@ function UserOrdersDetail({
                 align="center"
                 style={{
                   width: "10%",
-                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontFamily: '"Kanit", sans-serif',
+                  color: "white",
                   fontSize: "1.5rem",
                 }}
               >
@@ -925,7 +1058,8 @@ function UserOrdersDetail({
                 align="center"
                 style={{
                   width: "20%",
-                  fontFamily: "Roboto Condensed, sans-serif",
+                  fontFamily: '"Kanit", sans-serif',
+                  color: "white",
                   fontSize: "1.5rem",
                 }}
               >

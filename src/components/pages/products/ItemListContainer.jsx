@@ -420,16 +420,14 @@ const ItemListContainer = () => {
       style={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
         flexDirection: "column",
         fontSize: "2rem",
         position: "relative",
-        width: "70vw",
-        marginLeft: "13vw",
-        marginRight: "13vw",
+        width: "100%",
       }}
     >
-      <div style={{}}>
+      <div style={{ marginLeft: "1rem" }}>
         <Tooltip describeChild title="Agregar producto nuevo">
           <Button onClick={() => handleOpen(null)}>
             <span class="material-symbols-outlined">add_box</span>
@@ -449,7 +447,7 @@ const ItemListContainer = () => {
                 alt="sistemaContable"
                 style={{ borderRadius: "50px", width: "10rem" }}
               />
-              <h3 style={{ margin: "1rem" }}>
+              <h3 style={{ margin: "1rem", fontFamily: '"Kanit", sans-serif' }}>
                 Seleccione el archivo exportado desde sistema contable
               </h3>
               <div
@@ -464,11 +462,18 @@ const ItemListContainer = () => {
                     margin: "1rem",
                     backgroundColor: "blue",
                     color: "white",
+                    fontFamily: '"Kanit", sans-serif',
                   }}
                   variant="contained"
                   onClick={handleClick}
                 >
                   Subir archivo
+                  <span
+                    style={{ marginLeft: "0.5rem" }}
+                    class="material-symbols-outlined"
+                  >
+                    upload
+                  </span>
                   <TextField
                     type="file"
                     inputProps={{
@@ -477,6 +482,7 @@ const ItemListContainer = () => {
                       style: { display: "none" },
                       onChange: handleFileUpload,
                     }}
+                    style={{ fontFamily: '"Kanit", sans-serif' }}
                     variant="outlined"
                   />
                 </Button>
@@ -489,11 +495,28 @@ const ItemListContainer = () => {
                   open={estado}
                   onClose={handleClose2}
                 >
-                  <div style={{ textAlign: "center", marginTop: "10rem" }}>
-                    <p style={{ marginBottom: "1rem", fontSize: "1.2rem" }}>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      marginTop: "10rem",
+                      fontFamily: '"Kanit", sans-serif',
+                    }}
+                  >
+                    <p
+                      style={{
+                        marginBottom: "1rem",
+                        fontSize: "1.2rem",
+                        fontFamily: '"Kanit", sans-serif',
+                      }}
+                    >
                       Se están cargando los archivos
                     </p>
-                    <p style={{ fontSize: "1rem" }}>
+                    <p
+                      style={{
+                        fontSize: "1rem",
+                        fontFamily: '"Kanit", sans-serif',
+                      }}
+                    >
                       Registros Actualizados : {updatedRecordsCount}
                       <br />
                       Total Registros a recorrer : {nonEmptyRecordsLength}
@@ -509,7 +532,7 @@ const ItemListContainer = () => {
                 </Backdrop>
 
                 <Button
-                  style={{ margin: "1rem" }}
+                  style={{ margin: "1rem", fontFamily: '"Kanit", sans-serif' }}
                   variant="contained"
                   onClick={() => {
                     setShowContagramBtn(false);
@@ -543,8 +566,7 @@ const ItemListContainer = () => {
         </Tooltip>
       </div>
 
-      <h6>Cantidad total de productos: {productsTotal}</h6>
-      <div>
+      <div style={{ marginBottom: "1rem" }}>
         <TextField
           label=""
           onChange={handleSearch}
@@ -573,6 +595,9 @@ const ItemListContainer = () => {
           }}
         />
       </div>
+      <h6 style={{ fontFamily: '"Kanit", sans-serif', fontWeight: "100" }}>
+        Cantidad total de productos: {productsTotal}
+      </h6>
       {!open && (
         <div style={{ width: "100%" }}>
           <ItemListDetail
