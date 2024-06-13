@@ -214,6 +214,7 @@ function Navbar(props) {
           width: "100%",
           minHeight: "100vh",
           px: 2,
+          background: "#linear-gradient(252deg, #ffffff 0%, #121621 77%)",
         }}
       >
         <Toolbar />

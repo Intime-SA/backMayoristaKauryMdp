@@ -51,7 +51,7 @@ const Usuario = () => {
         textAlign: "right",
         width: "100%",
         padding: "1rem",
-        fontFamily: '"Dosis", sans-serif',
+        fontFamily: '"Kanit", sans-serif',
         fontWeight: 900,
         display: "flex",
         justifyContent: "center",
