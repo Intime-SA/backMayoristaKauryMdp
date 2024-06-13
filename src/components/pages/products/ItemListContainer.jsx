@@ -366,7 +366,7 @@ const ItemListContainer = () => {
   const style2 = {
     position: "absolute",
     top: "23.5rem",
-    marginLeft: "6rem",
+    marginLeft: "50vw",
     transform: "translate(-50%, -50%)",
     width: "40vw",
     height: "28rem",
@@ -414,6 +414,16 @@ const ItemListContainer = () => {
     setFilteredProducts(filteredProducts);
   };
 
+  const styleOverlay = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo negro semitransparente
+    zIndex: 9998, // Asegúrate de que esté debajo del modal
+  };
+
   // Función para manejar la búsqueda en tiempo real
   return (
     <div
@@ -445,115 +455,128 @@ const ItemListContainer = () => {
           </Button>
         </Tooltip>
         {showContagramBtn && (
-          <Box sx={style2}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/descarga.png?alt=media&token=aafd9c75-a083-4202-8191-e49fff17da21"
-                alt="sistemaContable"
-                style={{ borderRadius: "50px", width: "10rem" }}
-              />
-              <h3 style={{ margin: "1rem", fontFamily: '"Kanit", sans-serif' }}>
-                Seleccione el archivo exportado desde sistema contable
-              </h3>
+          <div style={styleOverlay}>
+            <Box sx={style2}>
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-around",
                   flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Button
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/mayoristakaurymdp.appspot.com/o/descarga.png?alt=media&token=aafd9c75-a083-4202-8191-e49fff17da21"
+                  alt="sistemaContable"
+                  style={{ borderRadius: "50px", width: "10rem" }}
+                />
+                <h3
                   style={{
                     margin: "1rem",
-                    backgroundColor: "blue",
-                    color: "white",
                     fontFamily: '"Kanit", sans-serif',
+                    fontSize: "70%",
+                    textAlign: "center",
                   }}
-                  variant="contained"
-                  onClick={handleClick}
                 >
-                  Subir archivo
-                  <span
-                    style={{ marginLeft: "0.5rem" }}
-                    class="material-symbols-outlined"
-                  >
-                    upload
-                  </span>
-                  <TextField
-                    type="file"
-                    inputProps={{
-                      accept: ".xlsx",
-                      ref: fileInputRef,
-                      style: { display: "none" },
-                      onChange: handleFileUpload,
-                    }}
-                    style={{ fontFamily: '"Kanit", sans-serif' }}
-                    variant="outlined"
-                  />
-                </Button>
-                <Backdrop
-                  sx={{
-                    color: "#fff",
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
-                    fontFamily: "Arial, sans-serif", // Cambiar la fuente del texto
+                  Seleccione el archivo exportado desde sistema contable
+                </h3>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    flexDirection: "column",
                   }}
-                  open={estado}
-                  onClose={handleClose2}
                 >
-                  <div
+                  <Button
                     style={{
-                      textAlign: "center",
-                      marginTop: "10rem",
+                      margin: "1rem",
+                      backgroundColor: "blue",
+                      color: "white",
                       fontFamily: '"Kanit", sans-serif',
                     }}
+                    variant="contained"
+                    onClick={handleClick}
                   >
-                    <p
+                    Subir archivo
+                    <span
+                      style={{ marginLeft: "0.5rem" }}
+                      class="material-symbols-outlined"
+                    >
+                      upload
+                    </span>
+                    <TextField
+                      type="file"
+                      inputProps={{
+                        accept: ".xlsx",
+                        ref: fileInputRef,
+                        style: { display: "none" },
+                        onChange: handleFileUpload,
+                      }}
+                      style={{ fontFamily: '"Kanit", sans-serif' }}
+                      variant="outlined"
+                    />
+                  </Button>
+                  <Backdrop
+                    sx={{
+                      color: "#fff",
+                      zIndex: (theme) => theme.zIndex.drawer + 1,
+                      fontFamily: "Arial, sans-serif", // Cambiar la fuente del texto
+                    }}
+                    open={estado}
+                    onClose={handleClose2}
+                  >
+                    <div
                       style={{
-                        marginBottom: "1rem",
-                        fontSize: "1.2rem",
+                        textAlign: "center",
+                        marginTop: "10rem",
                         fontFamily: '"Kanit", sans-serif',
                       }}
                     >
-                      Se están cargando los archivos
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "1rem",
-                        fontFamily: '"Kanit", sans-serif',
-                      }}
-                    >
-                      Registros Actualizados : {updatedRecordsCount}
-                      <br />
-                      Total Registros a recorrer : {nonEmptyRecordsLength}
-                    </p>
-                    <p>
-                      No cierre esta pestaña hasta que termine la
-                      sincronizacion.
-                    </p>
-                  </div>
-                  <div style={{ marginTop: "1rem", textAlign: "center" }}>
-                    <CircularProgress size={50} color="info" />
-                  </div>
-                </Backdrop>
+                      <p
+                        style={{
+                          marginBottom: "1rem",
+                          fontSize: "1.2rem",
+                          fontFamily: '"Kanit", sans-serif',
+                        }}
+                      >
+                        Se están cargando los archivos
+                      </p>
+                      <p
+                        style={{
+                          fontSize: "1rem",
+                          fontFamily: '"Kanit", sans-serif',
+                        }}
+                      >
+                        Registros Actualizados : {updatedRecordsCount}
+                        <br />
+                        Total Registros a recorrer : {nonEmptyRecordsLength}
+                      </p>
+                      <p>
+                        No cierre esta pestaña hasta que termine la
+                        sincronizacion.
+                      </p>
+                    </div>
+                    <div style={{ marginTop: "1rem", textAlign: "center" }}>
+                      <CircularProgress size={50} color="info" />
+                    </div>
+                  </Backdrop>
 
-                <Button
-                  style={{ margin: "1rem", fontFamily: '"Kanit", sans-serif' }}
-                  variant="contained"
-                  onClick={() => {
-                    setShowContagramBtn(false);
-                  }}
-                >
-                  Cerrar
-                </Button>
+                  <Button
+                    style={{
+                      margin: "1rem",
+                      fontFamily: '"Kanit", sans-serif',
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      setShowContagramBtn(false);
+                    }}
+                  >
+                    Cerrar
+                  </Button>
+                </div>
               </div>
-            </div>
-          </Box>
+            </Box>
+          </div>
         )}
         <Tooltip describeChild title="Actualizar stock">
           <Button
