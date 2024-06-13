@@ -50,6 +50,11 @@ const Charts = () => {
             )
           ) {
             newCompletadas.push(orderData);
+          } else if (
+            orderData.status === "archivada" &&
+            ["cancelada"].includes(orderData.lastState)
+          ) {
+            newCanceladas.push(orderData);
           }
         });
 
@@ -82,9 +87,15 @@ const Charts = () => {
         return; // Omitir marzo
       }
       if (!result[month]) {
-        result[month] = { montoTotalCompletado: 0, montoTotalCancelado: 0 };
+        result[month] = {
+          montoTotalCompletado: 0,
+          montoTotalCancelado: 0,
+          cantidadCompletadas: 0,
+          cantidadCanceladas: 0,
+        };
       }
       result[month].montoTotalCompletado += parseFloat(order.total);
+      result[month].cantidadCompletadas++;
     });
 
     canceladas.forEach((order) => {
@@ -93,9 +104,15 @@ const Charts = () => {
         return; // Omitir marzo
       }
       if (!result[month]) {
-        result[month] = { montoTotalCompletado: 0, montoTotalCancelado: 0 };
+        result[month] = {
+          montoTotalCompletado: 0,
+          montoTotalCancelado: 0,
+          cantidadCompletadas: 0,
+          cantidadCanceladas: 0,
+        };
       }
       result[month].montoTotalCancelado += parseFloat(order.total);
+      result[month].cantidadCanceladas++;
     });
 
     return result;
@@ -124,16 +141,32 @@ const Charts = () => {
       montoTotalCancelado: data.montoTotalCancelado,
       montoChartCompletado: data.montoTotalCompletado / 1000000,
       montoChartCancelado: data.montoTotalCancelado / 1000000,
-      cantidadCompletadas: completadas.length,
-      cantidadCanceladas: canceladas.length,
+      cantidadCompletadas: data.cantidadCompletadas, // Cantidad de órdenes completadas en este mes
+      cantidadCanceladas: data.cantidadCanceladas, // Cantidad de órdenes canceladas en este mes
       limite: 500,
     }));
-  }, [groupedData, completadas.length, canceladas.length]);
+  }, [groupedData]);
 
   // Function to format Y-axis label
   const formatYAxisLabel = (value) => `${(value / 1).toFixed(1)}millones ARS`;
+
+  const formatYAxisLabel3 = (value) => `${(value / 1).toFixed(0)} Ordenes`;
+
   const formatYAxisLabel2 = (value) => `${(value / 1000000).toFixed(0)} Ventas`;
   const valueFormatter = (value) => `${value}   `;
+
+  const formattedTotal = totalSum.toLocaleString("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  const formattedTotal2 = totalSumCancel.toLocaleString("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   // Chart settings
   const chartSetting = {
@@ -145,13 +178,43 @@ const Charts = () => {
     series: [
       {
         dataKey: "montoChartCompletado",
-        label: `/ Ordenes Confirmadas: ${completadas.length} `,
+        label: `Confirmadas: ${formattedTotal}`,
         valueFormatter: (value) => formatYAxisLabel(value),
       },
       {
         dataKey: "montoChartCancelado",
-        label: ` / Ordenes Canceladas: ${canceladas.length} `,
+        label: `Canceladas: ${formattedTotal2}`,
         valueFormatter: (value) => formatYAxisLabel(value),
+      },
+    ],
+    height: 300,
+    sx: {
+      [`& .${axisClasses.directionY} .${axisClasses.label}`]: {
+        transform: "translateX(-10px)",
+        margin: "10rem",
+      },
+    },
+  };
+  const chartStyle = {
+    fontFamily: "Kanit, sans-serif",
+  };
+
+  const chartSetting2 = {
+    yAxis: [
+      {
+        label: "",
+      },
+    ],
+    series: [
+      {
+        dataKey: "cantidadCompletadas",
+        label: `${completadas.length} > Completadas Historico `,
+        valueFormatter: (value) => formatYAxisLabel3(value),
+      },
+      {
+        dataKey: "cantidadCanceladas",
+        label: ` ${canceladas.length} > Canceladas Historico `,
+        valueFormatter: (value) => formatYAxisLabel3(value),
       },
     ],
     height: 300,
@@ -189,6 +252,18 @@ const Charts = () => {
           },
         ]}
         {...chartSetting}
+        sx={chartStyle} // Aplicar el estilo con la fuente Kanit
+      />
+      <BarChart
+        dataset={dataset}
+        xAxis={[
+          {
+            scaleType: "band",
+            dataKey: "tipo",
+          },
+        ]}
+        {...chartSetting2}
+        sx={chartStyle} // Aplicar el estilo con la fuente Kanit
       />
     </div>
   );
