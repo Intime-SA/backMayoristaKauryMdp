@@ -30,7 +30,7 @@ const Charts = () => {
         const refCollection = collection(db, "userOrders");
         const querySnapshot = await getDocs(refCollection);
 
-        const newCanceladas = [];
+        const newCanceladas = []; //
         const newCompletadas = [];
 
         querySnapshot.forEach((doc) => {
