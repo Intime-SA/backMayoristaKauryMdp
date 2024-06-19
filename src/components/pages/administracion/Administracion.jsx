@@ -142,6 +142,19 @@ const Administracion = () => {
                 onInput={handleInput} // Validar entrada
               />
             </div>
+            <div style={{ margin: "1rem" }}>
+              <TextField
+                id={`minimoCompra_${index}`}
+                label="Minimo de Compra"
+                defaultValue={formatCurrency(costo.minimoCompra) || 0}
+                helperText="Este es el minimo de compra que tienen los usuarios en la Web"
+                variant="standard"
+                onChange={(e) =>
+                  handleChange(index, "minimoCompra", e.target.value)
+                }
+                onInput={handleInput} // Validar entrada
+              />
+            </div>
           </div>
         ))}
         <Button variant="contained" color="primary" onClick={handleSubmit}>

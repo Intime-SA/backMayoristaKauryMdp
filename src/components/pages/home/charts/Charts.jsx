@@ -11,7 +11,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebaseConfig";
 import dayjs from "dayjs";
 import { Dataset } from "@mui/icons-material";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Tooltip } from "@mui/material";
 
 const Charts = () => {
   // State variables
@@ -178,12 +178,12 @@ const Charts = () => {
     series: [
       {
         dataKey: "montoChartCompletado",
-        label: `Confirmadas: ${formattedTotal}`,
+        label: `Confirmadas`,
         valueFormatter: (value) => formatYAxisLabel(value),
       },
       {
         dataKey: "montoChartCancelado",
-        label: `Canceladas: ${formattedTotal2}`,
+        label: `Canceladas`,
         valueFormatter: (value) => formatYAxisLabel(value),
       },
     ],
@@ -243,6 +243,48 @@ const Charts = () => {
 
   return (
     <div style={{ width: "100%" }}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+          fontFamily: "Kanit, sans-serif",
+        }}
+      >
+        <h6
+          style={{
+            fontFamily: "Kanit, sans-serif",
+            display: "flex",
+            alignItems: "center",
+            margin: "1rem",
+          }}
+        >
+          <Tooltip title="Ordenes Confirmadas desde 04/2024">
+            <span style={{ margin: "1rem" }} class="material-symbols-outlined">
+              select_check_box
+            </span>{" "}
+          </Tooltip>{" "}
+          {formattedTotal}
+        </h6>
+
+        <h6
+          style={{
+            fontFamily: "Kanit, sans-serif",
+            display: "flex",
+            alignItems: "center",
+            margin: "1rem",
+          }}
+        >
+          <Tooltip title="Ordenes Canceladas desde 04/2024">
+            <span style={{ margin: "1rem" }} class="material-symbols-outlined">
+              disabled_by_default
+            </span>{" "}
+          </Tooltip>
+          {formattedTotal2}
+        </h6>
+      </div>
+
       <BarChart
         dataset={dataset}
         xAxis={[

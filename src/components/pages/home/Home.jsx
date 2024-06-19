@@ -29,8 +29,8 @@ const Home = () => {
           fontStyle: "italic", // Aplicando cursiva
         }}
       >
-        "El futuro pertenece a quienes creen en la belleza de sus sueños." -
-        Eleanor Roosevelt
+        "Empieza antes de que sea perfecto. La perfeccion es un camino, no un
+        destino..."
       </h5>
 
       <Charts />
