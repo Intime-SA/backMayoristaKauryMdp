@@ -241,8 +241,78 @@ const Charts = () => {
     );
   }
 
+  const total = totalSum; // Reemplaza esto con el valor numérico correcto si es necesario
+
+  const porcentajeComision = 0.02;
+  const iva = 0.21;
+
+  const comision = total * porcentajeComision;
+  const ivaComision = comision * iva;
+  const totalComision = comision + ivaComision;
+
   return (
     <div style={{ width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <h2
+          style={{
+            fontFamily: "Kanit, sans-serif",
+            margin: "1rem",
+            marginTop: "3rem",
+          }}
+        >
+          Comisiones Ahorradas Tienda Nube
+        </h2>
+
+        <p style={{ fontFamily: "Kanit, sans-serif", fontWeight: "100" }}>
+          Comisión (2%):{" "}
+          <strong style={{ fontFamily: "Kanit, sans-serif" }}>
+            {comision.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+              minimumFractionDigits: 2,
+            })}
+          </strong>
+        </p>
+        <p style={{ fontFamily: "Kanit, sans-serif" }}>
+          IVA (21% sobre 2%):{" "}
+          <strong style={{ fontFamily: "Kanit, sans-serif" }}>
+            {ivaComision.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+              minimumFractionDigits: 2,
+            })}
+          </strong>
+        </p>
+        <p
+          style={{
+            fontFamily: "Kanit, sans-serif",
+            color: "green",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <strong style={{ fontFamily: "Kanit, sans-serif", fontSize: "120%" }}>
+            TOTAL AHORRO:{" "}
+            {totalComision.toLocaleString("es-AR", {
+              style: "currency",
+              currency: "ARS",
+              minimumFractionDigits: 2,
+            })}
+          </strong>
+          <span
+            style={{ fontSize: "150%", margin: "1rem", marginTop: "1rem" }}
+            class="material-symbols-outlined"
+          >
+            trending_up
+          </span>
+        </p>
+      </div>
       <div
         style={{
           width: "100%",
