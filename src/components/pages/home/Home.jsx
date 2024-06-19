@@ -29,8 +29,7 @@ const Home = () => {
           fontStyle: "italic", // Aplicando cursiva
         }}
       >
-        "Empieza antes de que sea perfecto. La perfeccion es un camino, no un
-        destino..."
+        "La disciplina es el puente entre metas y logros." - Jim Rohn
       </h5>
 
       <Charts />
