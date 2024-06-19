@@ -251,7 +251,7 @@ const Charts = () => {
   const totalComision = comision + ivaComision;
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", zoom: "0.8" }}>
       <div
         style={{
           display: "flex",
