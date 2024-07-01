@@ -29,7 +29,8 @@ const Home = () => {
           fontStyle: "italic", // Aplicando cursiva
         }}
       >
-        "La disciplina es el puente entre metas y logros." - Jim Rohn
+        "Piensen como reinas. Una reina no tiene miedo de fracasar. El fracaso
+        es otro peldaño hacia la grandeza..."
       </h5>
 
       <Charts />
